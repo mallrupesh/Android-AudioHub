@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // If the user is null, navigate to StartActivity for Login or Registration
         if(currentUser == null){
 
-            //updateUI();
+            updateUI();
         }
     }
 
