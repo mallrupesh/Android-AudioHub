@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "562813459378",
+    "firebase_url": "https://audiohubapp-ef16f.firebaseio.com",
+    "project_id": "audiohubapp-ef16f",
+    "storage_bucket": "audiohubapp-ef16f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562813459378:android:9eb771694c19dbb3eca2ab",
+        "android_client_info": {
+          "package_name": "com.rupesh.audiohubapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562813459378-cjsv01c8lla9cthbt746pbf81scea05j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rupesh.audiohubapp",
+            "certificate_hash": "cac43b715677805619e3a23089f333611be4e3cd"
+          }
+        },
+        {
+          "client_id": "562813459378-2k2riqd511dpaobi97sbmhsp6vqejc82.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZMcel8GrgXWEQpZ7X4anjMi6Rznk9zSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562813459378-2k2riqd511dpaobi97sbmhsp6vqejc82.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
