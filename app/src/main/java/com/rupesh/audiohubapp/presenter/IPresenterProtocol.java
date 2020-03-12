@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp.start;
+package com.rupesh.audiohubapp.presenter;
 
 public interface IPresenterProtocol {
     void onLogin(String email, String password);

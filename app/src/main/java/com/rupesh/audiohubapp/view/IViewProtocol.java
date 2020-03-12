@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp.start;
+package com.rupesh.audiohubapp.view;
 
 public interface IViewProtocol {
 

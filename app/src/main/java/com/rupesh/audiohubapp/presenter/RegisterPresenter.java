@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp.start;
+package com.rupesh.audiohubapp.presenter;
 
 import androidx.annotation.NonNull;
 
@@ -9,6 +9,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.rupesh.audiohubapp.model.RegisterUser;
+import com.rupesh.audiohubapp.view.IViewProtocol;
 
 import java.util.HashMap;
 

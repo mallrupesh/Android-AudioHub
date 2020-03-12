@@ -16,16 +16,13 @@ class PagerSectionsAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                MyFilesFragment myFilesFragment = new MyFilesFragment();
-                return myFilesFragment;
+                return new MyFilesFragment();
 
             case 1:
-                ProjectsFragment projectsFragment = new ProjectsFragment();
-                return projectsFragment;
+                return new ProjectsFragment();
 
             case 2:
-                ProfileFragment profileFragment = new ProfileFragment();
-                return profileFragment;
+                return new ProfileFragment();
 
             default:
                 return null;

@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp.start;
+package com.rupesh.audiohubapp.presenter;
 
 import androidx.annotation.NonNull;
 
@@ -6,6 +6,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.rupesh.audiohubapp.model.LoginUser;
+import com.rupesh.audiohubapp.view.IViewProtocol;
 
 public class LoginPresenter implements IPresenterProtocol {
 

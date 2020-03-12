@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp.start;
+package com.rupesh.audiohubapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,8 +12,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.rupesh.audiohubapp.MainActivity;
-import com.rupesh.audiohubapp.R;
+import com.rupesh.audiohubapp.presenter.IPresenterProtocol;
+import com.rupesh.audiohubapp.presenter.LoginPresenter;
+import com.rupesh.audiohubapp.view.IViewProtocol;
 
 public class LoginActivity extends AppCompatActivity implements IViewProtocol {
 

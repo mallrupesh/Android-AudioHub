@@ -13,7 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.rupesh.audiohubapp.start.StartActivity;
+import com.rupesh.audiohubapp.view.StartActivity;
 
 public class MainActivity extends AppCompatActivity {
 
