@@ -11,6 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.FirebaseDatabase;
+import com.rupesh.audiohubapp.model.Members;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +24,7 @@ public class ProjectsFragment extends Fragment {
     View rootView;
     Context context;
     private RecyclerView recyclerView;
+    ProjectListAdapter adapter;
 
 
     @Override
@@ -30,7 +35,7 @@ public class ProjectsFragment extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleListViewProject);
 
-
+        initUI();
         return rootView;
 
     }
@@ -38,6 +43,26 @@ public class ProjectsFragment extends Fragment {
     private void initUI(){
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleListViewProject);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        FirebaseRecyclerOptions<Members> options =
+                new FirebaseRecyclerOptions.Builder<Members>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Members"), Members.class)
+                        .build();
+
+        adapter = new ProjectListAdapter(options);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
 }

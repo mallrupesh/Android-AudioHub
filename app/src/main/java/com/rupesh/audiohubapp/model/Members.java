@@ -11,6 +11,7 @@ public class Members {
         this.address = address;
     }
 
+    // Primary constructor is needed for Firebase operation
     public Members(){}
 
     @Override
