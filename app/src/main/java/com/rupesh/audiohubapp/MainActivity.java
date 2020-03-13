@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     // Declare Adapter
-    private PagerSectionsAdapter mPagerSectionsAdapter;
+    private MainPagerSectionsAdapter mMainPagerSectionsAdapter;
 
     // Declare tab layout to set the view pager with tab layout
     private TabLayout mTabLayout;
@@ -41,19 +41,19 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Setup the tool bar
-          mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
-          setSupportActionBar(mToolbar);
-          getSupportActionBar().setTitle("AudioHub");
+        mToolbar = findViewById(R.id.main_page_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("AudioHub");
 
         // Init viewPager tabs
-        mViewPager = (ViewPager) findViewById(R.id.main_tab_pager);
+        mViewPager = findViewById(R.id.main_tab_pager);
 
         // Init fragment adapter and set adapter to view pager
-        mPagerSectionsAdapter = new PagerSectionsAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mPagerSectionsAdapter);
+        mMainPagerSectionsAdapter = new MainPagerSectionsAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mMainPagerSectionsAdapter);
 
         // Init tab layout and set it up with view pager
-        mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
+        mTabLayout = findViewById(R.id.main_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
     }

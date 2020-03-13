@@ -18,10 +18,10 @@ public class RegisterPresenter implements IPresenterProtocol {
 
     private IViewProtocol registerView;
 
-    // Declare instance of firebase authentication
+    // Declare instance of Firebase authentication
     private FirebaseAuth mAuth;
 
-
+    // Declare Firebase database reference
     private DatabaseReference mDatabase;
 
     public RegisterPresenter(IViewProtocol registerView) {

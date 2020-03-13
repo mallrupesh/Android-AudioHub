@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Name"
+            android:text="@string/projects_fragment_row_itemProject"
             android:textColor="#000000"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -31,20 +31,10 @@
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
-            android:text="Hobby"
+            android:text="@string/projects_fragment_row_itemDate"
             android:textSize="18sp"
             android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/textViewProjectGenre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Address"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

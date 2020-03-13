@@ -1,5 +1,4 @@
-package com.rupesh.audiohubapp;
-
+package com.rupesh.audiohubapp.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,10 +13,9 @@ import com.rupesh.audiohubapp.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyFilesFragment extends Fragment {
+public class FilesFragment extends Fragment {
 
-
-    public MyFilesFragment() {
+    public FilesFragment() {
         // Required empty public constructor
     }
 
@@ -26,7 +24,6 @@ public class MyFilesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_files, container, false);
+        return inflater.inflate(R.layout.fragment_files, container, false);
     }
-
 }

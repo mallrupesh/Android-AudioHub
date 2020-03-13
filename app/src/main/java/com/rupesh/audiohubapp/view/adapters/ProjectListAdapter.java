@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp;
+package com.rupesh.audiohubapp.view.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.rupesh.audiohubapp.model.Members;
+import com.rupesh.audiohubapp.R;
+import com.rupesh.audiohubapp.model.Project;
 
-public class ProjectListAdapter extends FirebaseRecyclerAdapter<Members, ProjectListAdapter.ProjectListViewHolder> {
+public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, ProjectListAdapter.ProjectListViewHolder> {
 
 
     /**
@@ -21,16 +22,17 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Members, Project
      *
      * @param options
      */
-    public ProjectListAdapter(@NonNull FirebaseRecyclerOptions<Members> options) {
+    public ProjectListAdapter(@NonNull FirebaseRecyclerOptions<Project> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ProjectListViewHolder holder, int position, @NonNull Members model) {
+    protected void onBindViewHolder(@NonNull ProjectListViewHolder holder, int position, @NonNull Project model) {
 
-        holder.projectName.setText(model.getName());
-        holder.projectDate.setText(model.getHobby());
-        holder.projectGenre.setText(model.getAddress());
+        holder.projectName.setText(model.getProjectName());
+        holder.projectDate.setText(model.getCreatedOn());
+
+
     }
 
     @NonNull
@@ -42,16 +44,16 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Members, Project
         return new ProjectListViewHolder(view);
     }
 
-    class ProjectListViewHolder extends RecyclerView.ViewHolder {
+     class ProjectListViewHolder extends RecyclerView.ViewHolder {
 
         // Declare TextView for the recycler card
-        TextView projectName, projectDate, projectGenre;
+        TextView projectName;
+        TextView projectDate;
 
         public ProjectListViewHolder(@NonNull View itemView) {
             super(itemView);
             projectName = itemView.findViewById(R.id.textViewProjectName);
             projectDate = itemView.findViewById(R.id.textViewProjectDate);
-            projectGenre = itemView.findViewById(R.id.textViewProjectGenre);
         }
     }
 }

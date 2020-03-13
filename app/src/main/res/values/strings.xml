@@ -16,7 +16,15 @@
     <string name="menu_logout">Logout</string>
 
     <string name="my_files_fragment_title">MyFiles</string>
+
     <string name="projects_fragment_title">Projects</string>
+    <string name="projects_fragment_project_hint">New Project</string>
+    <string name="projects_fragment_addBtn">Add</string>
+    <string name="projects_fragment_row_itemProject">Name</string>
+    <string name="projects_fragment_row_itemDate">Date</string>
+
+
+
     <string name="profile_fragment_title">Profile</string>
 
     <!-- TODO: Remove or change this placeholder text -->
