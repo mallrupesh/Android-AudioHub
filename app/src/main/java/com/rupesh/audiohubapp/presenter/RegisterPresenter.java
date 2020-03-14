@@ -56,10 +56,15 @@ public class RegisterPresenter implements IPresenterProtocol {
                         userMap.put("name", name);
                         userMap.put("email", email);
                         userMap.put("createdOn", createdDate);
-                        mDatabase.setValue(userMap);
-
-
-                        registerView.onAuthorizationSuccess("Authorization successful");
+                        userMap.put("image", "default");
+                        userMap.put("status", "AudioHub Member");
+                        userMap.put("thumb_image", "default");
+                        mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                registerView.onAuthorizationSuccess("Authorization successful");
+                            }
+                        });
                     } else {
                         // Authorization fails
                         registerView.onAuthorizationError("Unable to register");

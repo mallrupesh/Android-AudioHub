@@ -9,11 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProjectMemberActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".ProjectMemberActivity" />
         <activity android:name=".MainProjectActivity" />
         <activity
             android:name=".LoginActivity"
-            android:parentActivityName=".StartActivity"></activity>
+            android:parentActivityName=".StartActivity" />
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".StartActivity" />

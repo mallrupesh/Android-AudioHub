@@ -13,7 +13,10 @@
 
     <string name="login_activity_txt_view">Login to your Account</string>
     <string name="login_activity_login_btn">LOGIN</string>
+
+
     <string name="menu_logout">Logout</string>
+    <string name="menu_settings">Settings</string>
 
     <string name="my_files_fragment_title">MyFiles</string>
 
@@ -25,7 +28,10 @@
 
     <string name="main_project_viewMembers">VIEW MEMBERS</string>
 
-    <string name="profile_fragment_title">Profile</string>
+    <string name="main_settings_changeImage_btn">CHANGE PROFILE</string>
+    <string name="main_settings_changeStatus_btn">CHANGE STATUS</string>
+    <string name="main_settings_displayName_text">Display Name</string>
+    <string name="main_settings_displayStatus_text">AudioHub Member</string>
 
 
 </resources>
