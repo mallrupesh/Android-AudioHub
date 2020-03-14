@@ -38,7 +38,6 @@ public class ProjectsFragment extends Fragment {
     private String projectName;
     private String currentDate;
     private RecyclerView recyclerView;
-    private long maxId = 0;
 
     // Declare instance of Firebase authentication
     private FirebaseAuth mAuth;
@@ -54,17 +53,18 @@ public class ProjectsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_project, container, false);
 
+        // Init View components
         recyclerView = rootView.findViewById(R.id.recycleListViewProject);
-        mProjectName = rootView.findViewById(R.id.projects_fragment_newProject);
+        mProjectName = rootView.findViewById(R.id.projects_fragment_newProjectTextView);
         mProjectBtn = rootView.findViewById(R.id.projects_fragment_btnAdd);
         mAuth = FirebaseAuth.getInstance();
         addProject();
         initUI();
 
         return rootView;
-
     }
 
+    // Add Project on buttonClicked
     private void addProject(){
         mProjectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +86,7 @@ public class ProjectsFragment extends Fragment {
         });
     }
 
+    // Init the recyclerView and set the FirebaseRecyclerViewAdapter to it
     private void initUI(){
         recyclerView = rootView.findViewById(R.id.recycleListViewProject);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

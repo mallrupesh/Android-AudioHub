@@ -2,11 +2,10 @@ package com.rupesh.audiohubapp.model;
 
 public class File {
     private String name;
-    private CurrentDate currentDate;
+    private String createdOn;
 
     public File(String name){
         this.name = name;
-        currentDate = new CurrentDate();
     }
 
     // Needed for Firebase operations
@@ -20,11 +19,19 @@ public class File {
         this.name = name;
     }
 
-    public CurrentDate getCurrentDate() {
-        return currentDate;
+    public String getCreatedOn() {
+        return createdOn;
     }
 
-    public void setCurrentDate(CurrentDate currentDate) {
-        this.currentDate = currentDate;
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "name='" + name + '\'' +
+                ", createdOn='" + createdOn + '\'' +
+                '}';
     }
 }

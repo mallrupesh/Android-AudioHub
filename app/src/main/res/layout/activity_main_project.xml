@@ -18,23 +18,25 @@
             android:id="@+id/project_page_toolbar"
             layout="@layout/app_bar_layout"
             />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/project_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </com.google.android.material.tabs.TabLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/project_tab_pager"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="0dp">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleListMainProject"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.viewpager.widget.ViewPager>
+    </androidx.recyclerview.widget.RecyclerView>
 
+    <Button
+        android:id="@+id/main_project_view_members"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/main_project_viewMembers"
+        android:textColor="@color/design_default_color_on_primary" />
 
 </LinearLayout>

@@ -3,13 +3,11 @@ package com.rupesh.audiohubapp.model;
 public class User {
     private String name;
     private String email;
-    private Project project;
-    private CurrentDate currentDate;
+    private String createOn;
 
 
     public User(String name){
         this.name = name;
-        currentDate = new CurrentDate();
     }
 
     // Needed for Firebase operation
@@ -31,19 +29,20 @@ public class User {
         this.email = email;
     }
 
-    public Project getProject() {
-        return project;
+    public String getCreateOn() {
+        return createOn;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setCreateOn(String createOn) {
+        this.createOn = createOn;
     }
 
-    public CurrentDate getCurrentDate() {
-        return currentDate;
-    }
-
-    public void setCurrentDate(CurrentDate currentDate) {
-        this.currentDate = currentDate;
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", createOn='" + createOn + '\'' +
+                '}';
     }
 }

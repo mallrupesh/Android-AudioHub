@@ -33,9 +33,10 @@ public class RegisterPresenter implements IPresenterProtocol {
 
 
     @Override
-    public void onRegister(final String name, String email, String password) {
+    public void onRegister(final String name, final String email, String password) {
 
         RegisterUser user = new RegisterUser(name, email, password);
+        final String createdDate = user.getCreatedOn();
 
         boolean isDataValid = user.isValidData();
 
@@ -46,16 +47,15 @@ public class RegisterPresenter implements IPresenterProtocol {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         // Authorization success
-
                         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                         String uid = currentUser.getUid();
 
-                        mDatabase = FirebaseDatabase.getInstance().getReference().child("Members").child(uid);
+                        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
 
                         HashMap<String, String> userMap = new HashMap<>();
                         userMap.put("name", name);
-                        userMap.put("address", "default");
-                        userMap.put("hobby", "default");
+                        userMap.put("email", email);
+                        userMap.put("createdOn", createdDate);
                         mDatabase.setValue(userMap);
 
 

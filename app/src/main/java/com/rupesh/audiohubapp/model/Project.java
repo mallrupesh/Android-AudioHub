@@ -40,7 +40,7 @@ public class Project {
     @NonNull
     @Override
     public String toString() {
-        return "Projects{" +
+        return "Project{" +
                 "projectName='" + projectName + '\'' +
                 ", createdOn='" + createdOn + '\'' +
                 '}';

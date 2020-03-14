@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/projects_fragment_newProject"
+            android:id="@+id/projects_fragment_newProjectTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -30,7 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:text="@string/projects_fragment_addBtn" />
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/projects_fragment_addBtn"
+            android:textColor="@color/design_default_color_on_primary" />
 
     </LinearLayout>
 

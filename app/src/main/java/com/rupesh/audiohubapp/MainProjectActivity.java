@@ -1,28 +1,22 @@
 package com.rupesh.audiohubapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.material.tabs.TabLayout;
-import com.rupesh.audiohubapp.fragments.ProjectPagerSectionsAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainProjectActivity extends AppCompatActivity {
 
 
     // Include toolbar in the mainActivity
     private Toolbar mToolbar;
-
-    // Declare ViewPager
-    private ViewPager mViewPager;
-
-    // Declare Adapter
-    private ProjectPagerSectionsAdapter projectPagerSectionsAdapter;
-
-    // Declare tab layout to set the view pager with tab layout
-    private TabLayout mTabLayout;
+    private Button mViewMembers;
+    private RecyclerView projectRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +24,31 @@ public class MainProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_project);
 
         // Setup the tool bar
-        mToolbar = findViewById(R.id.main_page_toolbar);
+        mToolbar = findViewById(R.id.project_page_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Project");
 
-        // Init viewPager tabs
-        mViewPager = findViewById(R.id.main_tab_pager);
+        mViewMembers = findViewById(R.id.main_project_view_members);
+        projectRecyclerView = findViewById(R.id.recycleListMainProject);
 
-        // Init fragment adapter and set adapter to view pager
-        projectPagerSectionsAdapter = new ProjectPagerSectionsAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(projectPagerSectionsAdapter);
-
-        // Init tab layout and set it up with view pager
-        mTabLayout = findViewById(R.id.main_tabs);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mViewMembers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainProjectActivity.this, ProjectMemberActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
+    // Setup menu, make it responsive when selected
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        return true;
+    }
+
+
 }

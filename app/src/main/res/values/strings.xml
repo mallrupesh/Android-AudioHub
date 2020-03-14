@@ -23,12 +23,9 @@
     <string name="projects_fragment_row_itemProject">Name</string>
     <string name="projects_fragment_row_itemDate">Date</string>
 
-
+    <string name="main_project_viewMembers">VIEW MEMBERS</string>
 
     <string name="profile_fragment_title">Profile</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
