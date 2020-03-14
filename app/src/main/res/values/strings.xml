@@ -28,10 +28,14 @@
 
     <string name="main_project_viewMembers">VIEW MEMBERS</string>
 
-    <string name="main_settings_changeImage_btn">CHANGE PROFILE</string>
+    <string name="main_settings_changeImage_btn">CHANGE IMAGE</string>
     <string name="main_settings_changeStatus_btn">CHANGE STATUS</string>
     <string name="main_settings_displayName_text">Display Name</string>
     <string name="main_settings_displayStatus_text">AudioHub Member</string>
+
+    <string name="status_input_hint_txt">Your status</string>
+    <string name="status_input_btn">UPDATE STATUS</string>
+
 
 
 </resources>

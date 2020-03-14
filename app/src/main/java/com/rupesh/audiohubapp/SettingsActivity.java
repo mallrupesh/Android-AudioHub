@@ -1,6 +1,9 @@
 package com.rupesh.audiohubapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +24,8 @@ public class SettingsActivity extends AppCompatActivity {
     private CircleImageView mDisplayImage;
     private TextView mCurrentUserName;
     private TextView mCurrentUserStatus;
+    private Button mChangeImgBtn;
+    private Button mChangeStatusBtn;
 
     private DatabaseReference mUserRef;
     private FirebaseUser mCurrentUser;
@@ -33,6 +38,8 @@ public class SettingsActivity extends AppCompatActivity {
         mDisplayImage = findViewById(R.id.main_settings_img);
         mCurrentUserName = findViewById(R.id.main_settings_displayName_txt);
         mCurrentUserStatus = findViewById(R.id.main_settings_displayStatus_txt);
+        mChangeImgBtn = findViewById(R.id.main_settings_change_img_btn);
+        mChangeStatusBtn = findViewById(R.id.main_settings_change_status_btn);
 
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -57,6 +64,17 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        // Navigate to Status Activity and pass the previous status to the Status Activity
+        mChangeStatusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String statusValue = mCurrentUserStatus.getText().toString();
+                Intent statusIntent = new Intent(SettingsActivity.this, StatusActivity.class);
+                statusIntent.putExtra("status_value", statusValue);
+                startActivity(statusIntent);
             }
         });
     }

@@ -27,6 +27,7 @@ public class MainProjectActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.project_page_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Project");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mViewMembers = findViewById(R.id.main_project_view_members);
         projectRecyclerView = findViewById(R.id.recycleListMainProject);
