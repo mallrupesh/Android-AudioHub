@@ -3,9 +3,6 @@ package com.rupesh.audiohubapp.model;
 import android.text.TextUtils;
 import android.util.Patterns;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-
 public class RegisterUser implements IUserProtocol {
 
     private String name;
@@ -16,12 +13,24 @@ public class RegisterUser implements IUserProtocol {
     private String password;
     private String createdOn;
 
+
+    // For Firebase database operation
     public RegisterUser(){}
 
     public RegisterUser(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public RegisterUser(String name, String email, String image, String status, String thumb_image, String password, String createdOn) {
+        this.name = name;
+        this.email = email;
+        this.image = image;
+        this.status = status;
+        this.thumb_image = thumb_image;
+        this.password = password;
+        this.createdOn = createdOn;
     }
 
     @Override
@@ -60,8 +69,6 @@ public class RegisterUser implements IUserProtocol {
     }
 
     public String getCreatedOn() {
-        Calendar currentDate = Calendar.getInstance();
-        createdOn = DateFormat.getDateInstance().format(currentDate.getTime());
         return createdOn;
     }
 

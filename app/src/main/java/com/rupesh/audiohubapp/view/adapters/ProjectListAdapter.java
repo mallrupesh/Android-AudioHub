@@ -1,6 +1,5 @@
 package com.rupesh.audiohubapp.view.adapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +69,7 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
             projectName = itemView.findViewById(R.id.textViewProjectName);
             projectDate = itemView.findViewById(R.id.textViewProjectDate);
 
-            final Context context = itemView.getContext();
+            /*final Context context = itemView.getContext();
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,7 +77,7 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
                     Intent intent = new Intent(context, MainProjectActivity.class);
                     context.startActivity(intent);
                 }
-            });
+            });*/
 
         }
     }

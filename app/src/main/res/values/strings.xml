@@ -28,6 +28,11 @@
 
     <string name="main_project_viewMembers">VIEW MEMBERS</string>
 
+    <string name="project_member_add_btn">ADD</string>
+
+    <string name="all_user_single_display_name">Name</string>
+    <string name="all_user_single_display_status">Status</string>
+
     <string name="main_settings_changeImage_btn">CHANGE IMAGE</string>
     <string name="main_settings_changeStatus_btn">CHANGE STATUS</string>
     <string name="main_settings_displayName_text">Display Name</string>
@@ -35,7 +40,6 @@
 
     <string name="status_input_hint_txt">Your status</string>
     <string name="status_input_btn">UPDATE STATUS</string>
-
 
 
 </resources>

@@ -19,7 +19,6 @@ public class CurrentDate {
 
         Calendar currentDate = Calendar.getInstance();
         return DateFormat.getDateInstance().format(currentDate.getTime());
-        //return createdOn;
     }
 
 

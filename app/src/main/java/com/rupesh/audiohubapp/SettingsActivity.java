@@ -81,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
                 String name = dataSnapshot.child("name").getValue().toString();
                 String image = dataSnapshot.child("image").getValue().toString();
                 String status = dataSnapshot.child("status").getValue().toString();
-                String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
+                //String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
 
                 mCurrentUserName.setText(name);
                 mCurrentUserStatus.setText(status);
@@ -119,6 +119,7 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(galleryIntent, "SELECT IMAGE"), GALLERY_PICK);
             }
         });
+
     }
 
     // Once image is selected start Crop Activity, crop img and start SettingActivity

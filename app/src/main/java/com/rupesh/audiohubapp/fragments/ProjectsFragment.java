@@ -43,6 +43,7 @@ public class ProjectsFragment extends Fragment {
 
     // Declare instance of Firebase authentication
     private FirebaseAuth mAuth;
+
     // Declare Firebase database reference
     private DatabaseReference mDatabase;
 

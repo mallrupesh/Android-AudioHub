@@ -32,9 +32,6 @@ public class Project {
     }
 
     public String getCreatedOn() {
-        //Calendar currentDate = Calendar.getInstance();
-        //createdOn = DateFormat.getDateInstance().format(currentDate.getTime());
-        //return createdOn;
         return createdOn;
     }
 
