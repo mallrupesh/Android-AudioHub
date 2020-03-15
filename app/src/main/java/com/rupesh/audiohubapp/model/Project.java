@@ -2,9 +2,6 @@ package com.rupesh.audiohubapp.model;
 
 import androidx.annotation.NonNull;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-
 public class Project {
 
     private String projectName;
@@ -19,6 +16,7 @@ public class Project {
 
     public Project(String projectName, String createdOn) {
         this.projectName = projectName;
+        this.createdOn = createdOn;
     }
 
     public String getProjectName() {
@@ -29,10 +27,14 @@ public class Project {
         this.projectName = projectName;
     }
 
+    public  void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
+    }
 
     public String getCreatedOn() {
-        Calendar currentDate = Calendar.getInstance();
-        createdOn = DateFormat.getDateInstance().format(currentDate.getTime());
+        //Calendar currentDate = Calendar.getInstance();
+        //createdOn = DateFormat.getDateInstance().format(currentDate.getTime());
+        //return createdOn;
         return createdOn;
     }
 

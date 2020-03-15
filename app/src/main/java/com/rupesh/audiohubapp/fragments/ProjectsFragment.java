@@ -20,9 +20,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
+import com.rupesh.audiohubapp.model.CurrentDate;
 import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.view.adapters.ProjectListAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -70,17 +72,29 @@ public class ProjectsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 projectName = mProjectName.getText().toString();
-                Project project = new Project(projectName);
-                currentDate = project.getCreatedOn();
+                CurrentDate currentDate = new CurrentDate();
+                Project project = new Project(projectName, currentDate.getDate());
+                //currentDate = project.getCreatedOn();
 
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = currentUser.getUid();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("Projects");
+                //mDatabase.push().setValue(uid);
 
-                HashMap<String, String> projectMap = new HashMap<>();
-                projectMap.put("projectName", projectName );
-                projectMap.put("createdOn", currentDate);
+                HashMap<String, Object> projectMap = new HashMap<>();
+                projectMap.put("projectName", project.getProjectName() );
+                projectMap.put("createdOn", project.getCreatedOn());
+                projectMap.put("creatorId", uid);
+                ArrayList<String> list = new ArrayList<>();
+                list.add("fasfsg");
+                list.add("fsaassdsd");
+                list.add("cccc");
+                projectMap.put("members", list);
+
                 mDatabase.push().setValue(projectMap);
+
+
+
                 Toast.makeText(getContext(), "Project created successfully", Toast.LENGTH_LONG).show();
             }
         });
@@ -93,7 +107,8 @@ public class ProjectsFragment extends Fragment {
 
         FirebaseRecyclerOptions<Project> options =
                 new FirebaseRecyclerOptions.Builder<Project>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Projects"), Project.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Projects").orderByChild("creatorId")
+                                .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()), Project.class)
                         .build();
 
         adapter = new ProjectListAdapter(options);

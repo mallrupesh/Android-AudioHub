@@ -34,7 +34,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_settings_img" />
+        app:layout_constraintTop_toBottomOf="@id/main_settings_img" />
 
     <TextView
         android:id="@+id/main_settings_displayStatus_txt"
