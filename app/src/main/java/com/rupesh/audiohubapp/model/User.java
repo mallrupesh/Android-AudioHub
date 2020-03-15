@@ -1,25 +1,29 @@
 package com.rupesh.audiohubapp.model;
 
-public class User {
+import android.text.TextUtils;
+import android.util.Patterns;
+
+public class User implements IUserProtocol {
+
     private String name;
     private String email;
     private String image;
     private String status;
     private String thumb_image;
+    private String password;
     private String createdOn;
 
 
+    // For Firebase database operation
     public User(){}
 
-    public User(String name, String email, String image, String status, String thumb_image, String createdOn) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
-        this.image = image;
-        this.status = status;
-        this.thumb_image = thumb_image;
-        this.createdOn = createdOn;
+        this.password = password;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -28,12 +32,38 @@ public class User {
         this.name = name;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public boolean isValidData() {
+        return !TextUtils.isEmpty(getEmail())
+                && !TextUtils.isEmpty(getName())
+                && Patterns.EMAIL_ADDRESS.matcher(getEmail()).matches()
+                && getPassword().length() > 6;
+    }
+
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
     }
 
     public String getImage() {
@@ -60,23 +90,17 @@ public class User {
         this.thumb_image = thumb_image;
     }
 
-    public String getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(String createdOn) {
-        this.createdOn = createdOn;
-    }
-
     @Override
     public String toString() {
-        return "User{" +
+        return "RegisterUser{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", image='" + image + '\'' +
                 ", status='" + status + '\'' +
                 ", thumb_image='" + thumb_image + '\'' +
+                ", password='" + password + '\'' +
                 ", createdOn='" + createdOn + '\'' +
                 '}';
     }
 }
+
