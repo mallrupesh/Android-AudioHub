@@ -1,5 +1,6 @@
 package com.rupesh.audiohubapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,6 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView mCurrentUserStatus;
     private Button mChangeImgBtn;
     private Button mChangeStatusBtn;
+
+    private ProgressDialog mProgressDialog;
 
     private DatabaseReference mUserRef;
     private FirebaseUser mCurrentUser;
@@ -80,6 +85,10 @@ public class SettingsActivity extends AppCompatActivity {
 
                 mCurrentUserName.setText(name);
                 mCurrentUserStatus.setText(status);
+
+                if(!image.equals("default")){
+                    Glide.with(SettingsActivity.this).load(image).into(mDisplayImage);
+                }
             }
 
             @Override
@@ -112,7 +121,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    // Start Crop Activity, choose the image, crop and start SettingActivity
+    // Once image is selected start Crop Activity, crop img and start SettingActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -132,19 +141,42 @@ public class SettingsActivity extends AppCompatActivity {
 
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
+
+                initProgressBar();
+
                 Uri resultUri = result.getUri();
+
+                // Get current UID of the user and store  it in a String
+                final String currentUserId = mCurrentUser.getUid();
 
                 // As we have already init the StorageReference above, just need to create
                 // filePath with the above created Storage reference
-                StorageReference filePath = mImageStorage.child("profile_images").child(random()+".jpg");
-                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                // Then, first store image name with current user id in Firebase Storage
+                // Second, store the image link in Firebase Database
+                final StorageReference filePath = mImageStorage.child("profile_images").child(currentUserId+".jpg");
+
+                filePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(SettingsActivity.this,"Working", Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(SettingsActivity.this,"Error uploading the image", Toast.LENGTH_LONG).show();
-                        }
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                final String downloadUrl = uri.toString();
+                                mUserRef.child("image").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            mProgressDialog.dismiss();
+                                            Toast.makeText(SettingsActivity.this,"Profile img changed", Toast.LENGTH_LONG).show();
+                                        }
+                                        else{
+                                            mProgressDialog.dismiss();
+                                            Toast.makeText(SettingsActivity.this,"Error loading img", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
 
@@ -153,6 +185,16 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    public void initProgressBar(){
+        mProgressDialog= new ProgressDialog(SettingsActivity.this);
+        mProgressDialog.setTitle("Uploading image...");
+        mProgressDialog.setMessage("Please wait while we process the image");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
+    }
+
 
 
     // Generate random string to be used with the image name when uploading to Firebase Storage
