@@ -1,15 +1,15 @@
 package com.rupesh.audiohubapp.model;
 
-public class File {
+public class UserFiles {
     private String name;
     private String createdOn;
 
-    public File(String name){
+    public UserFiles(String name){
         this.name = name;
     }
 
     // Needed for Firebase operations
-    public File(){}
+    public UserFiles(){}
 
     public String getName() {
         return name;

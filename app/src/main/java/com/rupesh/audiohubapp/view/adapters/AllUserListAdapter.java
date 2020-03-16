@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.rupesh.audiohubapp.R;
@@ -32,6 +34,7 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
     protected void onBindViewHolder(@NonNull AllUserListViewHolder holder, int position, @NonNull User model) {
         holder.singleUserName.setText(model.getName());
         holder.singleUserStatus.setText(model.getStatus());
+        holder.setAllSingleUserImg(model.getImage());
     }
 
     @NonNull
@@ -43,7 +46,7 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
         return new AllUserListViewHolder(view);
     }
 
-    static class AllUserListViewHolder extends RecyclerView.ViewHolder {
+    class AllUserListViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView singleUserImg;
         TextView singleUserName;
@@ -51,11 +54,21 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
 
         public AllUserListViewHolder(@NonNull View itemView) {
             super(itemView);
-
             singleUserImg = itemView.findViewById(R.id.all_user_single_img);
             singleUserName = itemView.findViewById(R.id.all_user_single_name);
             singleUserStatus = itemView.findViewById(R.id.all_user_single_status);
         }
+
+        // Load all users images in the All User Activity if no user images load the default
+        // user avatar
+        public void setAllSingleUserImg(String image){
+
+            Glide.with(itemView).load(image)
+                    .apply(new RequestOptions().placeholder(R.drawable.default_avatar))
+                    .into(singleUserImg);
+        }
     }
+
+
 
 }

@@ -90,6 +90,7 @@ public class User implements IUserProtocol {
         this.thumb_image = thumb_image;
     }
 
+
     @Override
     public String toString() {
         return "RegisterUser{" +

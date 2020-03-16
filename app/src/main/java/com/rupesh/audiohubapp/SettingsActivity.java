@@ -86,6 +86,7 @@ public class SettingsActivity extends AppCompatActivity {
                 mCurrentUserName.setText(name);
                 mCurrentUserStatus.setText(status);
 
+                // This is to retain Default avatar if the user has not uploaded image
                 if(!image.equals("default")){
                     Glide.with(SettingsActivity.this).load(image).into(mDisplayImage);
                 }
@@ -154,12 +155,12 @@ public class SettingsActivity extends AppCompatActivity {
                 // filePath with the above created Storage reference
                 // Then, first store image name with current user id in Firebase Storage
                 // Second, store the image link in Firebase Database
-                final StorageReference filePath = mImageStorage.child("profile_images").child(currentUserId+".jpg");
+                final StorageReference imageFilePath = mImageStorage.child("profile_images").child(currentUserId+".jpg");
 
-                filePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                imageFilePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
                                 final String downloadUrl = uri.toString();
