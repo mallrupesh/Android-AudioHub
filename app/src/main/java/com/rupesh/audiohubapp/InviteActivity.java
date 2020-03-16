@@ -23,12 +23,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.rupesh.audiohubapp.model.CurrentDate;
 
 public class InviteActivity extends AppCompatActivity {
 
     private static final int NOT_IN_PROJECT = 0;
-    private static final int INVITATION_SENT = 1;
+    private static final int REQUEST_SENT = 1;
     private static final int REQUEST_RECEIVED = 2;
     private static final int IN_PROJECT = 3;
 
@@ -38,6 +37,7 @@ public class InviteActivity extends AppCompatActivity {
     private TextView mDisplayUserName;
     private TextView mDisplayUserStatus;
     private Button mInviteButton;
+    private Button mDeclineButton;
 
     private ProgressDialog mProgressDialog;
 
@@ -70,6 +70,7 @@ public class InviteActivity extends AppCompatActivity {
         mDisplayUserName = findViewById(R.id.invite_display_name);
         mDisplayUserStatus = findViewById(R.id.invite_display_status);
         mInviteButton = findViewById(R.id.invite_user_btn);
+        mDeclineButton= findViewById(R.id.invite_decline_user_btn);
 
         setupProgressDialog();
 
@@ -78,6 +79,8 @@ public class InviteActivity extends AppCompatActivity {
         userDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
                 String displayName = dataSnapshot.child("name").getValue().toString();
                 String displayStatus = dataSnapshot.child("status").getValue().toString();
                 String image = dataSnapshot.child("image").getValue().toString();
@@ -89,7 +92,64 @@ public class InviteActivity extends AppCompatActivity {
                         .apply(new RequestOptions().placeholder(R.drawable.default_avatar))
                         .into(mProfileImgView);
 
-                mProgressDialog.dismiss();
+                // ------------- ADD MEMBERS TO PROJECT AND REQUEST, ACCEPT/DECLINE MECHANISM---------//
+
+                inviteDatabaseRef.child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        // Check the invite database point to current user node and check the REQUEST TYPE (sent/received)
+                        if(dataSnapshot.hasChild(user_id)){
+
+
+                            String request_type = dataSnapshot.child(user_id).child("request_type").getValue().toString();
+
+                            // If the request type is SENT, current user received the REQUEST from other user
+                            // Change the invite button text to ACCEPT INVITATION
+                            if(request_type.equals("received")){
+
+                                mInviteButton.setEnabled(true);
+                                currentState = REQUEST_RECEIVED;
+                                mInviteButton.setText("ACCEPT INVITATION");
+                            }else {
+
+                                // If the current current user sent the request to other user,
+                                // Change the invite button to CANCEL REQUEST
+                                if (request_type.equals("sent")) {
+
+                                    mInviteButton.setEnabled(true);
+                                    currentState = REQUEST_SENT;
+                                    mInviteButton.setText("CANCEL REQUEST");
+                                }
+                            }
+
+                            mProgressDialog.dismiss();
+
+                        }else {
+                                // If the project already has other member id,
+                                projectDatabaseRef.child("member").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.hasChild(user_id)){
+                                            currentState = IN_PROJECT;
+                                            mInviteButton.setText("LEAVE PROJECT");
+                                        }
+                                        mProgressDialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        mProgressDialog.dismiss();
+                                    }
+                                });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -102,7 +162,12 @@ public class InviteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // -----------------Send Invitation -> currentState = NOT_IN_PROJECT--------------------
+                // Disable the invite button, when the request has been made to avoid processing duplicate query
+                mInviteButton.setEnabled(false);
+
+
+                // -----------------SEND REQUEST -> currentState = NOT_IN_PROJECT--------------------//
+
                 if(currentState == NOT_IN_PROJECT){
                     inviteDatabaseRef.child(mCurrentUser.getUid()).child(user_id).child("request_type")
                             .setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -114,9 +179,10 @@ public class InviteActivity extends AppCompatActivity {
                                         .child("request_type").setValue("received").addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        // When the request is made, enable the invite button again
                                         mInviteButton.setEnabled(true);
-                                        currentState = INVITATION_SENT;
-                                        mInviteButton.setText("DECLINE INVITATION");
+                                        currentState = REQUEST_SENT;
+                                        mInviteButton.setText("CANCEL REQUEST");
                                     }
                                 });
 
@@ -127,8 +193,9 @@ public class InviteActivity extends AppCompatActivity {
                     });
                 }
 
-                // --------------------Decline Invitation -> currentState = INVITATION_SENT---------------------
-                if(currentState == INVITATION_SENT ){
+                // --------------------CANCEL REQUEST -> currentState = INVITATION_SENT---------------------//
+
+                if(currentState == REQUEST_SENT){
                     inviteDatabaseRef.child(mCurrentUser.getUid()).child(user_id).removeValue()
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -139,20 +206,20 @@ public class InviteActivity extends AppCompatActivity {
                                         public void onSuccess(Void aVoid) {
                                             mInviteButton.setEnabled(true);
                                             currentState = NOT_IN_PROJECT;
-                                            mInviteButton.setText("INVITE TO PROJECT");
+                                            mInviteButton.setText("SEND REQUEST");
                                         }
                                     });
                                 }
                             });
                 }
 
-                // --------------------Accept/Decline Invitation -> currentState = INVITATION_RECEIVED---------------------
+                // --------------------ACCEPT REQUEST -> currentState = INVITATION_RECEIVED---------------------
                 if (currentState == REQUEST_RECEIVED){
 
-                    final String currentDate = new CurrentDate().getDate();
+                   // final String currentDate = new CurrentDate().getDate();
                     String projectUid = projectDatabaseRef.getKey();
 
-                    projectDatabaseRef.child(projectUid).child("member").setValue(user_id).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    projectDatabaseRef.child(projectUid).child("member").setValue(mCurrentUser.getUid()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             inviteDatabaseRef.child(mCurrentUser.getUid()).child(user_id).removeValue()
@@ -170,18 +237,56 @@ public class InviteActivity extends AppCompatActivity {
                                             });
                                         }
                                     });
+
                         }
 
                     });
 
                 }
+
+                //----------------------------LEAVE PROJECT -> current state = IN PROJECT-----------------------------
+
+                if(currentState == IN_PROJECT){
+                    //String projectUid = projectDatabaseRef.getKey();
+                    projectDatabaseRef.child("Projects").child("member").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            mInviteButton.setEnabled(true);
+                            currentState = NOT_IN_PROJECT;
+                            mInviteButton.setText("SEND REQUEST");
+                        }
+                    });
+                }
             }
         });
 
+        //--------------------------DECLINE REQUEST -> current state = NOT IN PROJECT--------------------------
 
+        mDeclineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                mDeclineButton.setEnabled(true);
 
+                if(currentState == REQUEST_RECEIVED) {
 
+                    inviteDatabaseRef.child(mCurrentUser.getUid()).child(user_id).removeValue()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    inviteDatabaseRef.child(user_id).child(mCurrentUser.getUid())
+                                            .child("request_type").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            mDeclineButton.setEnabled(false);
+                                        }
+                                    });
+                                }
+                            });
+                }
+
+            }
+        });
 
     }
 
