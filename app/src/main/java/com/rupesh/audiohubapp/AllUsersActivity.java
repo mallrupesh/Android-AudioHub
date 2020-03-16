@@ -35,14 +35,14 @@ public class AllUsersActivity extends AppCompatActivity {
 
         mUserDataRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        allUsersRecyclerView = findViewById(R.id.recycleListAllUsers);
+        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUser);
 
         initUI();
 
     }
 
     private void initUI(){
-        allUsersRecyclerView = findViewById(R.id.recycleListAllUsers);
+        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUser);
         allUsersRecyclerView.setLayoutManager(new LinearLayoutManager(AllUsersActivity.this));
 
         FirebaseRecyclerOptions<User> options =
