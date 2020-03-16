@@ -23,11 +23,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.rupesh.audiohubapp.model.CurrentDate;
 
 public class InviteActivity extends AppCompatActivity {
 
     private static final int NOT_IN_PROJECT = 0;
-    private static final int IN_PROJECT = 1;
+    private static final int INVITATION_SENT = 1;
+    private static final int REQUEST_RECEIVED = 2;
+    private static final int IN_PROJECT = 3;
+
     private int currentState;
 
     private ImageView mProfileImgView;
@@ -37,9 +41,11 @@ public class InviteActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
 
-    private DatabaseReference mDatabaseRef;
+    private DatabaseReference userDatabaseRef;
 
-    private DatabaseReference mInviteDatabaseRef;
+    private DatabaseReference inviteDatabaseRef;
+
+    private DatabaseReference projectDatabaseRef;
 
     private FirebaseUser mCurrentUser;
 
@@ -53,9 +59,12 @@ public class InviteActivity extends AppCompatActivity {
         // Get the uid from the AllUserActivity
         final String user_id = getIntent().getStringExtra("user_id");
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
-        mInviteDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Invite_Requests");
+        userDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
+        inviteDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Invite_Requests");
+        projectDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Projects");
+
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentState = NOT_IN_PROJECT;
 
         mProfileImgView = findViewById(R.id.invite_user_image);
         mDisplayUserName = findViewById(R.id.invite_display_name);
@@ -66,7 +75,7 @@ public class InviteActivity extends AppCompatActivity {
 
 
         // Get the user's image, name and status after clicking the item in AllUsersActivity
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        userDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String displayName = dataSnapshot.child("name").getValue().toString();
@@ -93,18 +102,21 @@ public class InviteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                // -----------------Send Invitation -> currentState = NOT_IN_PROJECT--------------------
                 if(currentState == NOT_IN_PROJECT){
-                    mInviteDatabaseRef.child(mCurrentUser.getUid()).child(user_id).child("request_type")
+                    inviteDatabaseRef.child(mCurrentUser.getUid()).child(user_id).child("request_type")
                             .setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
 
-                                mInviteDatabaseRef.child(user_id).child(mCurrentUser.getUid())
+                                inviteDatabaseRef.child(user_id).child(mCurrentUser.getUid())
                                         .child("request_type").setValue("received").addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Toast.makeText(InviteActivity.this, "Invitation sent", Toast.LENGTH_LONG).show();
+                                        mInviteButton.setEnabled(true);
+                                        currentState = INVITATION_SENT;
+                                        mInviteButton.setText("DECLINE INVITATION");
                                     }
                                 });
 
@@ -113,6 +125,55 @@ public class InviteActivity extends AppCompatActivity {
                             }
                         }
                     });
+                }
+
+                // --------------------Decline Invitation -> currentState = INVITATION_SENT---------------------
+                if(currentState == INVITATION_SENT ){
+                    inviteDatabaseRef.child(mCurrentUser.getUid()).child(user_id).removeValue()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    inviteDatabaseRef.child(user_id).child(mCurrentUser.getUid())
+                                            .child("request_type").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            mInviteButton.setEnabled(true);
+                                            currentState = NOT_IN_PROJECT;
+                                            mInviteButton.setText("INVITE TO PROJECT");
+                                        }
+                                    });
+                                }
+                            });
+                }
+
+                // --------------------Accept/Decline Invitation -> currentState = INVITATION_RECEIVED---------------------
+                if (currentState == REQUEST_RECEIVED){
+
+                    final String currentDate = new CurrentDate().getDate();
+                    String projectUid = projectDatabaseRef.getKey();
+
+                    projectDatabaseRef.child(projectUid).child("member").setValue(user_id).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            inviteDatabaseRef.child(mCurrentUser.getUid()).child(user_id).removeValue()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            inviteDatabaseRef.child(user_id).child(mCurrentUser.getUid())
+                                                    .child("request_type").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    mInviteButton.setEnabled(true);
+                                                    currentState = IN_PROJECT;
+                                                    mInviteButton.setText("LEAVE PROJECT");
+                                                }
+                                            });
+                                        }
+                                    });
+                        }
+
+                    });
+
                 }
             }
         });
