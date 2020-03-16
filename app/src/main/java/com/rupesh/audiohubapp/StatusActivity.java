@@ -24,7 +24,6 @@ public class StatusActivity extends AppCompatActivity {
     private TextInputLayout currentUserStatus;
     private Button statusUpdateBtn;
     private ProgressDialog mProgressDialog;
-    private String prevStatusValue;
 
     private DatabaseReference userDatabaseRef;
     private FirebaseUser mCurrentUser;
@@ -46,7 +45,7 @@ public class StatusActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get user's previous status string value from Settings Activity and set it on the EditText
-        prevStatusValue = getIntent().getStringExtra("status_value");
+        String prevStatusValue = getIntent().getStringExtra("status_value");
         currentUserStatus.getEditText().setText(prevStatusValue);
 
 

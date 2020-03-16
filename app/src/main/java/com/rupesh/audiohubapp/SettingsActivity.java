@@ -144,7 +144,7 @@ public class SettingsActivity extends AppCompatActivity {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
 
-                initProgressBar();
+                setupProgressDialog();
 
                 Uri resultUri = result.getUri();
 
@@ -189,7 +189,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    public void initProgressBar(){
+    public void setupProgressDialog(){
         mProgressDialog= new ProgressDialog(SettingsActivity.this);
         mProgressDialog.setTitle("Uploading image...");
         mProgressDialog.setMessage("Please wait while we process the image");

@@ -35,6 +35,8 @@
     <string name="all_user_single_display_name">Name</string>
     <string name="all_user_single_display_status">Status</string>
 
+    <string name="invite_user_button">INVITE</string>
+
     <string name="main_settings_changeImage_btn">CHANGE IMAGE</string>
     <string name="main_settings_changeStatus_btn">CHANGE STATUS</string>
     <string name="main_settings_displayName_text">Display Name</string>

@@ -1,5 +1,6 @@
 package com.rupesh.audiohubapp.view.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.rupesh.audiohubapp.InviteActivity;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.model.User;
 
@@ -35,6 +37,17 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
         holder.singleUserName.setText(model.getName());
         holder.singleUserStatus.setText(model.getStatus());
         holder.setAllSingleUserImg(model.getImage());
+
+        // Get the user Id by getting the position of the ViewHolder
+        final String holderIdPosition = getRef(position).getKey();
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent inviteIntent = new Intent(v.getContext(), InviteActivity.class);
+                inviteIntent.putExtra("user_id", holderIdPosition);
+                v.getContext().startActivity(inviteIntent);
+            }
+        });
     }
 
     @NonNull
@@ -42,6 +55,7 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
     public AllUserListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_all_users_row, parent, false);
+
 
         return new AllUserListViewHolder(view);
     }

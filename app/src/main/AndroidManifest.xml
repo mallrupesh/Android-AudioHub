@@ -12,14 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AllUsersActivity"
-            android:parentActivityName=".ProjectMemberActivity"/>
+        <activity android:name=".InviteActivity"></activity>
+        <activity
+            android:name=".AllUsersActivity"
+            android:parentActivityName=".ProjectMemberActivity" />
         <activity
             android:name=".StatusActivity"
             android:parentActivityName=".SettingsActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".ProjectMemberActivity"
-            android:parentActivityName=".MainProjectActivity"/>
+        <activity
+            android:name=".ProjectMemberActivity"
+            android:parentActivityName=".MainProjectActivity" />
         <activity
             android:name=".MainProjectActivity"
             android:parentActivityName=".MainActivity" />
