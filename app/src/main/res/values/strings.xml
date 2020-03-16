@@ -35,7 +35,8 @@
     <string name="all_user_single_display_name">Name</string>
     <string name="all_user_single_display_status">Status</string>
 
-    <string name="invite_user_button">INVITE</string>
+    <string name="invite_user_button">INVITE TO PROJECT</string>
+    <string name="invite_decline_user_button">DECLINE REQUEST</string>
 
     <string name="main_settings_changeImage_btn">CHANGE IMAGE</string>
     <string name="main_settings_changeStatus_btn">CHANGE STATUS</string>
