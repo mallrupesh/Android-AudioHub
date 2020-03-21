@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rupesh.audiohubapp.model.Project;
+
 public class MainProjectActivity extends AppCompatActivity {
 
 
@@ -17,12 +19,16 @@ public class MainProjectActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private Button mViewMembers;
     private RecyclerView projectRecyclerView;
+    private Project project;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_project);
 
+        // Get the project from the Project Fragment
+        //final String project_id = getIntent().getStringExtra("project_id");
+        project = (Project) getIntent().getSerializableExtra("project");
         // Setup the tool bar
         mToolbar = findViewById(R.id.project_page_toolbar);
         setSupportActionBar(mToolbar);
@@ -35,8 +41,9 @@ public class MainProjectActivity extends AppCompatActivity {
         mViewMembers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainProjectActivity.this, ProjectMemberActivity.class);
-                startActivity(intent);
+                Intent projectMemberIntent = new Intent(MainProjectActivity.this, ProjectMemberActivity.class);
+                projectMemberIntent.putExtra("project", project);
+                startActivity(projectMemberIntent);
             }
         });
     }

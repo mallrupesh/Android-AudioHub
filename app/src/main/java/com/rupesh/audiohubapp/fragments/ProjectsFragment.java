@@ -33,6 +33,10 @@ import java.util.HashMap;
  */
 public class ProjectsFragment extends Fragment {
 
+
+    /*private static String projectID;
+    private static final String TAG = projectID;*/
+
     View rootView;
     Context context;
     private EditText mProjectName;
@@ -80,21 +84,29 @@ public class ProjectsFragment extends Fragment {
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = currentUser.getUid();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("Projects");
+                String pUid = mDatabase.push().getKey();
                 //mDatabase.push().setValue(uid);
+
+                System.out.println(pUid);
+
+
 
                 HashMap<String, Object> projectMap = new HashMap<>();
                 projectMap.put("projectName", project.getProjectName() );
                 projectMap.put("createdOn", project.getCreatedOn());
                 projectMap.put("creatorId", uid);
+                projectMap.put("pUid", pUid);
                 ArrayList<String> list = new ArrayList<>();
                 list.add("fasfsg");
                 list.add("fsaassdsd");
                 list.add("cccc");
                 projectMap.put("members", list);
+                mDatabase.child(pUid).setValue(projectMap);
+                //mDatabase.push().setValue(projectMap);
 
-                mDatabase.push().setValue(projectMap);
-
-
+               /* projectID = mDatabase.getKey();
+                Log.d(projectID, "onClick: "+ projectID);
+*/
 
                 Toast.makeText(getContext(), "Project created successfully", Toast.LENGTH_LONG).show();
             }
@@ -112,8 +124,11 @@ public class ProjectsFragment extends Fragment {
                                 .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()), Project.class)
                         .build();
 
+        System.out.println(options);
+        System.out.println("-------------------------------------------------------");
         adapter = new ProjectListAdapter(options);
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override

@@ -1,22 +1,28 @@
 package com.rupesh.audiohubapp.model;
 
-import androidx.annotation.NonNull;
+import java.io.Serializable;
 
-public class Project {
+public class Project implements Serializable {
 
     private String projectName;
     private String createdOn;
+    private String creatorID;
+    private String pUid;
+    //private List<User> members;
 
 
     public Project(){}
 
-    public Project(String projectName){
-        this.projectName = projectName;
-    }
-
-    public Project(String projectName, String createdOn) {
+    public Project(String projectName, String createdOn){
         this.projectName = projectName;
         this.createdOn = createdOn;
+    }
+
+    public Project(String projectName, String createdOn, String creatorID, String pUid) {
+        this.projectName = projectName;
+        this.createdOn = createdOn;
+        this.creatorID = creatorID;
+        this.pUid = pUid;
     }
 
     public String getProjectName() {
@@ -35,13 +41,29 @@ public class Project {
         return createdOn;
     }
 
+    public String getCreatorID() {
+        return creatorID;
+    }
 
-    @NonNull
+    public void setCreatorID(String creatorID) {
+        this.creatorID = creatorID;
+    }
+
+    public String getpUid() {
+        return pUid;
+    }
+
+    public void setpUid(String pUid) {
+        this.pUid = pUid;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
                 "projectName='" + projectName + '\'' +
                 ", createdOn='" + createdOn + '\'' +
+                ", creatorID='" + creatorID + '\'' +
+                ", pUid='" + pUid + '\'' +
                 '}';
     }
 }

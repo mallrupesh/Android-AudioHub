@@ -3,7 +3,9 @@ package com.rupesh.audiohubapp.model;
 import android.text.TextUtils;
 import android.util.Patterns;
 
-public class User implements IUserProtocol {
+import java.io.Serializable;
+
+public class User implements IUserProtocol, Serializable {
 
     private String name;
     private String email;
@@ -12,6 +14,7 @@ public class User implements IUserProtocol {
     private String thumb_image;
     private String password;
     private String createdOn;
+    private String uid;
 
 
     // For Firebase database operation
@@ -21,6 +24,17 @@ public class User implements IUserProtocol {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public User(String name, String email, String image, String status, String thumb_image, String password, String createdOn, String uid) {
+        this.name = name;
+        this.email = email;
+        this.image = image;
+        this.status = status;
+        this.thumb_image = thumb_image;
+        this.password = password;
+        this.createdOn = createdOn;
+        this.uid = uid;
     }
 
     @Override
@@ -90,10 +104,17 @@ public class User implements IUserProtocol {
         this.thumb_image = thumb_image;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     @Override
     public String toString() {
-        return "RegisterUser{" +
+        return "User{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", image='" + image + '\'' +
@@ -101,6 +122,7 @@ public class User implements IUserProtocol {
                 ", thumb_image='" + thumb_image + '\'' +
                 ", password='" + password + '\'' +
                 ", createdOn='" + createdOn + '\'' +
+                ", uid='" + uid + '\'' +
                 '}';
     }
 }

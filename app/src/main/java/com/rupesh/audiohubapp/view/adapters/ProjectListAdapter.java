@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,9 +29,24 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ProjectListViewHolder holder, int position, @NonNull Project model) {
+    protected void onBindViewHolder(@NonNull ProjectListViewHolder holder, int position, @NonNull final Project model) {
         holder.projectName.setText(model.getProjectName());
         holder.projectDate.setText(model.getCreatedOn());
+        System.out.println(holder+"--------------------------------------------------");
+
+        // Get the project Id by getting the position of the ViewHolder
+        //final String holderProjectIdPosition = getRef(position).getKey();
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent mainProjectIntent = new Intent(v.getContext(), MainProjectActivity.class);
+                mainProjectIntent.putExtra("project", model);
+                v.getContext().startActivity(mainProjectIntent);
+                //Toast.makeText(v.getContext(), "Project created successfully", Toast.LENGTH_LONG).show();
+            }
+        });
 
 
     }
@@ -44,19 +58,7 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_project_row_item, parent, false);
 
-        ProjectListViewHolder projectListViewHolder= new ProjectListViewHolder(view);
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MainProjectActivity.class);
-                v.getContext().startActivity(intent);
-                Toast.makeText(v.getContext(), "Project created successfully", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-        return projectListViewHolder;
+        return new ProjectListViewHolder(view);
     }
 
     class ProjectListViewHolder extends RecyclerView.ViewHolder {

@@ -1,7 +1,6 @@
 package com.rupesh.audiohubapp.model;
 
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class CurrentDate {
@@ -17,9 +16,6 @@ public class CurrentDate {
         String date = dateFormat.format(currentDate);
         return date;*/
 
-        Calendar currentDate = Calendar.getInstance();
-        return DateFormat.getDateInstance().format(currentDate.getTime());
+        return DateFormat.getDateTimeInstance().format(new Date());
     }
-
-
 }

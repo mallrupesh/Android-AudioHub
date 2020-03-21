@@ -1,5 +1,6 @@
 package com.rupesh.audiohubapp;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,13 @@ public class AllUsersActivity extends AppCompatActivity {
 
     private DatabaseReference mUserDataRef;
 
+    String project_id;
+
+    Boolean fromProjectActivity;
+
+    private Activity referenceActivity;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +41,7 @@ public class AllUsersActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("All Users");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        fromProjectActivity = (Boolean) getIntent().getBooleanExtra("projectActivity",false);
         mUserDataRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         allUsersRecyclerView = findViewById(R.id.recycleListViewAllUser);
@@ -49,7 +58,7 @@ public class AllUsersActivity extends AppCompatActivity {
                 new FirebaseRecyclerOptions.Builder<User>()
                         .setQuery(mUserDataRef, User.class)
                         .build();
-        allUserListAdapter = new AllUserListAdapter(options);
+        allUserListAdapter = new AllUserListAdapter(options, fromProjectActivity);
         allUsersRecyclerView.setAdapter(allUserListAdapter);
     }
 
@@ -65,4 +74,11 @@ public class AllUsersActivity extends AppCompatActivity {
         super.onStop();
         allUserListAdapter.stopListening();
     }
+
+   /* public String getProjectId(){
+        return project_id;
+    }*/
+
 }
+
+

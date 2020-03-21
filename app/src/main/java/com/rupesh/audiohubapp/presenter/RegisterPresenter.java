@@ -61,6 +61,7 @@ public class RegisterPresenter implements IPresenterProtocol {
                         userMap.put("image", "default");
                         userMap.put("status", "AudioHub Member");
                         userMap.put("thumb_image", "default");
+                        userMap.put("uid",uid);
                         mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

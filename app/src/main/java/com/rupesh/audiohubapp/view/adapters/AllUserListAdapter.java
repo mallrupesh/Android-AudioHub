@@ -28,24 +28,36 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
      *
      * @param options
      */
-    public AllUserListAdapter(@NonNull FirebaseRecyclerOptions<User> options) {
+
+    // Track current project ID
+    private String project_id;
+    private Boolean fromProjectActivity;
+
+    public AllUserListAdapter(@NonNull FirebaseRecyclerOptions<User> options, Boolean fromProjectActivity ) {
         super(options);
+        this.fromProjectActivity = fromProjectActivity;
     }
 
+
     @Override
-    protected void onBindViewHolder(@NonNull AllUserListViewHolder holder, int position, @NonNull User model) {
+    protected void onBindViewHolder(@NonNull final AllUserListViewHolder holder, int position, @NonNull final User model) {
         holder.singleUserName.setText(model.getName());
         holder.singleUserStatus.setText(model.getStatus());
         holder.setAllSingleUserImg(model.getImage());
 
         // Get the user Id by getting the position of the ViewHolder
         final String holderIdPosition = getRef(position).getKey();
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Intent inviteIntent = new Intent(v.getContext(), InviteActivity.class);
-                inviteIntent.putExtra("user_id", holderIdPosition);
+                inviteIntent.putExtra("user", model);
+                inviteIntent.putExtra("fromProjectActivity", fromProjectActivity);
                 v.getContext().startActivity(inviteIntent);
+
             }
         });
     }
