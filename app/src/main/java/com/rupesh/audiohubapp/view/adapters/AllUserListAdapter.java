@@ -1,6 +1,6 @@
 package com.rupesh.audiohubapp.view.adapters;
 
-import android.content.Intent;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.rupesh.audiohubapp.InviteActivity;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.model.User;
 
@@ -26,38 +25,39 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
      * {@link FirebaseRecyclerOptions} for configuration options.
      *
-     * @param options
      */
 
-    // Track current project ID
-    private String project_id;
-    private Boolean fromProjectActivity;
+    public interface OnItemClickListener{
+        void onItemClicked(View v, User user);
+    }
 
-    public AllUserListAdapter(@NonNull FirebaseRecyclerOptions<User> options, Boolean fromProjectActivity ) {
+    // Track current project ID
+    //private String project_id;
+    private Context context;
+    private OnItemClickListener listener;
+
+    public AllUserListAdapter(@NonNull FirebaseRecyclerOptions<User> options, OnItemClickListener listener, Context context ) {
         super(options);
-        this.fromProjectActivity = fromProjectActivity;
+        this.context = context;
+        this.listener = listener;
     }
 
 
     @Override
-    protected void onBindViewHolder(@NonNull final AllUserListViewHolder holder, int position, @NonNull final User model) {
+    protected void onBindViewHolder(@NonNull final AllUserListViewHolder holder, final int position, @NonNull final User model) {
         holder.singleUserName.setText(model.getName());
         holder.singleUserStatus.setText(model.getStatus());
         holder.setAllSingleUserImg(model.getImage());
 
-        // Get the user Id by getting the position of the ViewHolder
-        final String holderIdPosition = getRef(position).getKey();
+        /*// Get the user Id by getting the position of the ViewHolder
+           final String holderIdPosition = getRef(position).getKey();*/
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent inviteIntent = new Intent(v.getContext(), InviteActivity.class);
-                inviteIntent.putExtra("user", model);
-                inviteIntent.putExtra("fromProjectActivity", fromProjectActivity);
-                v.getContext().startActivity(inviteIntent);
-
+                listener.onItemClicked(v, model);
             }
         });
     }
@@ -67,7 +67,6 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
     public AllUserListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_all_users_row, parent, false);
-
 
         return new AllUserListViewHolder(view);
     }
@@ -83,6 +82,7 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
             singleUserImg = itemView.findViewById(R.id.all_user_single_img);
             singleUserName = itemView.findViewById(R.id.all_user_single_name);
             singleUserStatus = itemView.findViewById(R.id.all_user_single_status);
+
         }
 
         // Load all users images in the All User Activity if no user images load the default
@@ -94,7 +94,4 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
                     .into(singleUserImg);
         }
     }
-
-
-
 }
