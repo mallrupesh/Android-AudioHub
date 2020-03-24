@@ -1,15 +1,15 @@
 package com.rupesh.audiohubapp.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashMap;
 
 public class Project implements Serializable {
 
     private String projectName;
     private String createdOn;
-    private String creatorID;
+    private String creatorId;
     private String projectId;
-    private List<String> members;
+    private HashMap<String, Object> members;
 
 
     public Project(){}
@@ -19,10 +19,10 @@ public class Project implements Serializable {
         this.createdOn = createdOn;
     }
 
-    public Project(String projectName, String createdOn, String creatorID, String projectId, List<String> members) {
+    public Project(String projectName, String createdOn, String creatorID, String projectId, HashMap<String, Object> members) {
         this.projectName = projectName;
         this.createdOn = createdOn;
-        this.creatorID = creatorID;
+        this.creatorId = creatorID;
         this.projectId = projectId;
         this.members = members;
     }
@@ -43,12 +43,12 @@ public class Project implements Serializable {
         return createdOn;
     }
 
-    public String getCreatorID() {
-        return creatorID;
+    public String getCreatorId() {
+        return creatorId;
     }
 
-    public void setCreatorID(String creatorID) {
-        this.creatorID = creatorID;
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
     }
 
     public String getProjectId() {
@@ -59,11 +59,11 @@ public class Project implements Serializable {
         this.projectId = projectId;
     }
 
-    public List<String> getMembers() {
+    public HashMap<String, Object> getMembers() {
         return members;
     }
 
-    public void setMembers(List<String> members) {
+    public void setMembers(HashMap<String, Object> members) {
         this.members = members;
     }
 
@@ -72,7 +72,7 @@ public class Project implements Serializable {
         return "Project{" +
                 "projectName='" + projectName + '\'' +
                 ", createdOn='" + createdOn + '\'' +
-                ", creatorID='" + creatorID + '\'' +
+                ", creatorID='" + creatorId + '\'' +
                 ", projectID='" + projectId + '\'' +
                 '}';
     }

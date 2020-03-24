@@ -23,23 +23,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rupesh.audiohubapp.R;
-import com.rupesh.audiohubapp.helper.InviteDialogBuilder;
 import com.rupesh.audiohubapp.helper.NetworkHelper;
 import com.rupesh.audiohubapp.helper.RequestState;
+import com.rupesh.audiohubapp.interfaces.InterfaceInvite;
 import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.model.User;
 
-public class InviteDialogBox extends DialogFragment {
-
+public class InviteDialogBox extends DialogFragment implements InterfaceInvite {
     private ImageView mProfileImgView;
     private TextView mDisplayUserName;
     private TextView mDisplayUserStatus;
     private Button mInviteButton;
     private Button mDeclineButton;
 
-    private InviteDialogBuilder inviteBuilder;
     private User user;
-    private int state;
 
     //public InterfaceInvite inviteInterface;
     //public InterfaceDecline declineInterface;
@@ -52,10 +49,13 @@ public class InviteDialogBox extends DialogFragment {
     private String projectId;
     private NetworkHelper networkHelper;
     int currentState;
+    int state;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
@@ -72,29 +72,29 @@ public class InviteDialogBox extends DialogFragment {
         inviteDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Invite_Requests");
         projectDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Projects");
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        currentState = RequestState.NOT_IN_PROJECT;
-
 
         // default value
-       // currentState = RequestState.REQUEST_RECEIVED;
+       // currentState = RequestState.NOT_IN_PROJECT;
+       // System.out.println(currentState + "-------");
+
+
+       // currentState = state;
+
 
 
         // get the data sent by AllUserActivity as Bundle since InviteDialogBox is a fragment on top of
         // AllUserActivity
         Bundle bundle = getArguments();
         user = (User) bundle.getSerializable("user");
+        System.out.println(user +"-------");
+
         project = (Project) bundle.getSerializable("project");
-
-       /* if (project == null) {
-            mInviteButton.setVisibility(View.GONE);
-            mDeclineButton.setVisibility(View.GONE);
-        } else {
-            mInviteButton.setVisibility(View.VISIBLE);
-            mDeclineButton.setVisibility(View.VISIBLE);
-        }*/
+        System.out.println(project+"----------");
 
 
-       // networkHelper = new NetworkHelper(project,user);
+        networkHelper = new NetworkHelper(project,user);
+        networkHelper.interfaceInvite = this;
+
         mDisplayUserName.setText(user.getName());
         mDisplayUserStatus.setText(user.getStatus());
 
@@ -103,23 +103,8 @@ public class InviteDialogBox extends DialogFragment {
                 .into(mProfileImgView);
 
 
+        networkHelper.searchUser();
 
-        searchUser();
-
-
-        /*mInviteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (currentState) {
-                    case 0: state = networkHelper.sendRequest(); break;
-                    case 1: state = networkHelper.cancelRequest(); break;
-                    case 2: state = networkHelper.acceptRequest(projectId); break;
-                    case 3: state = networkHelper.leaveProject(); break;
-                    default: break;
-                }
-                currentState = state;
-            }
-        });*/
 
        /* mDeclineButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,33 +117,48 @@ public class InviteDialogBox extends DialogFragment {
 
 
        mInviteButton.setOnClickListener(new View.OnClickListener() {
+
            @Override
            public void onClick(View v) {
                mInviteButton.setEnabled(false);
                if (currentState == RequestState.NOT_IN_PROJECT){
-                   sendRequest();
+                   networkHelper.sendRequest();
                }
 
                if (currentState == RequestState.REQUEST_SENT) {
-                   cancelRequest();
+                   networkHelper.cancelRequest();
                }
 
                if (currentState == RequestState.REQUEST_RECEIVED) {
-                   acceptRequest(projectId);
+                   networkHelper.acceptRequest();
                }
 
                if (currentState == RequestState.IN_PROJECT) {
 
                }
 
+               dismiss();
            }
+
        });
 
 
         return builder.create();
     }
 
+    @Override
+    public void inviteNetworkCallback(String text, int state, int visiblity) {
+        // setting mInviteButton
+        mInviteButton.setEnabled(true);
+        mInviteButton.setVisibility(visiblity);
+        mInviteButton.setText(text);
+        currentState = state;
 
+    }
+
+
+
+    // not used
     public void searchUser() {
         /*FirebaseRecyclerOptions<User> options =
                 new FirebaseRecyclerOptions.Builder<User>()
@@ -220,12 +220,12 @@ public class InviteDialogBox extends DialogFragment {
                     }
 
                 }else {
-                    // If the project already has other member id,
+                    /*// If the project already has other member id,
                     projectDatabaseRef.child("member").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(dataSnapshot.hasChild(user.getUid())){
-                                currentState = RequestState.IN_PROJECT;
+                                currentState = IN_PROJECT;
                                 mInviteButton.setText("LEAVE PROJECT");
                             }
                         }
@@ -233,7 +233,7 @@ public class InviteDialogBox extends DialogFragment {
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
-                    });
+                    });*/
                 }
             }
 
@@ -243,57 +243,9 @@ public class InviteDialogBox extends DialogFragment {
         });
     }
 
-    public void sendRequest() {
-        inviteDatabaseRef.child(mCurrentUser.getUid()).child(user.getUid()).child("request_type").setValue("sent");
-        inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("request_type").setValue("received");
-        inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("project_type").setValue(project.getProjectId());
-        mInviteButton.setEnabled(true);
-        currentState = RequestState.REQUEST_SENT;
-        mInviteButton.setText("CANCEL REQUEST");
-    }
 
 
-    public void cancelRequest() {
-        inviteDatabaseRef.child(mCurrentUser.getUid()).child(user.getUid()).removeValue();
-        inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("request_type").removeValue();
-        mInviteButton.setEnabled(true);
-        currentState = RequestState.NOT_IN_PROJECT;
-        mInviteButton.setText("SEND REQUEST");
-    }
 
-    public int acceptRequest(final String projectId) {
-        inviteDatabaseRef.child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(user.getUid())){
-                    //String currentProject = dataSnapshot.child(user.getUid()).child("project_type").getValue().toString();
-
-                    projectDatabaseRef.child(projectId).child("members").push().setValue(mCurrentUser.getUid());
-                    inviteDatabaseRef.child(mCurrentUser.getUid()).child(user.getUid()).removeValue();
-                    inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("request_type").removeValue();
-                    mInviteButton.setEnabled(true);
-                    currentState = RequestState.IN_PROJECT;
-                    mInviteButton.setText("LEAVE PROJECT");
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return RequestState.IN_PROJECT;
-    }
-
-
-    public void leaveProject() {
-        projectDatabaseRef.child("Projects").child("member").removeValue();
-        mInviteButton.setEnabled(true);
-        currentState = RequestState.NOT_IN_PROJECT;
-        mInviteButton.setText("SEND REQUEST");
-    }
 
     /*public void trackState(int state) {
 

@@ -24,8 +24,8 @@ import com.rupesh.audiohubapp.model.CurrentDate;
 import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.view.adapters.ProjectListAdapter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -100,11 +100,7 @@ public class ProjectsFragment extends Fragment {
                 projectMap.put("createdOn", currentDate.getDate());
                 projectMap.put("creatorId", uid);
                 projectMap.put("projectId", pUid);
-                ArrayList<String> list = new ArrayList<>();
-                list.add("fasfsg");
-                list.add("fsaassdsd");
-                list.add("cccc");
-                projectMap.put("members", list);
+                Map<String,Object> mapper = new HashMap<>();
                 mDatabase.child(pUid).setValue(projectMap);
                 //mDatabase.push().setValue(projectMap);
 

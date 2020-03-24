@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -62,8 +63,7 @@ public class InviteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
 
-//*
-// Get the user uid from the AllUserActivity
+        // Get the user uid from the AllUserActivity
         final String user_id = getIntent().getStringExtra("user_id");
 
         // Get the project uid from the AllUserActivity
@@ -105,25 +105,6 @@ userDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").c
         Glide.with(InviteActivity.this).load(userSerial.getImage())
                 .apply(new RequestOptions().placeholder(R.drawable.default_avatar))
                 .into(mProfileImgView);
-
-
-
-        mInviteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
-
-
-        mDeclineButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
 
 
@@ -387,3 +368,4 @@ userDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").c
 
 }
 */
+

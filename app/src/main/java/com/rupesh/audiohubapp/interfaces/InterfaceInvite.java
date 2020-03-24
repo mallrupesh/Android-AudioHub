@@ -1,8 +1,6 @@
 package com.rupesh.audiohubapp.interfaces;
 
-import com.rupesh.audiohubapp.model.User;
-
 public interface InterfaceInvite {
 
-    void inviteMember(User user, int state);
+    void inviteNetworkCallback(String text, int state, int visiblity);
 }
