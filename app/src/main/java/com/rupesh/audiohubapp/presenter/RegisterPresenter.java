@@ -57,11 +57,10 @@ public class RegisterPresenter implements IPresenterProtocol {
                         HashMap<String, String> userMap = new HashMap<>();
                         userMap.put("name", name);
                         userMap.put("email", email);
+                        userMap.put("uid",uid);
                         userMap.put("createdOn", createdDate);
                         userMap.put("image", "default");
                         userMap.put("status", "AudioHub Member");
-                        userMap.put("thumb_image", "default");
-                        userMap.put("uid",uid);
                         mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

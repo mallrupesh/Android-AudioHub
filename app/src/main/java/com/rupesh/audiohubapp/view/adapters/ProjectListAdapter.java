@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.rupesh.audiohubapp.MainProjectActivity;
+import com.rupesh.audiohubapp.activities.MainProjectActivity;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.model.Project;
 
@@ -32,7 +32,6 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
     protected void onBindViewHolder(@NonNull ProjectListViewHolder holder, int position, @NonNull final Project model) {
         holder.projectName.setText(model.getProjectName());
         holder.projectDate.setText(model.getCreatedOn());
-        System.out.println(holder+"--------------------------------------------------");
 
         // Get the project Id by getting the position of the ViewHolder
         //final String holderProjectIdPosition = getRef(position).getKey();
@@ -41,14 +40,14 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
             @Override
             public void onClick(View v) {
 
+                // Navigate to MainProjectActivity and pass Project model as object (whole)
                 Intent mainProjectIntent = new Intent(v.getContext(), MainProjectActivity.class);
                 mainProjectIntent.putExtra("project", model);
                 v.getContext().startActivity(mainProjectIntent);
+
                 //Toast.makeText(v.getContext(), "Project created successfully", Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
 
     // This method is responsible for inflating the recycleView
@@ -70,17 +69,6 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
             super(itemView);
             projectName = itemView.findViewById(R.id.textViewProjectName);
             projectDate = itemView.findViewById(R.id.textViewProjectDate);
-
-            /*final Context context = itemView.getContext();
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Project created successfully", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(context, MainProjectActivity.class);
-                    context.startActivity(intent);
-                }
-            });*/
-
         }
     }
 }

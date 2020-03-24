@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp;
+package com.rupesh.audiohubapp.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.rupesh.audiohubapp.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.Random;

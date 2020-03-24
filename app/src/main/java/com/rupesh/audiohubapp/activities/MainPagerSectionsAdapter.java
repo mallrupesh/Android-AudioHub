@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp;
+package com.rupesh.audiohubapp.activities;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -28,7 +28,7 @@ class MainPagerSectionsAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;   // We have 3 tabs
+        return 2;   // We have 2 fragments in the MainActivity
     }
 
 

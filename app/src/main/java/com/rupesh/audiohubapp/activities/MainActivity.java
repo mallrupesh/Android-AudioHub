@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp;
+package com.rupesh.audiohubapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.rupesh.audiohubapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(startIntent);
         finish();                   // Do not want user to comeback when the back button is pressed
     }
+
+
 
     // Setup menu, make it responsive when selected
     @Override

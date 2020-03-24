@@ -64,7 +64,10 @@ public class ProjectsFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recycleListViewProject);
         mProjectName = rootView.findViewById(R.id.projects_fragment_newProjectTextView);
         mProjectBtn = rootView.findViewById(R.id.projects_fragment_btnAdd);
+
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Projects");
+
         addProject();
         initUI();
 
@@ -78,24 +81,25 @@ public class ProjectsFragment extends Fragment {
             public void onClick(View v) {
                 projectName = mProjectName.getText().toString();
                 CurrentDate currentDate = new CurrentDate();
-                Project project = new Project(projectName, currentDate.getDate());
+                //Project project = new Project(projectName, currentDate.getDate());
                 //currentDate = project.getCreatedOn();
 
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = currentUser.getUid();
-                mDatabase = FirebaseDatabase.getInstance().getReference().child("Projects");
+
+                // Get the projectUid created in the Firebase database
                 String pUid = mDatabase.push().getKey();
-                //mDatabase.push().setValue(uid);
 
-                System.out.println(pUid);
-
+                //System.out.println(pUid);
 
 
+
+                // Write Project data into the Firebase database
                 HashMap<String, Object> projectMap = new HashMap<>();
-                projectMap.put("projectName", project.getProjectName() );
-                projectMap.put("createdOn", project.getCreatedOn());
+                projectMap.put("projectName", projectName );
+                projectMap.put("createdOn", currentDate.getDate());
                 projectMap.put("creatorId", uid);
-                projectMap.put("pUid", pUid);
+                projectMap.put("projectId", pUid);
                 ArrayList<String> list = new ArrayList<>();
                 list.add("fasfsg");
                 list.add("fsaassdsd");
@@ -104,17 +108,14 @@ public class ProjectsFragment extends Fragment {
                 mDatabase.child(pUid).setValue(projectMap);
                 //mDatabase.push().setValue(projectMap);
 
-               /* projectID = mDatabase.getKey();
-                Log.d(projectID, "onClick: "+ projectID);
-*/
-
                 Toast.makeText(getContext(), "Project created successfully", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     // Init the recyclerView and set the FirebaseRecyclerViewAdapter to it
-    private void initUI(){
+    // THIS IS WHERE THE PROJECT MODEL IS MAPPED AND NEW PROJECT MODEL OBJECT CREATED
+    private void initUI() {
         recyclerView = rootView.findViewById(R.id.recycleListViewProject);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
@@ -123,9 +124,6 @@ public class ProjectsFragment extends Fragment {
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("Projects").orderByChild("creatorId")
                                 .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()), Project.class)
                         .build();
-
-        System.out.println(options);
-        System.out.println("-------------------------------------------------------");
         adapter = new ProjectListAdapter(options);
         recyclerView.setAdapter(adapter);
 

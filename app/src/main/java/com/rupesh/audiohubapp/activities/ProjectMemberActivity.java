@@ -1,3 +1,4 @@
+/*
 package com.rupesh.audiohubapp;
 
 import android.content.Intent;
@@ -30,9 +31,11 @@ public class ProjectMemberActivity extends AppCompatActivity implements Interfac
         getSupportActionBar().setTitle("Members");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-       /* // Get the project id from the MainProjectActivity
+       */
+/* // Get the project id from the MainProjectActivity
         final String project_id = getIntent().getStringExtra("project_id");
-*/
+*//*
+
         project = (Project) getIntent().getSerializableExtra("project");
 
         mAddMembers = findViewById(R.id.project_members_add_btn);
@@ -54,3 +57,4 @@ public class ProjectMemberActivity extends AppCompatActivity implements Interfac
         // project, user
     }
 }
+*/

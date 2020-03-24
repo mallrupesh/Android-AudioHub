@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="500dp"
     android:background="@color/colorPrimary"
-    tools:context=".activities.InviteActivity">
+    tools:context=".dialogboxes.InviteDialogBox">
 
     <ImageView
-        android:id="@+id/invite_user_image"
-        android:layout_width="353dp"
-        android:layout_height="232dp"
+        android:id="@+id/invite_dialog_user_image"
+        android:layout_width="285dp"
+        android:layout_height="149dp"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,53 +20,53 @@
         app:srcCompat="@drawable/default_avatar" />
 
     <TextView
-        android:id="@+id/invite_display_name"
+        android:id="@+id/invite_dialog_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:text="@string/main_settings_displayName_text"
         android:textColor="@android:color/background_light"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/invite_user_image" />
+        app:layout_constraintTop_toBottomOf="@+id/invite_dialog_user_image" />
 
     <TextView
-        android:id="@+id/invite_display_status"
+        android:id="@+id/invite_dialog_display_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="16dp"
         android:text="@string/main_settings_displayStatus_text"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/invite_display_name" />
+        app:layout_constraintTop_toBottomOf="@+id/invite_dialog_display_name" />
 
     <Button
-        android:id="@+id/invite_user_btn"
+        android:id="@+id/invite_dialog_user_btn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@color/colorAccent"
         android:text="@string/invite_user_button"
         android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/invite_display_status" />
+        app:layout_constraintTop_toBottomOf="@+id/invite_dialog_display_status" />
 
     <Button
-        android:id="@+id/invite_decline_user_btn"
+        android:id="@+id/decline_dialog_user_btn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="?attr/colorButtonNormal"
         android:text="@string/invite_decline_user_button"
@@ -74,7 +74,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/invite_user_btn" />
-
+        app:layout_constraintTop_toBottomOf="@+id/invite_dialog_user_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

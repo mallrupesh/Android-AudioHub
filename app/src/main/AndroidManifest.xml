@@ -12,29 +12,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TestttActivity"></activity>
-        <activity android:name=".InviteActivity" />
+        <activity android:name=".activities.InviteActivity" />
         <activity
-            android:name=".AllUsersActivity"
+            android:name=".activities.AllUsersActivity"
             android:parentActivityName=".ProjectMemberActivity" />
         <activity
-            android:name=".StatusActivity"
-            android:parentActivityName=".SettingsActivity" />
-        <activity android:name=".SettingsActivity" />
+            android:name=".activities.StatusActivity"
+            android:parentActivityName=".activities.SettingsActivity" />
+        <activity android:name=".activities.SettingsActivity" />
         <activity
             android:name=".ProjectMemberActivity"
-            android:parentActivityName=".MainProjectActivity" />
+            android:parentActivityName=".activities.MainProjectActivity" />
         <activity
-            android:name=".MainProjectActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".activities.MainProjectActivity"
+            android:parentActivityName=".activities.MainActivity" />
         <activity
-            android:name=".LoginActivity"
-            android:parentActivityName=".StartActivity" />
+            android:name=".activities.LoginActivity"
+            android:parentActivityName=".activities.StartActivity" />
         <activity
-            android:name=".RegisterActivity"
-            android:parentActivityName=".StartActivity" />
-        <activity android:name=".StartActivity" />
-        <activity android:name=".MainActivity">
+            android:name=".activities.RegisterActivity"
+            android:parentActivityName=".activities.StartActivity" />
+        <activity android:name=".activities.StartActivity" />
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

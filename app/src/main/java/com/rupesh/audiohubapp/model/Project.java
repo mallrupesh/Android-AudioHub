@@ -1,14 +1,15 @@
 package com.rupesh.audiohubapp.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Project implements Serializable {
 
     private String projectName;
     private String createdOn;
     private String creatorID;
-    private String pUid;
-    //private List<User> members;
+    private String projectId;
+    private List<String> members;
 
 
     public Project(){}
@@ -18,11 +19,12 @@ public class Project implements Serializable {
         this.createdOn = createdOn;
     }
 
-    public Project(String projectName, String createdOn, String creatorID, String pUid) {
+    public Project(String projectName, String createdOn, String creatorID, String projectId, List<String> members) {
         this.projectName = projectName;
         this.createdOn = createdOn;
         this.creatorID = creatorID;
-        this.pUid = pUid;
+        this.projectId = projectId;
+        this.members = members;
     }
 
     public String getProjectName() {
@@ -49,12 +51,20 @@ public class Project implements Serializable {
         this.creatorID = creatorID;
     }
 
-    public String getpUid() {
-        return pUid;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setpUid(String pUid) {
-        this.pUid = pUid;
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public List<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<String> members) {
+        this.members = members;
     }
 
     @Override
@@ -63,7 +73,7 @@ public class Project implements Serializable {
                 "projectName='" + projectName + '\'' +
                 ", createdOn='" + createdOn + '\'' +
                 ", creatorID='" + creatorID + '\'' +
-                ", pUid='" + pUid + '\'' +
+                ", projectID='" + projectId + '\'' +
                 '}';
     }
 }

@@ -96,13 +96,6 @@ public class User implements IUserProtocol, Serializable {
         this.status = status;
     }
 
-    public String getThumb_image() {
-        return thumb_image;
-    }
-
-    public void setThumb_image(String thumb_image) {
-        this.thumb_image = thumb_image;
-    }
 
     public String getUid() {
         return uid;

@@ -1,15 +1,16 @@
-package com.rupesh.audiohubapp;
+package com.rupesh.audiohubapp.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
+import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.model.Project;
 
 public class MainProjectActivity extends AppCompatActivity {
@@ -21,31 +22,44 @@ public class MainProjectActivity extends AppCompatActivity {
     private RecyclerView projectRecyclerView;
     private Project project;
 
+    // Declare ViewPager
+    private ViewPager mViewPager;
+
+    private ProjectPagerSectionsAdapter mProjectPagerSectionsAdapter;
+
+    // Declare tab layout to set the view pager with tab layout
+    private TabLayout mTabLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_project);
 
-        // Get the project from the Project Fragment
+
         //final String project_id = getIntent().getStringExtra("project_id");
+
+        // Get the Project model object from the ProjectLisAdapter which is connected to the Project Fragment
         project = (Project) getIntent().getSerializableExtra("project");
+
+
         // Setup the tool bar
         mToolbar = findViewById(R.id.project_page_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Project");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mViewMembers = findViewById(R.id.main_project_view_members);
-        projectRecyclerView = findViewById(R.id.recycleListMainProject);
+        mViewPager = findViewById(R.id.project_tab_pager);
 
-        mViewMembers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent projectMemberIntent = new Intent(MainProjectActivity.this, ProjectMemberActivity.class);
-                projectMemberIntent.putExtra("project", project);
-                startActivity(projectMemberIntent);
-            }
-        });
+        // Instantiate ProjectPagerSectionAdopter that connects the MainProjectActivity with FilesFragment and MembersFragment
+        // Pass the Project model object received from ProjectListAdapter to the projectPagerSectionsAdapter to be sent to Members Fragment
+        mProjectPagerSectionsAdapter = new ProjectPagerSectionsAdapter(getSupportFragmentManager(), project);
+        mViewPager.setAdapter(mProjectPagerSectionsAdapter);
+
+        // Init tab layout and set it up with view pager
+        mTabLayout = findViewById(R.id.project_tabs);
+        mTabLayout.setupWithViewPager(mViewPager);
+
     }
 
     // Setup menu, make it responsive when selected
@@ -57,6 +71,4 @@ public class MainProjectActivity extends AppCompatActivity {
 
         return true;
     }
-
-
 }
