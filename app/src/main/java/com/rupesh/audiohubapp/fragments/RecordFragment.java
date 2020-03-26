@@ -13,12 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.rupesh.audiohubapp.R;
+import com.rupesh.audiohubapp.model.CurrentDate;
 
 import java.io.IOException;
 
@@ -27,8 +26,9 @@ import java.io.IOException;
  */
 public class RecordFragment extends Fragment implements View.OnClickListener {
 
-    EditText newFileText;
-    TextView recordMessage;
+    private View rootView;
+    private EditText newFileText;
+    private TextView recordMessage;
     private ImageButton recordBtn;
     boolean isRecording = false;
     private String newFileName;
@@ -44,23 +44,22 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_record, container, false);
-    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-        recordBtn = view.findViewById(R.id.record_btn);
+
+        rootView = inflater.inflate(R.layout.fragment_record, container, false);
+
+        recordBtn = rootView.findViewById(R.id.record_btn);
         recordBtn.setOnClickListener(this);
-        newFileText = view.findViewById(R.id.record_fragment_new_file);
-        recordMessage = view.findViewById(R.id.recorded_file_name);
-        timer = view.findViewById(R.id.record_timer);
+        newFileText = rootView.findViewById(R.id.record_fragment_new_file);
+        recordMessage = rootView.findViewById(R.id.recorded_file_name);
+        timer = rootView.findViewById(R.id.record_timer);
+
+        return rootView;
     }
 
     @Override
@@ -84,10 +83,12 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         timer.setBase(SystemClock.elapsedRealtime());
         timer.start();
 
+        // Get the current data and time for the file to be created
         // Set the filePath and filename
+        CurrentDate currentDate = new CurrentDate();
+        String dateTime = currentDate.getDate();
         String recordPath = getActivity().getExternalFilesDir("/").getAbsolutePath();
         newFileName = newFileText.getText().toString() + ".3gp";
-
         recordMessage.setText("Recording File: " + newFileName);
 
         // Initialize mediaRecorder and set the source, outputFormat, outputFile and audioEncoder
