@@ -30,8 +30,6 @@ import com.google.firebase.storage.UploadTask;
 import com.rupesh.audiohubapp.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.util.Random;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -82,7 +80,6 @@ public class SettingsActivity extends AppCompatActivity {
                 String name = dataSnapshot.child("name").getValue().toString();
                 String image = dataSnapshot.child("image").getValue().toString();
                 String status = dataSnapshot.child("status").getValue().toString();
-                //String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
 
                 mCurrentUserName.setText(name);
                 mCurrentUserStatus.setText(status);
@@ -200,7 +197,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-    // Generate random string to be used with the image name when uploading to Firebase Storage
+   /* // Generate random string to be used with the image name when uploading to Firebase Storage
     public static String random(){
         Random generator = new Random();
         StringBuilder randomStringBuilder = new StringBuilder();
@@ -213,5 +210,5 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         return randomStringBuilder.toString();
-    }
+    }*/
 }

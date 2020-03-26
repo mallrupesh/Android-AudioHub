@@ -9,9 +9,8 @@ public class User implements IUserProtocol, Serializable {
 
     private String name;
     private String email;
-    private String image;
+    private String image;     // change to imageUrl!!!
     private String status;
-    private String thumb_image;
     private String password;
     private String createdOn;
     private String uid;
@@ -31,7 +30,6 @@ public class User implements IUserProtocol, Serializable {
         this.email = email;
         this.image = image;
         this.status = status;
-        this.thumb_image = thumb_image;
         this.password = password;
         this.createdOn = createdOn;
         this.uid = uid;
@@ -103,20 +101,6 @@ public class User implements IUserProtocol, Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", image='" + image + '\'' +
-                ", status='" + status + '\'' +
-                ", thumb_image='" + thumb_image + '\'' +
-                ", password='" + password + '\'' +
-                ", createdOn='" + createdOn + '\'' +
-                ", uid='" + uid + '\'' +
-                '}';
     }
 }
 

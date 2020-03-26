@@ -44,8 +44,6 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
                 Intent mainProjectIntent = new Intent(v.getContext(), MainProjectActivity.class);
                 mainProjectIntent.putExtra("project", model);
                 v.getContext().startActivity(mainProjectIntent);
-
-                //Toast.makeText(v.getContext(), "Project created successfully", Toast.LENGTH_LONG).show();
             }
         });
     }

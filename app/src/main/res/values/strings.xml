@@ -32,9 +32,15 @@
     <string name="project_member_fragment_name">Name</string>
     <string name="project_member_fragment_status">Status</string>
 
+   <string name="record_fragment_message">Press Button to Record</string>
+    <string name="record_fragment_file_hint">Enter File Name</string>
+
+
+    <string name="player_sheet_header">Audio Player</string>
+    <string name="player_sheet_filename">File Name</string>
+
 
     <string name="main_project_viewMembers">VIEW MEMBERS</string>
-
 
 
     <string name="all_user_single_display_name">Name</string>

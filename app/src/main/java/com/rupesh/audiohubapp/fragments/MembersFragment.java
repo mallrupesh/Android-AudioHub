@@ -9,13 +9,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.activities.AllUsersActivity;
 import com.rupesh.audiohubapp.model.Project;
+import com.rupesh.audiohubapp.view.adapters.MemberListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,16 +32,16 @@ import com.rupesh.audiohubapp.model.Project;
 //  4. The arraylist of the member sud be passed to AllUserActivity as array
 public class MembersFragment extends Fragment {
 
-    View rootView;
-    Context context;
+    private View rootView;
+    private Context context;
     private Button mAddMembersBtn;
+
     private RecyclerView projectMemberRecyclerView;
+    private MemberListAdapter memberListAdapter;
     private Project project;
 
 
-    DatabaseReference inviteDatabaseRef;
-
-
+    private DatabaseReference mDatabaseProject;
     FirebaseUser mCurrentUser;
 
 
@@ -52,11 +56,38 @@ public class MembersFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_members, container, false);
 
-        projectMemberRecyclerView = rootView.findViewById(R.id.recycleListProjectMembers);
+        //projectMemberRecyclerView = rootView.findViewById(R.id.recycleListViewProjectMembers);
         mAddMembersBtn = rootView.findViewById(R.id.members_fragment_add_btn);
 
         // Get Project model object from MainProjectActivity through projectPagerSectionsAdapter
         project = (Project) getArguments().getSerializable("project");
+
+        mDatabaseProject = FirebaseDatabase.getInstance().getReference().child("Projects");
+
+
+        initUI();
+
+
+        /*mDatabaseProject.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Project> memberList = new ArrayList<>();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                    Project member = postSnapshot.getValue(Project.class);
+                    memberList.add(member);
+                    //member.getMembers();
+                    textView.setText(member.toString());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });*/
+
+
 
         // Setup OnClickListener to ADDMEMBER btn and send projectID upon the navigation to
         // AllUserActivity with the request code 2
@@ -66,92 +97,36 @@ public class MembersFragment extends Fragment {
                 Intent allUsersActivity = new Intent(rootView.getContext(), AllUsersActivity.class);
                 allUsersActivity.putExtra("project", project);
                 startActivity(allUsersActivity);
-                //startActivityForResult(allUsersActivity, 2);
             }
         });
-
-        getMembers();
 
         return rootView;
+    }
+
+    private void initUI() {
+
+        projectMemberRecyclerView = rootView.findViewById(R.id.recycleListViewProjectMembers);
+        projectMemberRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        /*FirebaseRecyclerOptions<Project> options = new FirebaseRecyclerOptions.Builder<Project>()
+                .setQuery(mDatabaseProject.child(project.getProjectId()), Project.class).build();*/
+        FirebaseRecyclerOptions<Project> options =
+                new FirebaseRecyclerOptions.Builder<Project>()
+                        .setQuery(mDatabaseProject.orderByChild("member"), Project.class).build();
+        memberListAdapter = new MemberListAdapter(options);
+        projectMemberRecyclerView.setAdapter(memberListAdapter);
 
     }
 
-    public void getMembers() {
-
-        // project.getMembers() -> ["","",""] // for loop
-        // this members calls all members users and display it to recycleview
+    @Override
+    public void onStart() {
+        super.onStart();
+        memberListAdapter.startListening();
     }
 
- /*   @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 2 ) {
-            int state = data.getIntExtra("state", 0);
-            User user = (User) data.getSerializableExtra("user");
-            this.handleUserInput(user,state);
-        }
+    @Override
+    public void onStop() {
+        super.onStop();
+        memberListAdapter.stopListening();
     }
-
-    public void handleUserInput(User user, int state) {
-
-        switch (state) {
-            case 0:
-                System.out.println("Not in project");
-                sendRequest(user);
-                break;
-            case 1:
-                System.out.println("Request sent");
-                cancelRequest(user);
-                break;
-            case 2:
-                System.out.println("Request received");
-                acceptRequest(user);
-                break;
-            case 3:
-                System.out.println("In project");
-                leaveProject(user);
-                break;
-            default:
-                break;
-        }
-    }*/
-
-    /*public void sendRequest(User user) {
-
-        inviteDatabaseRef.child(mCurrentUser.getUid()).child(user.getUid()).child("request_type").setValue("sent");
-        inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("request_type").setValue("received");
-        inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("project_type").setValue(project.getProjectId());
-    }
-
-
-    public void cancelRequest(User user) {
-        inviteDatabaseRef.child(mCurrentUser.getUid()).child(user.getUid()).removeValue();
-        inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("request_type").removeValue();
-    }
-
-    public void acceptRequest(final User user) {
-        inviteDatabaseRef.child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(user.getUid())){
-                   String currentProject = dataSnapshot.child(user.getUid()).child("project_type").getValue().toString();
-
-                    projectDatabaseRef.child(currentProject).child("members").push().setValue(mCurrentUser.getUid());
-                    inviteDatabaseRef.child(mCurrentUser.getUid()).child(user.getUid()).removeValue();
-                    inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("request_type").removeValue();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-
-    public void leaveProject(User user) {
-        projectDatabaseRef.child("Projects").child("member").removeValue();
-    }*/
 }

@@ -9,11 +9,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.rupesh.audiohubapp.fragments.FilesFragment;
 import com.rupesh.audiohubapp.fragments.MembersFragment;
+import com.rupesh.audiohubapp.fragments.RecordFragment;
 import com.rupesh.audiohubapp.model.Project;
 
 public class ProjectPagerSectionsAdapter extends FragmentPagerAdapter {
 
-    Project project;
+    private Project project;
 
     public ProjectPagerSectionsAdapter(@NonNull FragmentManager fm, Project project) {
         super(fm);
@@ -24,9 +25,12 @@ public class ProjectPagerSectionsAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0: return new FilesFragment();
 
-            case 1:
+            case 0: return new RecordFragment();
+
+            case 1: return new FilesFragment();
+
+            case 2:
                 // Create the bundle to pass to pass the Project model object
                 // to the MembersFragment
                 Bundle bundle = new Bundle();
@@ -41,15 +45,17 @@ public class ProjectPagerSectionsAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;             // We have two fragments in the MainProjectActivity
+        return 3;             // We have two fragments in the MainProjectActivity
     }
 
     // Returns the tab title
     public CharSequence getPageTitle(int position){
         switch (position){
-            case 0: return "FILES";
+            case 0: return "RECORD";
 
-            case 1: return "MEMBERS";
+            case 1: return "FILES";
+
+            case 2: return "MEMBERS";
 
             default: return null;
         }

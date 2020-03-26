@@ -25,7 +25,6 @@ import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.view.adapters.ProjectListAdapter;
 
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -37,8 +36,8 @@ public class ProjectsFragment extends Fragment {
     /*private static String projectID;
     private static final String TAG = projectID;*/
 
-    View rootView;
-    Context context;
+    private View rootView;
+    private Context context;
     private EditText mProjectName;
     private Button mProjectBtn;
     private String projectName;
@@ -51,7 +50,7 @@ public class ProjectsFragment extends Fragment {
     // Declare Firebase database reference
     private DatabaseReference mDatabase;
 
-    ProjectListAdapter adapter;
+    private ProjectListAdapter adapter;
 
 
     @Override
@@ -90,17 +89,13 @@ public class ProjectsFragment extends Fragment {
                 // Get the projectUid created in the Firebase database
                 String pUid = mDatabase.push().getKey();
 
-                //System.out.println(pUid);
-
-
-
                 // Write Project data into the Firebase database
                 HashMap<String, Object> projectMap = new HashMap<>();
                 projectMap.put("projectName", projectName );
                 projectMap.put("createdOn", currentDate.getDate());
                 projectMap.put("creatorId", uid);
                 projectMap.put("projectId", pUid);
-                Map<String,Object> mapper = new HashMap<>();
+                //Map<String,Object> mapper = new HashMap<>();
                 mDatabase.child(pUid).setValue(projectMap);
                 //mDatabase.push().setValue(projectMap);
 
@@ -117,9 +112,8 @@ public class ProjectsFragment extends Fragment {
 
         FirebaseRecyclerOptions<Project> options =
                 new FirebaseRecyclerOptions.Builder<Project>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Projects").orderByChild("creatorId")
-                                .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()), Project.class)
-                        .build();
+                        .setQuery(mDatabase.orderByChild("creatorId")
+                                .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()), Project.class).build();
         adapter = new ProjectListAdapter(options);
         recyclerView.setAdapter(adapter);
 

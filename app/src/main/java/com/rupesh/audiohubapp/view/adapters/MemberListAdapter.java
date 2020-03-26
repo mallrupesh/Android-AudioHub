@@ -11,27 +11,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.rupesh.audiohubapp.R;
+import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.model.User;
 
-public class MemberListAdapter extends FirebaseRecyclerAdapter<User, MemberListAdapter.MemberListViewHolder> {
+public class MemberListAdapter extends FirebaseRecyclerAdapter<Project, MemberListAdapter.MemberListViewHolder> {
 
-
+    //DatabaseReference projectRef;
+    //Project project;
+    private User user;
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
      * {@link FirebaseRecyclerOptions} for configuration options.
      *
      * @param options
      */
-    public MemberListAdapter(@NonNull FirebaseRecyclerOptions<User> options) {
+    public MemberListAdapter(@NonNull FirebaseRecyclerOptions<Project> options) {
         super(options);
+        //this.project = project;
+        //projectRef = FirebaseDatabase.getInstance().getReference().child("Projects");
+        user = new User();
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull MemberListViewHolder holder, int position, @NonNull User model) {
-        holder.memberName.setText(model.getName());
-        holder.memberStatus.setText(model.getStatus());
+    protected void onBindViewHolder(@NonNull MemberListViewHolder holder, int position, @NonNull Project model) {
 
-
+        holder.memberName.setText(model.getProjectName());
     }
 
     @NonNull
@@ -45,13 +49,11 @@ public class MemberListAdapter extends FirebaseRecyclerAdapter<User, MemberListA
     class MemberListViewHolder extends RecyclerView.ViewHolder {
 
         TextView memberName;
-        TextView memberStatus;
 
         public MemberListViewHolder(@NonNull View itemView) {
             super(itemView);
 
             memberName = itemView.findViewById(R.id.textViewMembersName);
-            memberStatus = itemView.findViewById(R.id.textViewMembersStatus);
         }
     }
 }

@@ -1,8 +1,10 @@
 package com.rupesh.audiohubapp.fragments;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
@@ -16,9 +18,16 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.model.CurrentDate;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -30,15 +39,19 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private EditText newFileText;
     private TextView recordMessage;
     private ImageButton recordBtn;
-    boolean isRecording = false;
+    private boolean isRecording = false;
     private String newFileName;
 
 
     private String recordPermission = Manifest.permission.RECORD_AUDIO;
     private int PERMISSION_CODE = 21;
     private MediaRecorder mediaRecorder;
-
     private Chronometer timer;
+    private String localFilePath;
+
+    private StorageReference audioStorageRef;
+    private DatabaseReference audioFilesDataRef;
+    private ProgressDialog progressDialog;
 
     public RecordFragment() {
         // Required empty public constructor
@@ -58,6 +71,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         newFileText = rootView.findViewById(R.id.record_fragment_new_file);
         recordMessage = rootView.findViewById(R.id.recorded_file_name);
         timer = rootView.findViewById(R.id.record_timer);
+        progressDialog = new ProgressDialog(getContext());
+
+        audioStorageRef = FirebaseStorage.getInstance().getReference();
+        audioFilesDataRef = FirebaseDatabase.getInstance().getReference().child("Files");
 
         return rootView;
     }
@@ -87,15 +104,17 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         // Set the filePath and filename
         CurrentDate currentDate = new CurrentDate();
         String dateTime = currentDate.getDate();
-        String recordPath = getActivity().getExternalFilesDir("/").getAbsolutePath();
+
+        localFilePath = getActivity().getExternalFilesDir("/").getAbsolutePath();
         newFileName = newFileText.getText().toString() + ".3gp";
-        recordMessage.setText("Recording File: " + newFileName);
+
+        recordMessage.setText("Recording...");
 
         // Initialize mediaRecorder and set the source, outputFormat, outputFile and audioEncoder
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setOutputFile(recordPath + "/" + newFileName);
+        mediaRecorder.setOutputFile(localFilePath + "/" + newFileName);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         try {
@@ -110,7 +129,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private void stopRecording() {
         timer.stop();
 
-        recordMessage.setText("Recording Finished, File Saved");
+        recordMessage.setText("Recording Completed");
 
 
         mediaRecorder.stop();
@@ -118,6 +137,26 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         // new MediaPlayer is initialized
         mediaRecorder.release();
         mediaRecorder = null;
+
+        uploadAudio();
+    }
+
+    private void uploadAudio() {
+
+        progressDialog.setMessage("Uploading file...");
+        progressDialog.show();
+
+        StorageReference uploadFilePath = audioStorageRef.child("audio_files").child(newFileName);
+        Uri uri = Uri.fromFile(new File(localFilePath + "/" + newFileName));
+
+        uploadFilePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                progressDialog.dismiss();
+               // Toast.makeText(getContext(), "File saved to Cloud", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 

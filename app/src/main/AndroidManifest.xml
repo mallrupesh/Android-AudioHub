@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -12,17 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.InviteActivity" />
         <activity
             android:name=".activities.AllUsersActivity"
-            android:parentActivityName=".ProjectMemberActivity" />
+            android:parentActivityName=".activities.MainProjectActivity" />
         <activity
             android:name=".activities.StatusActivity"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity android:name=".activities.SettingsActivity" />
-        <activity
-            android:name=".ProjectMemberActivity"
-            android:parentActivityName=".activities.MainProjectActivity" />
         <activity
             android:name=".activities.MainProjectActivity"
             android:parentActivityName=".activities.MainActivity" />

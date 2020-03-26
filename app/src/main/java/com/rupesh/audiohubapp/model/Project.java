@@ -19,10 +19,10 @@ public class Project implements Serializable {
         this.createdOn = createdOn;
     }
 
-    public Project(String projectName, String createdOn, String creatorID, String projectId, HashMap<String, Object> members) {
+    public Project(String projectName, String createdOn, String creatorId, String projectId, HashMap<String, Object> members) {
         this.projectName = projectName;
         this.createdOn = createdOn;
-        this.creatorId = creatorID;
+        this.creatorId = creatorId;
         this.projectId = projectId;
         this.members = members;
     }
@@ -67,13 +67,4 @@ public class Project implements Serializable {
         this.members = members;
     }
 
-    @Override
-    public String toString() {
-        return "Project{" +
-                "projectName='" + projectName + '\'' +
-                ", createdOn='" + createdOn + '\'' +
-                ", creatorID='" + creatorId + '\'' +
-                ", projectID='" + projectId + '\'' +
-                '}';
-    }
 }
