@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ import java.io.IOException;
 public class RecordFragment extends Fragment implements View.OnClickListener {
 
     EditText newFileText;
+    TextView recordMessage;
     private ImageButton recordBtn;
     boolean isRecording = false;
     private String newFileName;
@@ -57,6 +59,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         recordBtn = view.findViewById(R.id.record_btn);
         recordBtn.setOnClickListener(this);
         newFileText = view.findViewById(R.id.record_fragment_new_file);
+        recordMessage = view.findViewById(R.id.recorded_file_name);
         timer = view.findViewById(R.id.record_timer);
     }
 
@@ -85,6 +88,8 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         String recordPath = getActivity().getExternalFilesDir("/").getAbsolutePath();
         newFileName = newFileText.getText().toString() + ".3gp";
 
+        recordMessage.setText("Recording File: " + newFileName);
+
         // Initialize mediaRecorder and set the source, outputFormat, outputFile and audioEncoder
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -103,8 +108,11 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
     private void stopRecording() {
         timer.stop();
-        mediaRecorder.stop();
 
+        recordMessage.setText("Recording Finished, File Saved");
+
+
+        mediaRecorder.stop();
         // Get the files calling .release and set to null so nxt time, if the btn is pressed
         // new MediaPlayer is initialized
         mediaRecorder.release();
