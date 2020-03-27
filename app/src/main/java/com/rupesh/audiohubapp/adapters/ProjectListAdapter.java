@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp.view.adapters;
+package com.rupesh.audiohubapp.adapters;
 
 import android.content.Intent;
 import android.view.LayoutInflater;

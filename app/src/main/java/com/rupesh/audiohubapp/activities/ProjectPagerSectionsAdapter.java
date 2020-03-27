@@ -26,17 +26,31 @@ public class ProjectPagerSectionsAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
 
-            case 0: return new RecordFragment();
+            case 0:
+                // Create the bundle to pass to pass the Project model object
+                // to the MembersFragment
+                Bundle bundleToRecFrag = new Bundle();
+                RecordFragment recordFragment = new RecordFragment();
+                bundleToRecFrag.putSerializable("project", project);
+                recordFragment.setArguments(bundleToRecFrag);
+                return recordFragment;
 
-            case 1: return new FilesFragment();
+            case 1:
+                // Create the bundle to pass to pass the Project model object
+                // to the MembersFragment
+                Bundle bundleToFileFrag = new Bundle();
+                FilesFragment filesFragment = new FilesFragment();
+                bundleToFileFrag.putSerializable("project", project);
+                filesFragment.setArguments(bundleToFileFrag);
+                return filesFragment;
 
             case 2:
                 // Create the bundle to pass to pass the Project model object
                 // to the MembersFragment
-                Bundle bundle = new Bundle();
+                Bundle bundleToMemFrag = new Bundle();
                 MembersFragment membersFragment = new MembersFragment();
-                bundle.putSerializable("project", project);
-                membersFragment.setArguments(bundle);
+                bundleToMemFrag.putSerializable("project", project);
+                membersFragment.setArguments(bundleToMemFrag);
                 return membersFragment;
 
             default: return null;

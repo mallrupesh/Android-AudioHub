@@ -19,6 +19,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -26,9 +28,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.model.CurrentDate;
+import com.rupesh.audiohubapp.model.Project;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +55,9 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
     private StorageReference audioStorageRef;
     private DatabaseReference audioFilesDataRef;
+    private DatabaseReference projectFilesDataRef;
     private ProgressDialog progressDialog;
+    private Project project;
 
     public RecordFragment() {
         // Required empty public constructor
@@ -73,8 +79,12 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         timer = rootView.findViewById(R.id.record_timer);
         progressDialog = new ProgressDialog(getContext());
 
+        // Get Project model object from MainProjectActivity through projectPagerSectionsAdapter
+        project = (Project) getArguments().getSerializable("project");
+
         audioStorageRef = FirebaseStorage.getInstance().getReference();
         audioFilesDataRef = FirebaseDatabase.getInstance().getReference().child("Files");
+        projectFilesDataRef = FirebaseDatabase.getInstance().getReference().child("Project_Files");
 
         return rootView;
     }
@@ -106,9 +116,9 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         String dateTime = currentDate.getDate();
 
         localFilePath = getActivity().getExternalFilesDir("/").getAbsolutePath();
-        newFileName = newFileText.getText().toString() + ".3gp";
+        newFileName = newFileText.getText().toString() + ".mp3";
 
-        recordMessage.setText("Recording...");
+        recordMessage.setText("Recording " + newFileName + "...");
 
         // Initialize mediaRecorder and set the source, outputFormat, outputFile and audioEncoder
         mediaRecorder = new MediaRecorder();
@@ -123,6 +133,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
+        newFileText.getText().clear();
         mediaRecorder.start();
     }
 
@@ -143,10 +154,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
     private void uploadAudio() {
 
-        progressDialog.setMessage("Uploading file...");
+        progressDialog.setMessage("Uploading file to Cloud");
         progressDialog.show();
 
-        StorageReference uploadFilePath = audioStorageRef.child("audio_files").child(newFileName);
+        final StorageReference uploadFilePath = audioStorageRef.child("audio_files").child(newFileName);
         Uri uri = Uri.fromFile(new File(localFilePath + "/" + newFileName));
 
         uploadFilePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -154,7 +165,29 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                 progressDialog.dismiss();
-               // Toast.makeText(getContext(), "File saved to Cloud", Toast.LENGTH_LONG).show();
+                uploadFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String downloadUrl = uri.toString();
+                        CurrentDate currentDate = new CurrentDate();
+
+                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                        String uid = currentUser.getUid();
+
+                        String fileUid = audioFilesDataRef.push().getKey();
+
+                        HashMap <String, String > fileMap = new HashMap<>();
+                        fileMap.put("name", newFileName);
+                        fileMap.put("createdOn", currentDate.getDate());
+                        fileMap.put("fileUrl", downloadUrl);
+                        fileMap.put("creatorId", uid );
+                        fileMap.put("fileId", fileUid);
+                        audioFilesDataRef.child(fileUid).setValue(fileMap);
+
+                        projectFilesDataRef.child(project.getProjectId()).push().setValue(newFileName);
+                    }
+                });
+
             }
         });
     }

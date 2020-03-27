@@ -16,7 +16,7 @@ import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.dialogboxes.InviteDialogBox;
 import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.model.User;
-import com.rupesh.audiohubapp.view.adapters.AllUserListAdapter;
+import com.rupesh.audiohubapp.adapters.AllUserListAdapter;
 
 public class AllUsersActivity extends AppCompatActivity implements AllUserListAdapter.OnItemClickListener {
 

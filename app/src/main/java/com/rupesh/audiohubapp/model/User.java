@@ -9,7 +9,7 @@ public class User implements IUserProtocol, Serializable {
 
     private String name;
     private String email;
-    private String image;     // change to imageUrl!!!
+    private String image;
     private String status;
     private String password;
     private String createdOn;

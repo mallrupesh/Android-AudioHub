@@ -19,7 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.activities.AllUsersActivity;
 import com.rupesh.audiohubapp.model.Project;
-import com.rupesh.audiohubapp.view.adapters.MemberListAdapter;
+import com.rupesh.audiohubapp.model.ProjectMember;
+import com.rupesh.audiohubapp.adapters.MemberListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +43,7 @@ public class MembersFragment extends Fragment {
 
 
     private DatabaseReference mDatabaseProject;
+    private DatabaseReference mMemberDatabaseRef;
     FirebaseUser mCurrentUser;
 
 
@@ -63,6 +65,7 @@ public class MembersFragment extends Fragment {
         project = (Project) getArguments().getSerializable("project");
 
         mDatabaseProject = FirebaseDatabase.getInstance().getReference().child("Projects");
+        mMemberDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Project_Members");
 
 
         initUI();
@@ -103,17 +106,16 @@ public class MembersFragment extends Fragment {
         return rootView;
     }
 
+
     private void initUI() {
 
         projectMemberRecyclerView = rootView.findViewById(R.id.recycleListViewProjectMembers);
         projectMemberRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        /*FirebaseRecyclerOptions<Project> options = new FirebaseRecyclerOptions.Builder<Project>()
-                .setQuery(mDatabaseProject.child(project.getProjectId()), Project.class).build();*/
-        FirebaseRecyclerOptions<Project> options =
-                new FirebaseRecyclerOptions.Builder<Project>()
-                        .setQuery(mDatabaseProject.orderByChild("member"), Project.class).build();
-        memberListAdapter = new MemberListAdapter(options);
+        FirebaseRecyclerOptions<ProjectMember> options =
+                new FirebaseRecyclerOptions.Builder<ProjectMember>()
+                        .setQuery(mMemberDatabaseRef.orderByChild(project.getProjectId()).getRef(), ProjectMember.class).build();
+        memberListAdapter = new MemberListAdapter(options, project);
         projectMemberRecyclerView.setAdapter(memberListAdapter);
 
     }

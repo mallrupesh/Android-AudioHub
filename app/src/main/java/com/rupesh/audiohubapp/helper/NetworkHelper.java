@@ -21,10 +21,12 @@ public class NetworkHelper {
     private static final String INVITE_REQUESTS = "Invite_Requests";
     private static final String PROJECTS = "Projects";
     private static final String USERS = "Users";
+    private static final String PROJECT_MEMBERS = "Project_Members";
 
     private DatabaseReference inviteDatabaseRef;
     private DatabaseReference projectDatabaseRef;
     private DatabaseReference usersDatabaseRef;
+    private DatabaseReference membersDatabaseRef;
     private FirebaseUser mCurrentUser;
     private User user;
     private Project project;
@@ -36,6 +38,7 @@ public class NetworkHelper {
         inviteDatabaseRef = FirebaseDatabase.getInstance().getReference().child(INVITE_REQUESTS);
         projectDatabaseRef = FirebaseDatabase.getInstance().getReference().child(PROJECTS);
         usersDatabaseRef = FirebaseDatabase.getInstance().getReference().child(USERS);
+        membersDatabaseRef = FirebaseDatabase.getInstance().getReference().child(PROJECT_MEMBERS);
         this.project = project;
         this.user = user;
     }
@@ -69,7 +72,8 @@ public class NetworkHelper {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String username = dataSnapshot.child("name").getValue().toString();
-                            projectDatabaseRef.child(projectId).child("members").push().setValue(username);
+                            //projectDatabaseRef.child(projectId).child("members").push().setValue(username);
+                            membersDatabaseRef.child(projectId).child(username).setValue(true);
                         }
 
                         @Override

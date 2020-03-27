@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.model.CurrentDate;
 import com.rupesh.audiohubapp.model.Project;
-import com.rupesh.audiohubapp.view.adapters.ProjectListAdapter;
+import com.rupesh.audiohubapp.adapters.ProjectListAdapter;
 
 import java.util.HashMap;
 
@@ -41,7 +41,6 @@ public class ProjectsFragment extends Fragment {
     private EditText mProjectName;
     private Button mProjectBtn;
     private String projectName;
-    private String currentDate;
     private RecyclerView recyclerView;
 
     // Declare instance of Firebase authentication
@@ -60,7 +59,7 @@ public class ProjectsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_project, container, false);
 
         // Init View components
-        recyclerView = rootView.findViewById(R.id.recycleListViewProject);
+      //recyclerView = rootView.findViewById(R.id.recycleListViewProject);
         mProjectName = rootView.findViewById(R.id.projects_fragment_newProjectTextView);
         mProjectBtn = rootView.findViewById(R.id.projects_fragment_btnAdd);
 
@@ -80,8 +79,6 @@ public class ProjectsFragment extends Fragment {
             public void onClick(View v) {
                 projectName = mProjectName.getText().toString();
                 CurrentDate currentDate = new CurrentDate();
-                //Project project = new Project(projectName, currentDate.getDate());
-                //currentDate = project.getCreatedOn();
 
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = currentUser.getUid();
@@ -98,6 +95,9 @@ public class ProjectsFragment extends Fragment {
                 //Map<String,Object> mapper = new HashMap<>();
                 mDatabase.child(pUid).setValue(projectMap);
                 //mDatabase.push().setValue(projectMap);
+
+                // Clear project input text
+                mProjectName.getText().clear();
 
                 Toast.makeText(getContext(), "Project created successfully", Toast.LENGTH_LONG).show();
             }

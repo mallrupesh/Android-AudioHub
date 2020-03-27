@@ -1,17 +1,21 @@
 package com.rupesh.audiohubapp.model;
 
-public class UserFiles {
+public class File {
     private String name;
     private String createdOn;
     private String fileUrl;
+    private String creatorId;
+    private String fileId;
 
     // Needed for Firebase operations
-    public UserFiles(){}
+    public File(){}
 
-    public UserFiles(String name, String createdOn, String fileUrl){
+    public File(String name, String createdOn, String fileUrl, String creatorId){
         this.name = name;
         this.createdOn = createdOn;
         this.fileUrl = fileUrl;
+        this.creatorId = creatorId;
+
     }
 
     public String getName() {
@@ -36,5 +40,13 @@ public class UserFiles {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
     }
 }

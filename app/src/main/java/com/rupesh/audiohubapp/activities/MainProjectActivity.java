@@ -37,8 +37,6 @@ public class MainProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_project);
 
 
-        //final String project_id = getIntent().getStringExtra("project_id");
-
         // Get the Project model object from the ProjectLisAdapter which is connected to the Project Fragment
         project = (Project) getIntent().getSerializableExtra("project");
 
