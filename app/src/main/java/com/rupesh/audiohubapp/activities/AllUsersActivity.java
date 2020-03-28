@@ -108,6 +108,7 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
         InviteDialogBox inviteDialogBox = new InviteDialogBox();
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", user);
+
         // can be null when Main -> AllUser
         bundle.putSerializable("project", project);
         inviteDialogBox.setArguments(bundle);
@@ -115,25 +116,6 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
         //inviteDialogBox.inviteInterface = this;
         inviteDialogBox.show(getSupportFragmentManager(),"inviteDialog");
     }
-
-
-    /*@Override
-    public void inviteMember(User user, int state) {
-        Intent i = new Intent();
-        i.putExtra("state", state);
-        i.putExtra("user", user);
-        setResult(2,i);
-        finish();
-    }
-
-    @Override
-    public void declineMember(User user, int state) {
-        Intent i = new Intent();
-        i.putExtra("state", state);
-        i.putExtra("user", user);
-        setResult(2,i);
-        finish();
-    }*/
 }
 
 

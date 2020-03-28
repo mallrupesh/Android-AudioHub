@@ -9,7 +9,7 @@ public class Project implements Serializable {
     private String createdOn;
     private String creatorId;
     private String projectId;
-    private HashMap<String, Object> members;
+    //private HashMap<String, Object> members;
 
 
     public Project(){}
@@ -24,7 +24,7 @@ public class Project implements Serializable {
         this.createdOn = createdOn;
         this.creatorId = creatorId;
         this.projectId = projectId;
-        this.members = members;
+        //this.members = members;
     }
 
     public String getProjectName() {
@@ -59,12 +59,12 @@ public class Project implements Serializable {
         this.projectId = projectId;
     }
 
-    public HashMap<String, Object> getMembers() {
+   /* public HashMap<String, Object> getMembers() {
         return members;
     }
 
     public void setMembers(HashMap<String, Object> members) {
         this.members = members;
-    }
+    }*/
 
 }

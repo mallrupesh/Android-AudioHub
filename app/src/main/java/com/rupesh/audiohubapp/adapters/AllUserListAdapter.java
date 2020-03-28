@@ -31,8 +31,6 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
         void onItemClicked(View v, User user);
     }
 
-    // Track current project ID
-    //private String project_id;
     private Context context;
     private OnItemClickListener listener;
 
@@ -48,10 +46,6 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
         holder.singleUserName.setText(model.getName());
         holder.singleUserStatus.setText(model.getStatus());
         holder.setAllSingleUserImg(model.getImage());
-
-        /*// Get the user Id by getting the position of the ViewHolder
-           final String holderIdPosition = getRef(position).getKey();*/
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 

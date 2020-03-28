@@ -123,9 +123,9 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         // Initialize mediaRecorder and set the source, outputFormat, outputFile and audioEncoder
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mediaRecorder.setOutputFile(localFilePath + "/" + newFileName);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 
         try {
             mediaRecorder.prepare();
@@ -184,7 +184,13 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         fileMap.put("fileId", fileUid);
                         audioFilesDataRef.child(fileUid).setValue(fileMap);
 
-                        projectFilesDataRef.child(project.getProjectId()).push().setValue(newFileName);
+                        HashMap <String, String> projectFileMap = new HashMap<>();
+                        projectFileMap.put("name", newFileName);
+                        projectFileMap.put("createdOn", currentDate.getDate());
+                        projectFileMap.put("fileUrl", downloadUrl);
+                        projectFilesDataRef.child(project.getProjectId()).child(fileUid).setValue(projectFileMap);
+
+                        //projectFilesDataRef.child(project.getProjectId()).push().setValue(newFileName);
                     }
                 });
 

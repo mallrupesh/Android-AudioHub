@@ -1,5 +1,7 @@
 package com.rupesh.audiohubapp.fragments;
 
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,8 @@ import com.rupesh.audiohubapp.adapters.FilesListAdapter;
 import com.rupesh.audiohubapp.model.File;
 import com.rupesh.audiohubapp.model.Project;
 
+import java.io.IOException;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -35,6 +39,13 @@ public class FilesFragment extends Fragment implements FilesListAdapter.OnItemCl
     private DatabaseReference projectFilesDataRef;
 
     private Project project;
+
+    private String localFilePath;
+
+    // For MediaPlayer
+    private MediaPlayer mediaPlayer = null;
+    private boolean isPlaying = false;
+    private File fileToPlay;
 
     public FilesFragment() {
         // Required empty public constructor
@@ -100,9 +111,43 @@ public class FilesFragment extends Fragment implements FilesListAdapter.OnItemCl
     @Override
     public void onItemClicked(File file) {
 
+        if(isPlaying) {
 
+            stopAudio();
+            playAudio(fileToPlay);
+            isPlaying = true;
+        }else {
+
+            //fileToPlay = file;
+            playAudio(fileToPlay);
+            isPlaying = true;
+        }
 
 
         //Log.d("PLAY_LOG", "Playing" + file.getName());
+        //Log.d("PLAY_LOG", "Message " + file.getFileUrl());
     }
+
+    public void playAudio(File fileToPlay) {
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
+
+
+        try {
+            mediaPlayer.setDataSource(localFilePath = getActivity().getExternalFilesDir("/").getAbsolutePath() + "/testtim.mp3");
+
+
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        isPlaying = true;
+    }
+
+    public void stopAudio() {
+        isPlaying = false;
+    }
+
 }
