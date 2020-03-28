@@ -16,18 +16,18 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
-import com.rupesh.audiohubapp.adapters.MyFilesListAdapter;
+import com.rupesh.audiohubapp.adapters.FilesListAdapter;
 import com.rupesh.audiohubapp.model.File;
 import com.rupesh.audiohubapp.model.Project;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FilesFragment extends Fragment {
+public class FilesFragment extends Fragment implements FilesListAdapter.OnItemClickListener {
 
     private View rootView;
     private RecyclerView filesRecyclerView;
-    private MyFilesListAdapter filesListAdapter;
+    private FilesListAdapter filesListAdapter;
 
     private ConstraintLayout audioPlayerSheet;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -68,7 +68,7 @@ public class FilesFragment extends Fragment {
             }
         });
 
-        //initUI();
+        initUI();
 
         return rootView;
     }
@@ -81,11 +81,11 @@ public class FilesFragment extends Fragment {
         FirebaseRecyclerOptions<File> options =
                 new FirebaseRecyclerOptions.Builder<File>()
                         .setQuery(projectFilesDataRef.child(project.getProjectId()), File.class).build();
-        filesListAdapter = new MyFilesListAdapter(options);
+        filesListAdapter = new FilesListAdapter(options, this);
         filesRecyclerView.setAdapter(filesListAdapter);
     }
 
-   /* @Override
+    @Override
     public void onStart() {
         super.onStart();
         filesListAdapter.startListening();
@@ -95,5 +95,14 @@ public class FilesFragment extends Fragment {
     public void onStop() {
         super.onStop();
         filesListAdapter.stopListening();
-    }*/
+    }
+
+    @Override
+    public void onItemClicked(File file) {
+
+
+
+
+        //Log.d("PLAY_LOG", "Playing" + file.getName());
+    }
 }
