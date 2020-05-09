@@ -41,14 +41,20 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
     }
 
 
+    /**
+     * Binds the components of the view holder with the model(user) data.
+     * @param holder refers to the view holder that wraps the view components
+     * @param position refers to the position of the view holder in the recycler view list
+     * @param model refers to the user model
+     */
     @Override
     protected void onBindViewHolder(@NonNull final AllUserListViewHolder holder, final int position, @NonNull final User model) {
         holder.singleUserName.setText(model.getName());
         holder.singleUserStatus.setText(model.getStatus());
         holder.setAllSingleUserImg(model.getImage());
 
+        // Implements the inner interface onItemClicked
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 listener.onItemClicked(v, model);
@@ -56,33 +62,43 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
         });
     }
 
+
+    /**
+     * Inflates each all_user_row layout upon the start of AllUserActivity
+     * @param parent refers to the RecyclerView in AllUserActivity that wraps
+     *               each all_user_row layout
+     * @param viewType refers to the view type of the item at position for the
+     *                 purpose of view recycling
+     * @return specific view holder that wraps the components in layout_all_user_row
+     */
     @NonNull
     @Override
     public AllUserListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_all_users_row, parent, false);
-
         return new AllUserListViewHolder(view);
     }
 
+    /**
+     * Declare the view components to be displayed
+     */
     class AllUserListViewHolder extends RecyclerView.ViewHolder {
+        private CircleImageView singleUserImg;
+        private TextView singleUserName;
+        private TextView singleUserStatus;
 
-        CircleImageView singleUserImg;
-        TextView singleUserName;
-        TextView singleUserStatus;
-
-        public AllUserListViewHolder(@NonNull View itemView) {
+        private AllUserListViewHolder(@NonNull View itemView) {
             super(itemView);
             singleUserImg = itemView.findViewById(R.id.all_user_single_img);
             singleUserName = itemView.findViewById(R.id.all_user_single_name);
             singleUserStatus = itemView.findViewById(R.id.all_user_single_status);
-
         }
 
-        // Load all users images in the All User Activity if no user images load the default
-        // user avatar
-        public void setAllSingleUserImg(String image){
-
+        /**
+         * Load all users images in the AllUserActivity, if no user images available,
+         * load the default user avatar
+         */
+        private void setAllSingleUserImg(String image){
             Glide.with(itemView).load(image)
                     .apply(new RequestOptions().placeholder(R.drawable.default_avatar))
                     .into(singleUserImg);
