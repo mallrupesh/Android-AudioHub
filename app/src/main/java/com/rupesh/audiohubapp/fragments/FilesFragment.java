@@ -123,12 +123,11 @@ public class FilesFragment extends Fragment implements FilesListAdapter.OnItemCl
             isPlaying = true;
         }
 
-
         //Log.d("PLAY_LOG", "Playing" + file.getName());
         //Log.d("PLAY_LOG", "Message " + file.getFileUrl());
     }
 
-    public void playAudio(File fileToPlay) {
+    private void playAudio(File fileToPlay) {
 
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
@@ -146,7 +145,7 @@ public class FilesFragment extends Fragment implements FilesListAdapter.OnItemCl
         isPlaying = true;
     }
 
-    public void stopAudio() {
+    private void stopAudio() {
         isPlaying = false;
     }
 

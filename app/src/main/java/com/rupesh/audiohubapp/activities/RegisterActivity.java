@@ -19,7 +19,7 @@ import com.rupesh.audiohubapp.view.IViewProtocol;
 
 public class RegisterActivity extends AppCompatActivity implements IViewProtocol {
 
-    // Declare components instances
+    // Declare UI components instances
     private EditText mDisplayName;
     private EditText mEmail;
     private EditText mPassword;
@@ -29,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity implements IViewProtocol
     // Declare Progress dialog
     private ProgressDialog mRegProgress;
 
-    // Declare Presenter instance
+    // Declare interface IPresenterProtocol instance
     IPresenterProtocol registerPresenter;
 
     @Override
@@ -37,20 +37,18 @@ public class RegisterActivity extends AppCompatActivity implements IViewProtocol
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Init and setup Toolbar
-        mToolbar = (Toolbar) findViewById(R.id.register_toolbar);
-        setActionBar(mToolbar);
-
-
-        // Init Progress dialog
-        mRegProgress = new ProgressDialog(RegisterActivity.this);
-
-
         // Init components
         mDisplayName = findViewById(R.id.reg_display_name);
         mEmail = findViewById(R.id.reg_display_email);
         mPassword = findViewById(R.id.reg_display_password);
         mCreateBtn = findViewById(R.id.reg_create_btn);
+
+        // Init and setup Toolbar
+        mToolbar = findViewById(R.id.register_toolbar);
+        setActionBar(mToolbar);
+
+        // Init Progress dialog
+        mRegProgress = new ProgressDialog(RegisterActivity.this);
 
         // Init presenter
         registerPresenter = new RegisterPresenter(this);
@@ -60,9 +58,7 @@ public class RegisterActivity extends AppCompatActivity implements IViewProtocol
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showRegisterProgress();
-
                 registerPresenter.onRegister(mDisplayName.getText().toString(), mEmail.getText().toString(), mPassword.getText().toString());
             }
         });
@@ -78,7 +74,10 @@ public class RegisterActivity extends AppCompatActivity implements IViewProtocol
     }
 
 
-    // Sets up ActionBar
+    /**
+     * Sets up the ActionBar.
+     * @param toolbar for the Activity.
+     */
     public void setActionBar(Toolbar toolbar){
         setSupportActionBar(toolbar);
 
@@ -93,7 +92,10 @@ public class RegisterActivity extends AppCompatActivity implements IViewProtocol
     }
 
 
-    // Executes on registration success
+    /**
+     * Executes when the Authorization is success.
+     * @param message stating the authorization has been successful.
+     */
     @Override
     public void onAuthorizationSuccess(String message) {
         mRegProgress.dismiss();
@@ -106,12 +108,16 @@ public class RegisterActivity extends AppCompatActivity implements IViewProtocol
 
     }
 
-    // Executes on authorization error
+    /**
+     * Executes when the Authorization fails
+     * @param message stating the authorization has failed.
+     */
     @Override
     public void onAuthorizationError(String message) {
         mRegProgress.hide();
         Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
     }
+
 
     @Override
     public void onLoginSuccess(String message) {}

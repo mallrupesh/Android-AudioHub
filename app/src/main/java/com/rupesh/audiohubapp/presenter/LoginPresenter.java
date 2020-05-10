@@ -27,9 +27,7 @@ public class LoginPresenter implements IPresenterProtocol {
 
     @Override
     public void onLogin(String email, String password) {
-
         LoginUser user = new LoginUser(email, password);
-
         boolean isDataValid = user.isValidData();
 
         if(isDataValid) {
@@ -37,22 +35,17 @@ public class LoginPresenter implements IPresenterProtocol {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-
                     if (task.isSuccessful()) {
                         loginView.onLoginSuccess("Login success");
-
                     } else {
-
                         loginView.onLoginError("Authentication failed, cannot sign in. Please try again");
                     }
-
                 }
             });
 
         } else {
             loginView.onLoginError("Please fill in valid email and password");
         }
-
     }
 
 

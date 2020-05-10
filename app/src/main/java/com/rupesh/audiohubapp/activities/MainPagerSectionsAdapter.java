@@ -2,15 +2,15 @@ package com.rupesh.audiohubapp.activities;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.rupesh.audiohubapp.fragments.MyFilesFragment;
 import com.rupesh.audiohubapp.fragments.ProjectsFragment;
 
-class MainPagerSectionsAdapter extends FragmentPagerAdapter {
+class MainPagerSectionsAdapter extends FragmentStatePagerAdapter {
 
     public MainPagerSectionsAdapter(FragmentManager fm) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
 

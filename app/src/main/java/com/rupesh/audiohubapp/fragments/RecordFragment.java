@@ -193,7 +193,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         //projectFilesDataRef.child(project.getProjectId()).push().setValue(newFileName);
                     }
                 });
-
             }
         });
     }

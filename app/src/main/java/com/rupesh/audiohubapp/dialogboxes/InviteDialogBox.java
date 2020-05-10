@@ -61,7 +61,7 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
-        // get the data sent by AllUserActivity as Bundle since InviteDialogBox is a fragment on top of
+        // Get the data sent by AllUserActivity as Bundle since InviteDialogBox is a fragment on top of
         // AllUserActivity
         Bundle bundle = getArguments();
         user = (User) bundle.getSerializable("user");
@@ -141,7 +141,7 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
     }
 
     // Check Decline button visibility
-    public void checkDeclineButton() {
+    private void checkDeclineButton() {
         if (project != null) {
             mDeclineButton.setVisibility(View.INVISIBLE);
         } else {

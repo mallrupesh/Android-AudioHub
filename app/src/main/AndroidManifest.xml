@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.AllUsersActivity"
-            android:parentActivityName=".activities.MainProjectActivity" />
+            android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.StatusActivity"
             android:parentActivityName=".activities.SettingsActivity" />

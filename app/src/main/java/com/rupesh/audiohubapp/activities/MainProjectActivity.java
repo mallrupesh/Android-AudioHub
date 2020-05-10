@@ -44,6 +44,7 @@ public class MainProjectActivity extends AppCompatActivity {
         // Setup the tool bar
         mToolbar = findViewById(R.id.project_page_toolbar);
         setSupportActionBar(mToolbar);
+        //getSupportActionBar().setTitle(project.getProjectName());
         getSupportActionBar().setTitle("Project");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

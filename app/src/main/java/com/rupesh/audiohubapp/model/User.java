@@ -16,8 +16,11 @@ public class User implements IUserProtocol, Serializable {
     private String uid;
 
 
-    // For Firebase database operation
+    /**
+     * Empty constructor for Firebase operation
+     */
     public User(){}
+
 
     public User(String name, String email, String password) {
         this.name = name;

@@ -66,21 +66,7 @@ public class NetworkHelper {
                     final String projectId = dataSnapshot.child(user.getUid()).child("project_type").getValue().toString();
                     inviteDatabaseRef.child(mCurrentUser.getUid()).child(user.getUid()).removeValue();
                     inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("request_type").removeValue();
-
-                    // Get the username of the current user (receiver) from Users Database and set it into the project/ members
-                    usersDatabaseRef.child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String username = dataSnapshot.child("name").getValue().toString();
-                            //projectDatabaseRef.child(projectId).child("members").push().setValue(username);
-                            membersDatabaseRef.child(projectId).child(username).setValue(true);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+                    projectDatabaseRef.child(projectId).child("members").child(mCurrentUser.getUid()).setValue(true);
                 }
             }
 

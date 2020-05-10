@@ -19,7 +19,7 @@ import com.rupesh.audiohubapp.view.IViewProtocol;
 
 public class LoginActivity extends AppCompatActivity implements IViewProtocol {
 
-    // Declare components instances
+    // Declare UI components instances
     private EditText mLoginEmail;
     private EditText mLoginPassword;
     private Button mLoginBtn;
@@ -31,14 +31,14 @@ public class LoginActivity extends AppCompatActivity implements IViewProtocol {
     // Declare Presenter instance
     IPresenterProtocol loginPresenter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         // Init and setup Toolbar
-        mToolbar = (Toolbar) findViewById(R.id.login_toolbar);
+        mToolbar = findViewById(R.id.login_toolbar);
         setActionBar(mToolbar);
 
 
@@ -47,12 +47,12 @@ public class LoginActivity extends AppCompatActivity implements IViewProtocol {
 
 
         // Init components
-        mLoginEmail = (EditText) findViewById(R.id.login_email);
-        mLoginPassword = (EditText) findViewById(R.id.login_password);
-        mLoginBtn = (Button) findViewById(R.id.login_btn);
+        mLoginEmail = findViewById(R.id.login_email);
+        mLoginPassword = findViewById(R.id.login_password);
+        mLoginBtn = findViewById(R.id.login_btn);
 
 
-        // Init presenter
+        // Init Login presenter
         loginPresenter = new LoginPresenter(this);
 
 
@@ -60,16 +60,16 @@ public class LoginActivity extends AppCompatActivity implements IViewProtocol {
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showLoginProgress();
-
-                loginPresenter.onLogin(mLoginEmail.getText().toString(),mLoginPassword.getText().toString());
+                loginPresenter.onLogin(mLoginEmail.getText().toString(), mLoginPassword.getText().toString());
             }
         });
     }
 
 
-    // Sets up Login dialog
+    /**
+     * Sets up Progress Dialog box
+     */
     public void showLoginProgress(){
         mLoginProgress.setTitle("Login in");
         mLoginProgress.setMessage("Please wait while we check your credentials");

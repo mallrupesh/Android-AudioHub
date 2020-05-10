@@ -12,15 +12,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.activities.AllUsersActivity;
-import com.rupesh.audiohubapp.model.Project;
-import com.rupesh.audiohubapp.model.ProjectMember;
 import com.rupesh.audiohubapp.adapters.MemberListAdapter;
+import com.rupesh.audiohubapp.helper.MemberNetworkHelper;
+import com.rupesh.audiohubapp.interfaces.InterfaceMemberCallback;
+import com.rupesh.audiohubapp.model.Project;
+import com.rupesh.audiohubapp.model.User;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +33,8 @@ import com.rupesh.audiohubapp.adapters.MemberListAdapter;
 //  2. when pressed on the user then invite dialog box sud open
 //  3. Current user sud be able to delete the user from the project
 //  4. The arraylist of the member sud be passed to AllUserActivity as array
-public class MembersFragment extends Fragment {
+
+public class MembersFragment extends Fragment implements InterfaceMemberCallback {
 
     private View rootView;
     private Context context;
@@ -40,12 +43,15 @@ public class MembersFragment extends Fragment {
     private RecyclerView projectMemberRecyclerView;
     private MemberListAdapter memberListAdapter;
     private Project project;
+    private User user;
+
+    private MemberNetworkHelper memberNetworkHelper;
 
 
-    private DatabaseReference mDatabaseProject;
-    private DatabaseReference mMemberDatabaseRef;
-    FirebaseUser mCurrentUser;
+    private DatabaseReference mProjectDatabaseRef;
+    private DatabaseReference mUserDatabaseRef;
 
+    private ArrayList<User> projectMembers;
 
     public MembersFragment() {
         // Required empty public constructor
@@ -64,14 +70,67 @@ public class MembersFragment extends Fragment {
         // Get Project model object from MainProjectActivity through projectPagerSectionsAdapter
         project = (Project) getArguments().getSerializable("project");
 
-        mDatabaseProject = FirebaseDatabase.getInstance().getReference().child("Projects");
-        mMemberDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Project_Members");
+        mProjectDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Projects");
+        mUserDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
+        memberNetworkHelper = new MemberNetworkHelper(project);
+        memberNetworkHelper.interfaceMemberCallback = this;
+
+        memberNetworkHelper.getMember();
 
         initUI();
 
+        mAddMembersBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent allUsersActivity = new Intent(rootView.getContext(), AllUsersActivity.class);
+                allUsersActivity.putExtra("project", project);
+                startActivity(allUsersActivity);
+            }
+        });
 
-        /*mDatabaseProject.addValueEventListener(new ValueEventListener() {
+        return rootView;
+    }
+
+    @Override
+    public void mapUser(ArrayList<User> proMembers) {
+
+        projectMembers = proMembers;
+       // Log.d("USERS_", "Users-> " + projectMembers);
+
+        initUI();
+
+    }
+
+    private void initUI() {
+        projectMemberRecyclerView = rootView.findViewById(R.id.recycleListViewProjectMembers);
+        memberListAdapter = new MemberListAdapter(projectMembers, getContext());
+        projectMemberRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        projectMemberRecyclerView.setAdapter(memberListAdapter);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/*
+    project.members = ["uid1", "uid2", "uid3"];
+    forloop
+        go to user db, ask uid1,
+        go to user db, ask uid2
+        go to user db, ask uid3
+    variable list add user1, user2,user3
+    usersarray
+  show it to recycleview
+ */
+
+ /*mDatabaseProject.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<Project> memberList = new ArrayList<>();
@@ -89,46 +148,3 @@ public class MembersFragment extends Fragment {
 
             }
         });*/
-
-
-
-        // Setup OnClickListener to ADDMEMBER btn and send projectID upon the navigation to
-        // AllUserActivity with the request code 2
-        mAddMembersBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent allUsersActivity = new Intent(rootView.getContext(), AllUsersActivity.class);
-                allUsersActivity.putExtra("project", project);
-                startActivity(allUsersActivity);
-            }
-        });
-
-        return rootView;
-    }
-
-
-    private void initUI() {
-
-        projectMemberRecyclerView = rootView.findViewById(R.id.recycleListViewProjectMembers);
-        projectMemberRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-        FirebaseRecyclerOptions<ProjectMember> options =
-                new FirebaseRecyclerOptions.Builder<ProjectMember>()
-                        .setQuery(mMemberDatabaseRef.orderByChild(project.getProjectId()).getRef(), ProjectMember.class).build();
-        memberListAdapter = new MemberListAdapter(options, project);
-        projectMemberRecyclerView.setAdapter(memberListAdapter);
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        memberListAdapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        memberListAdapter.stopListening();
-    }
-}

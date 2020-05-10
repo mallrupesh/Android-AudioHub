@@ -17,7 +17,7 @@ public class ProjectPagerSectionsAdapter extends FragmentPagerAdapter {
     private Project project;
 
     public ProjectPagerSectionsAdapter(@NonNull FragmentManager fm, Project project) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.project = project;
     }
 

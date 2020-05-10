@@ -7,7 +7,4 @@ public class RequestState {
     public static final int REQUEST_RECEIVED = 2;
     public static final int IN_PROJECT = 3;
 
-
-
-
 }

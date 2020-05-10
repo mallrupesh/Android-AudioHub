@@ -41,7 +41,7 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
     // Declare String to track Project id
     //private String projectId;
 
-    // Member-> AllUser (NotNull) Main -> Alluser (null)
+    // Member -> AllUser (NotNull) Main -> AllUser (null)
     private Project project;
 
     @Override

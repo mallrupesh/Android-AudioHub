@@ -4,18 +4,17 @@ import java.text.DateFormat;
 import java.util.Date;
 
 public class CurrentDate {
-    private Date currentDate;
 
-
+    /**
+     * Empty constructor for Firebase operation.
+     */
     public CurrentDate(){}
 
+    /**
+     *
+     * @return String of date instance in date format.
+     */
     public String getDate() {
-        /*Date currentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.UK);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String date = dateFormat.format(currentDate);
-        return date;*/
-
         return DateFormat.getDateTimeInstance().format(new Date());
     }
 }
