@@ -44,10 +44,14 @@ public class ProjectsFragment extends Fragment {
     private RecyclerView recyclerView;
 
     // Declare instance of Firebase authentication
-    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+
+    private String uid;
 
     // Declare Firebase database reference
-    private DatabaseReference mDatabase;
+    private DatabaseReference projectDatabaseRef;
+
+    private DatabaseReference allProjectsRef;
 
     private ProjectListAdapter adapter;
 
@@ -63,8 +67,12 @@ public class ProjectsFragment extends Fragment {
         mProjectName = rootView.findViewById(R.id.projects_fragment_newProjectTextView);
         mProjectBtn = rootView.findViewById(R.id.projects_fragment_btnAdd);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Projects");
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        uid = currentUser.getUid();
+
+        projectDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Projects");
+        allProjectsRef = FirebaseDatabase.getInstance().getReference().child("All_Projects");
+
 
         addProject();
         initUI();
@@ -80,11 +88,8 @@ public class ProjectsFragment extends Fragment {
                 projectName = mProjectName.getText().toString();
                 CurrentDate currentDate = new CurrentDate();
 
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                String uid = currentUser.getUid();
-
                 // Get the projectUid created in the Firebase database
-                String pUid = mDatabase.push().getKey();
+                String pUid = projectDatabaseRef.push().getKey();
 
                 // Write Project data into the Firebase database
                 HashMap<String, Object> projectMap = new HashMap<>();
@@ -92,9 +97,17 @@ public class ProjectsFragment extends Fragment {
                 projectMap.put("createdOn", currentDate.getDate());
                 projectMap.put("creatorId", uid);
                 projectMap.put("projectId", pUid);
-                //Map<String,Object> mapper = new HashMap<>();
-                mDatabase.child(pUid).setValue(projectMap);
-                //mDatabase.push().setValue(projectMap);
+                // Set the project data in the Firebase Database
+                projectDatabaseRef.child(pUid).setValue(projectMap);
+                projectDatabaseRef.child(pUid).child("members").child(uid).setValue(true);
+
+                HashMap<String, Object> allProjectMap = new HashMap<>();
+                allProjectMap.put("projectName", projectName);
+                allProjectMap.put("createdOn", currentDate.getDate());
+                allProjectMap.put("creatorId", uid);
+                allProjectMap.put("projectId", pUid);
+                allProjectsRef.child(uid).child(pUid).setValue(allProjectMap);
+
 
                 // Clear project input text
                 mProjectName.getText().clear();
@@ -112,8 +125,10 @@ public class ProjectsFragment extends Fragment {
 
         FirebaseRecyclerOptions<Project> options =
                 new FirebaseRecyclerOptions.Builder<Project>()
-                        .setQuery(mDatabase.orderByChild("creatorId")
-                                .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()), Project.class).build();
+                        .setQuery(allProjectsRef.child(uid), Project.class).build();
+
+                        /*.setQuery(projectDatabaseRef.orderByChild("creatorId")
+                                .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()), Project.class).build(); */
         adapter = new ProjectListAdapter(options);
         recyclerView.setAdapter(adapter);
 

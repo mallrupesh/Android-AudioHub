@@ -44,7 +44,4 @@ dependencies {
     implementation 'id.zelory:compressor:2.1.0'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
-
-
 }

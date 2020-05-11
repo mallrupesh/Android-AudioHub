@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.helper.NetworkHelper;
-import com.rupesh.audiohubapp.helper.RequestState;
+import com.rupesh.audiohubapp.model.RequestState;
 import com.rupesh.audiohubapp.interfaces.InterfaceDecline;
 import com.rupesh.audiohubapp.interfaces.InterfaceInvite;
 import com.rupesh.audiohubapp.model.Project;

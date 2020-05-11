@@ -32,7 +32,7 @@
     <string name="project_member_fragment_name">Name</string>
     <string name="project_member_fragment_status">Status</string>
 
-   <string name="record_fragment_message">Press Button to Record</string>
+    <string name="record_fragment_message">Press Button to Record</string>
     <string name="record_fragment_file_hint">Enter File Name</string>
 
 

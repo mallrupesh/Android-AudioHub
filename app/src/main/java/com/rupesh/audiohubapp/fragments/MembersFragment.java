@@ -1,7 +1,6 @@
 package com.rupesh.audiohubapp.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
-import com.rupesh.audiohubapp.activities.AllUsersActivity;
 import com.rupesh.audiohubapp.adapters.MemberListAdapter;
 import com.rupesh.audiohubapp.helper.MemberNetworkHelper;
 import com.rupesh.audiohubapp.interfaces.InterfaceMemberCallback;
@@ -47,7 +45,6 @@ public class MembersFragment extends Fragment implements InterfaceMemberCallback
 
     private MemberNetworkHelper memberNetworkHelper;
 
-
     private DatabaseReference mProjectDatabaseRef;
     private DatabaseReference mUserDatabaseRef;
 
@@ -78,16 +75,16 @@ public class MembersFragment extends Fragment implements InterfaceMemberCallback
 
         memberNetworkHelper.getMember();
 
-        initUI();
+        //initUI();
 
-        mAddMembersBtn.setOnClickListener(new View.OnClickListener() {
+       /* mAddMembersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent allUsersActivity = new Intent(rootView.getContext(), AllUsersActivity.class);
                 allUsersActivity.putExtra("project", project);
                 startActivity(allUsersActivity);
             }
-        });
+        });*/
 
         return rootView;
     }

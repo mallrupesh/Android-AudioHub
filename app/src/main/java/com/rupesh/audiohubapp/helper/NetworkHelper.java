@@ -14,19 +14,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.rupesh.audiohubapp.interfaces.InterfaceDecline;
 import com.rupesh.audiohubapp.interfaces.InterfaceInvite;
 import com.rupesh.audiohubapp.model.Project;
+import com.rupesh.audiohubapp.model.RequestState;
 import com.rupesh.audiohubapp.model.User;
+
+import java.util.HashMap;
 
 public class NetworkHelper {
 
     private static final String INVITE_REQUESTS = "Invite_Requests";
     private static final String PROJECTS = "Projects";
-    private static final String USERS = "Users";
-    private static final String PROJECT_MEMBERS = "Project_Members";
+    private static final String ALL_PROJECTS = "All_Projects";
 
     private DatabaseReference inviteDatabaseRef;
     private DatabaseReference projectDatabaseRef;
-    private DatabaseReference usersDatabaseRef;
-    private DatabaseReference membersDatabaseRef;
+    private DatabaseReference allProjectDatabaseRef;
     private FirebaseUser mCurrentUser;
     private User user;
     private Project project;
@@ -37,20 +38,17 @@ public class NetworkHelper {
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         inviteDatabaseRef = FirebaseDatabase.getInstance().getReference().child(INVITE_REQUESTS);
         projectDatabaseRef = FirebaseDatabase.getInstance().getReference().child(PROJECTS);
-        usersDatabaseRef = FirebaseDatabase.getInstance().getReference().child(USERS);
-        membersDatabaseRef = FirebaseDatabase.getInstance().getReference().child(PROJECT_MEMBERS);
+        allProjectDatabaseRef = FirebaseDatabase.getInstance().getReference().child(ALL_PROJECTS);
         this.project = project;
         this.user = user;
     }
 
     public void sendRequest() {
-
         // TODO check if the receiver is already in the project
         inviteDatabaseRef.child(mCurrentUser.getUid()).child(user.getUid()).child("request_type").setValue("sent");
         inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("request_type").setValue("received");
         inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("project_type").setValue(project.getProjectId());
     }
-
 
     public void cancelRequest() {
         inviteDatabaseRef.child(mCurrentUser.getUid()).removeValue();
@@ -67,6 +65,28 @@ public class NetworkHelper {
                     inviteDatabaseRef.child(mCurrentUser.getUid()).child(user.getUid()).removeValue();
                     inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("request_type").removeValue();
                     projectDatabaseRef.child(projectId).child("members").child(mCurrentUser.getUid()).setValue(true);
+
+                    projectDatabaseRef.child(projectId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            final String projectName = dataSnapshot.child("projectName").getValue().toString();
+                            final String projectDate = dataSnapshot.child("createdOn").getValue().toString();
+                            final String projectCreator = dataSnapshot.child("creatorId").getValue().toString();
+
+                            HashMap<String, Object> allProjectMap = new HashMap<>();
+                            allProjectMap.put("projectName", projectName);
+                            allProjectMap.put("createdOn", projectDate);
+                            allProjectMap.put("creatorId", projectCreator);
+                            allProjectMap.put("projectId", projectId);
+                            allProjectDatabaseRef.child(mCurrentUser.getUid()).child(projectId).setValue(allProjectMap);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
 
@@ -75,6 +95,8 @@ public class NetworkHelper {
 
             }
         });
+
+
     }
 
     public void declineRequest() {

@@ -1,12 +1,11 @@
-/*
-package com.rupesh.audiohubapp.activities;
+package com.rupesh.audiohubapp.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,15 +13,17 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
+import com.rupesh.audiohubapp.adapters.AllUserListAdapter;
 import com.rupesh.audiohubapp.dialogboxes.InviteDialogBox;
 import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.model.User;
-import com.rupesh.audiohubapp.adapters.AllUserListAdapter;
 
-public class AllUsersActivity extends AppCompatActivity implements AllUserListAdapter.OnItemClickListener {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class SearchFragment extends Fragment implements AllUserListAdapter.OnItemClickListener{
 
-    // Include toolbar in the mainActivity
-    private Toolbar mToolbar;
+    private View rootView;
 
     // Declare RecycleView
     private RecyclerView allUsersRecyclerView;
@@ -33,10 +34,6 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
     // Declare Firebase Database reference
     private DatabaseReference mUserDataRef;
 
-
-    // Declare context and listener to be used by the RecyclerView adapter
-    private Context context;
-
     private AllUserListAdapter.OnItemClickListener listener;
 
     // Declare String to track Project id
@@ -45,31 +42,33 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
     // Member -> AllUser (NotNull) Main -> AllUser (null)
     private Project project;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_users);
 
-        mToolbar = findViewById(R.id.all_users_page_toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("All Users");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    public SearchFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
         mUserDataRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        project = (Project) getIntent().getSerializableExtra("project");
-
-        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUser);
+        project = (Project) getArguments().getSerializable("project");
 
         // As this activity implements the AllUserAdapter nested interface
-        listener = AllUsersActivity.this;
+        listener = SearchFragment.this;
 
         initUI();
+
+        return rootView;
     }
 
     private void initUI(){
-        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUser);
-        allUsersRecyclerView.setLayoutManager(new LinearLayoutManager(AllUsersActivity.this));
+        allUsersRecyclerView = rootView.findViewById(R.id.recycleListViewSearch);
+        allUsersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // TODO list
         // 1. filter all user who are already in the project.
@@ -80,13 +79,13 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
                 new FirebaseRecyclerOptions.Builder<User>()
                         .setQuery(mUserDataRef, User.class)
                         .build();
-        allUserListAdapter = new AllUserListAdapter(options, listener, context);
+        allUserListAdapter = new AllUserListAdapter(options, listener, getContext());
         allUsersRecyclerView.setAdapter(allUserListAdapter);
     }
 
     // On Activity start, set adapter to start listening
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         allUserListAdapter.startListening();
     }
@@ -94,15 +93,11 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
 
     // On Activity stop, set adapter to stop listening
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         allUserListAdapter.stopListening();
     }
 
-
-    // Implementing nested interface in AllUserListAdapter to get the User data
-    // and pass to the InviteDialogBox Activity
-    // Additionally display the dialog box in recycler view item clicked
     @Override
     public void onItemClicked(View v, User user) {
         InviteDialogBox inviteDialogBox = new InviteDialogBox();
@@ -114,9 +109,7 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
         inviteDialogBox.setArguments(bundle);
 
         //inviteDialogBox.inviteInterface = this;
-        inviteDialogBox.show(getSupportFragmentManager(),"inviteDialog");
+        assert getFragmentManager() != null;
+        inviteDialogBox.show(getFragmentManager(),"inviteDialog");
     }
 }
-
-
-*/

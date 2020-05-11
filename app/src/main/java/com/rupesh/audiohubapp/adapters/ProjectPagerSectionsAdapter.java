@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp.activities;
+package com.rupesh.audiohubapp.adapters;
 
 import android.os.Bundle;
 
@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.rupesh.audiohubapp.fragments.FilesFragment;
 import com.rupesh.audiohubapp.fragments.MembersFragment;
 import com.rupesh.audiohubapp.fragments.RecordFragment;
+import com.rupesh.audiohubapp.fragments.SearchFragment;
 import com.rupesh.audiohubapp.model.Project;
 
 public class ProjectPagerSectionsAdapter extends FragmentPagerAdapter {
@@ -53,13 +54,22 @@ public class ProjectPagerSectionsAdapter extends FragmentPagerAdapter {
                 membersFragment.setArguments(bundleToMemFrag);
                 return membersFragment;
 
+            case 3:
+                // Create the bundle to pass the Project model object
+                // to the SearchFragment
+                Bundle bundleToSearchFrag = new Bundle();
+                SearchFragment searchFragment = new SearchFragment();
+                bundleToSearchFrag.putSerializable("project", project);
+                searchFragment.setArguments(bundleToSearchFrag);
+                return searchFragment;
+
             default: return null;
         }
     }
 
     @Override
     public int getCount() {
-        return 3;             // We have two fragments in the MainProjectActivity
+        return 4;             // We have two fragments in the MainProjectActivity
     }
 
     // Returns the tab title
@@ -70,6 +80,8 @@ public class ProjectPagerSectionsAdapter extends FragmentPagerAdapter {
             case 1: return "FILES";
 
             case 2: return "MEMBERS";
+
+            case 3: return "SEARCH";
 
             default: return null;
         }

@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.rupesh.audiohubapp.R;
+import com.rupesh.audiohubapp.adapters.ProjectPagerSectionsAdapter;
 import com.rupesh.audiohubapp.model.Project;
 
 public class MainProjectActivity extends AppCompatActivity {
@@ -43,9 +44,10 @@ public class MainProjectActivity extends AppCompatActivity {
 
         // Setup the tool bar
         mToolbar = findViewById(R.id.project_page_toolbar);
+
         setSupportActionBar(mToolbar);
-        //getSupportActionBar().setTitle(project.getProjectName());
-        getSupportActionBar().setTitle("Project");
+        getSupportActionBar().setTitle(project.getProjectName());
+        //getSupportActionBar().setTitle("Project");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mViewPager = findViewById(R.id.project_tab_pager);
