@@ -19,10 +19,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.helper.NetworkHelper;
-import com.rupesh.audiohubapp.model.RequestState;
 import com.rupesh.audiohubapp.interfaces.InterfaceDecline;
 import com.rupesh.audiohubapp.interfaces.InterfaceInvite;
 import com.rupesh.audiohubapp.model.Project;
+import com.rupesh.audiohubapp.model.RequestState;
 import com.rupesh.audiohubapp.model.User;
 
 public class InviteDialogBox extends DialogFragment implements InterfaceInvite, InterfaceDecline {
@@ -64,6 +64,8 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
         // Get the data sent by AllUserActivity as Bundle since InviteDialogBox is a fragment on top of
         // AllUserActivity
         Bundle bundle = getArguments();
+
+        // Here user is the one who is invited to the project
         user = (User) bundle.getSerializable("user");
 
         project = (Project) bundle.getSerializable("project");

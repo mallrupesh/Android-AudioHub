@@ -57,8 +57,15 @@
     <string name="status_input_hint_txt">Your status</string>
     <string name="status_input_btn">UPDATE STATUS</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="notification_message">has sent you invitation</string>
+    <string name="notification_accept_btn">ACCEPT</string>
+    <string name="notification_decline_btn">DECLINE</string>
+
+    <string name="accept_accept_btn">ACCEPT</string>
+    <string name="accept_decline_btn">DECLINE</string>
+
+
+
 
 
 </resources>

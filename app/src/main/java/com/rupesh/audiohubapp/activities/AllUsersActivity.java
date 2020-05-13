@@ -1,4 +1,3 @@
-/*
 package com.rupesh.audiohubapp.activities;
 
 import android.content.Context;
@@ -14,12 +13,17 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
+import com.rupesh.audiohubapp.adapters.AllUserListAdapter;
+import com.rupesh.audiohubapp.adapters.NotificationListAdapter;
 import com.rupesh.audiohubapp.dialogboxes.InviteDialogBox;
+import com.rupesh.audiohubapp.helper.RequestHelper;
+import com.rupesh.audiohubapp.interfaces.InterfaceRequestCallBack;
 import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.model.User;
-import com.rupesh.audiohubapp.adapters.AllUserListAdapter;
 
-public class AllUsersActivity extends AppCompatActivity implements AllUserListAdapter.OnItemClickListener {
+import java.util.ArrayList;
+
+public class AllUsersActivity extends AppCompatActivity implements AllUserListAdapter.OnItemClickListener, InterfaceRequestCallBack {
 
     // Include toolbar in the mainActivity
     private Toolbar mToolbar;
@@ -45,30 +49,46 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
     // Member -> AllUser (NotNull) Main -> AllUser (null)
     private Project project;
 
+
+
+
+    private ArrayList<User> requestUsers;
+
+    private NotificationListAdapter notificationListAdapter;
+
+    private RecyclerView notificationRecyclerView;
+
+    private RequestHelper requestHelper;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_users);
+        setContentView(R.layout.fragment_notification);
 
-        mToolbar = findViewById(R.id.all_users_page_toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("All Users");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mUserDataRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         project = (Project) getIntent().getSerializableExtra("project");
 
-        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUser);
+        //Log.d("USERS_", "Users " + project);
+
+        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUsers);
 
         // As this activity implements the AllUserAdapter nested interface
         listener = AllUsersActivity.this;
+
+        requestHelper = new RequestHelper();
+        requestHelper.interfaceRequestCallBack = this;
+
+        requestHelper.searchUser();
 
         initUI();
     }
 
     private void initUI(){
-        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUser);
+        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUsers);
         allUsersRecyclerView.setLayoutManager(new LinearLayoutManager(AllUsersActivity.this));
 
         // TODO list
@@ -116,7 +136,19 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
         //inviteDialogBox.inviteInterface = this;
         inviteDialogBox.show(getSupportFragmentManager(),"inviteDialog");
     }
+
+    @Override
+    public void mapRequest(ArrayList<User> users) {
+        requestUsers = users;
+        initUINotification();
+    }
+
+    public void initUINotification() {
+        notificationRecyclerView = findViewById(R.id.recycleListViewNotification);
+        notificationListAdapter = new NotificationListAdapter(requestUsers,context);
+        notificationRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        notificationRecyclerView.setAdapter(notificationListAdapter);
+    }
 }
 
 
-*/

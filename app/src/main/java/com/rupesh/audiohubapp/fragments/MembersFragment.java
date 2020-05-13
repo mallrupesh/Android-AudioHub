@@ -45,6 +45,7 @@ public class MembersFragment extends Fragment implements InterfaceMemberCallback
 
     private MemberNetworkHelper memberNetworkHelper;
 
+
     private DatabaseReference mProjectDatabaseRef;
     private DatabaseReference mUserDatabaseRef;
 
@@ -62,7 +63,7 @@ public class MembersFragment extends Fragment implements InterfaceMemberCallback
         rootView = inflater.inflate(R.layout.fragment_members, container, false);
 
         //projectMemberRecyclerView = rootView.findViewById(R.id.recycleListViewProjectMembers);
-        mAddMembersBtn = rootView.findViewById(R.id.members_fragment_add_btn);
+       // mAddMembersBtn = rootView.findViewById(R.id.members_fragment_add_btn);
 
         // Get Project model object from MainProjectActivity through projectPagerSectionsAdapter
         project = (Project) getArguments().getSerializable("project");

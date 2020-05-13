@@ -112,4 +112,6 @@ public class SearchFragment extends Fragment implements AllUserListAdapter.OnIte
         assert getFragmentManager() != null;
         inviteDialogBox.show(getFragmentManager(),"inviteDialog");
     }
+
+
 }

@@ -44,7 +44,6 @@ public class NetworkHelper {
     }
 
     public void sendRequest() {
-        // TODO check if the receiver is already in the project
         inviteDatabaseRef.child(mCurrentUser.getUid()).child(user.getUid()).child("request_type").setValue("sent");
         inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("request_type").setValue("received");
         inviteDatabaseRef.child(user.getUid()).child(mCurrentUser.getUid()).child("project_type").setValue(project.getProjectId());
@@ -73,13 +72,13 @@ public class NetworkHelper {
                             final String projectDate = dataSnapshot.child("createdOn").getValue().toString();
                             final String projectCreator = dataSnapshot.child("creatorId").getValue().toString();
 
+                            // Store project data in the All-project database tree
                             HashMap<String, Object> allProjectMap = new HashMap<>();
                             allProjectMap.put("projectName", projectName);
                             allProjectMap.put("createdOn", projectDate);
                             allProjectMap.put("creatorId", projectCreator);
                             allProjectMap.put("projectId", projectId);
                             allProjectDatabaseRef.child(mCurrentUser.getUid()).child(projectId).setValue(allProjectMap);
-
                         }
 
                         @Override
@@ -115,6 +114,7 @@ public class NetworkHelper {
                 if (dataSnapshot.hasChild(user.getUid())) {
 
                     String request_type = dataSnapshot.child(user.getUid()).child("request_type").getValue().toString();
+
                     if (request_type.equals("received")) {
 
                         // Pass text, state and visibility
@@ -128,7 +128,6 @@ public class NetworkHelper {
                             interfaceInvite.inviteNetworkCallback("CANCEL REQUEST", RequestState.REQUEST_SENT, View.VISIBLE);
                         }
                     }
-
                 }
             }
 
@@ -138,6 +137,14 @@ public class NetworkHelper {
         });
 
     }
+
+    /**
+     * Request sent = User is the one receiving invitation
+     * Tim(current, Project) sends Sam(User)
+     *
+     * Request received = User is the one accepting invitation
+     * Sam(current) receives from Tim(User's Project)
+     */
 
 }
 

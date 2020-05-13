@@ -106,13 +106,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(settingsIntent);
         }
 
-        /**
-         * NOT USING AllUserActivity for now
-         */
-        /*if(item.getItemId() == R.id.main_all_users){
+
+        if(item.getItemId() == R.id.main_all_users){
             Intent settingsIntent = new Intent(MainActivity.this, AllUsersActivity.class);
             startActivity(settingsIntent);
-        }*/
+        }
 
         return true;
     }
