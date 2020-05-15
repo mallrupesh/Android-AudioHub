@@ -9,14 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.adapters.AllUserListAdapter;
-import com.rupesh.audiohubapp.dialogboxes.InviteDialogBox;
 import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.model.User;
+import com.rupesh.audiohubapp.presenter.SearchFragPresenter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,12 +29,11 @@ public class SearchFragment extends Fragment implements AllUserListAdapter.OnIte
     AllUserListAdapter allUserListAdapter;
 
     // Declare Firebase Database reference
-    private DatabaseReference mUserDataRef;
+    //private DatabaseReference mUserDataRef;
+
+    private SearchFragPresenter searchFragPresenter;
 
     private AllUserListAdapter.OnItemClickListener listener;
-
-    // Declare String to track Project id
-    //private String projectId;
 
     // Member -> AllUser (NotNull) Main -> AllUser (null)
     private Project project;
@@ -54,9 +50,11 @@ public class SearchFragment extends Fragment implements AllUserListAdapter.OnIte
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
-        mUserDataRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        //mUserDataRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         project = (Project) getArguments().getSerializable("project");
+
+        searchFragPresenter = new SearchFragPresenter(this);
 
         // As this activity implements the AllUserAdapter nested interface
         listener = SearchFragment.this;
@@ -69,17 +67,7 @@ public class SearchFragment extends Fragment implements AllUserListAdapter.OnIte
     private void initUI(){
         allUsersRecyclerView = rootView.findViewById(R.id.recycleListViewSearch);
         allUsersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // TODO list
-        // 1. filter all user who are already in the project.
-        // 2. list sud contain all the user who are not in the project.
-        // 3. we need a list of users from the MembersFragment to filter them out from the search.
-
-        FirebaseRecyclerOptions<User> options =
-                new FirebaseRecyclerOptions.Builder<User>()
-                        .setQuery(mUserDataRef, User.class)
-                        .build();
-        allUserListAdapter = new AllUserListAdapter(options, listener, getContext());
+        allUserListAdapter = new AllUserListAdapter(searchFragPresenter.queryData(), listener, getContext());
         allUsersRecyclerView.setAdapter(allUserListAdapter);
     }
 
@@ -90,7 +78,6 @@ public class SearchFragment extends Fragment implements AllUserListAdapter.OnIte
         allUserListAdapter.startListening();
     }
 
-
     // On Activity stop, set adapter to stop listening
     @Override
     public void onStop() {
@@ -100,7 +87,9 @@ public class SearchFragment extends Fragment implements AllUserListAdapter.OnIte
 
     @Override
     public void onItemClicked(View v, User user) {
-        InviteDialogBox inviteDialogBox = new InviteDialogBox();
+        searchFragPresenter.displayDialogBox(user, project);
+
+        /*InviteDialogBox inviteDialogBox = new InviteDialogBox();
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", user);
 
@@ -110,8 +99,6 @@ public class SearchFragment extends Fragment implements AllUserListAdapter.OnIte
 
         //inviteDialogBox.inviteInterface = this;
         assert getFragmentManager() != null;
-        inviteDialogBox.show(getFragmentManager(),"inviteDialog");
+        inviteDialogBox.show(getFragmentManager(),"inviteDialog");*/
     }
-
-
 }

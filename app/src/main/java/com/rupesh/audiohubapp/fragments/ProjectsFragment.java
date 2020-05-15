@@ -1,7 +1,6 @@
 package com.rupesh.audiohubapp.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,18 +23,12 @@ import com.rupesh.audiohubapp.presenter.ProjectsFragPresenter;
  */
 public class ProjectsFragment extends Fragment {
 
-
-    /*private static String projectID;
-    private static final String TAG = projectID;*/
-
     private View rootView;
-    private Context context;
     private EditText mProjectName;
     private Button mProjectBtn;
     private RecyclerView recyclerView;
 
     private ProjectsFragPresenter projectsFragPresenter;
-
     private ProjectListAdapter adapter;
 
 
@@ -73,7 +66,7 @@ public class ProjectsFragment extends Fragment {
     // THIS IS WHERE THE PROJECT MODEL IS MAPPED AND NEW PROJECT MODEL OBJECT CREATED
     private void initUI() {
         recyclerView = rootView.findViewById(R.id.recycleListViewProject);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ProjectListAdapter(projectsFragPresenter.queryData());
         recyclerView.setAdapter(adapter);
     }

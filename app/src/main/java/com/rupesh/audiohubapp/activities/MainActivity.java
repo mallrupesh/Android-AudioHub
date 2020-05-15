@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         if(item.getItemId() == R.id.main_logout){
-            FirebaseAuth.getInstance().signOut();
+            mAuth.signOut();
             updateUI();
         }
 
