@@ -5,7 +5,7 @@ import android.util.Patterns;
 
 import java.io.Serializable;
 
-public class User implements IUserProtocol, Serializable {
+public class User implements IUser, Serializable {
 
     private String name;
     private String email;
@@ -28,7 +28,12 @@ public class User implements IUserProtocol, Serializable {
         this.password = password;
     }
 
-    public User(String name, String email, String image, String status, String thumb_image, String password, String createdOn, String uid) {
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String name, String email, String image, String status, String password, String createdOn, String uid) {
         this.name = name;
         this.email = email;
         this.image = image;
@@ -52,23 +57,31 @@ public class User implements IUserProtocol, Serializable {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Override
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    /**
+     * Validates the User's name, email, and password before registering the User to
+     * the app.
+     * @return
+     */
     @Override
-    public boolean isValidData() {
+    public boolean isValidRegisteredData() {
         return !TextUtils.isEmpty(getEmail())
                 && !TextUtils.isEmpty(getName())
+                && Patterns.EMAIL_ADDRESS.matcher(getEmail()).matches()
+                && getPassword().length() > 6;
+    }
+
+    /**
+     * Validates the User's email and password each time before the User login the app
+     * @return
+     */
+    @Override
+    public boolean isValidLoginData() {
+        return !TextUtils.isEmpty(getEmail())
                 && Patterns.EMAIL_ADDRESS.matcher(getEmail()).matches()
                 && getPassword().length() > 6;
     }

@@ -9,19 +9,29 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.model.User;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.NotificationViewHolder> {
+
+    public interface OnItemClickListener{
+        void onItemClicked(View v, User user);
+    }
 
     private ArrayList<User> users;
     Context context;
+    public OnItemClickListener onItemClickListener;
 
-    public NotificationListAdapter(ArrayList<User> users, Context context) {
+    public NotificationListAdapter(ArrayList<User> users, OnItemClickListener listener, Context context) {
         this.users = users;
         this.context = context;
+        onItemClickListener = listener;
     }
 
     @NonNull
@@ -35,7 +45,15 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
         holder.username.setText(users.get(position).getName());
-        //holder.projectName.setText(project.getProjectName());
+        holder.setAllSingleUserImg(users.get(position).getImage());
+
+        // Implements the inner interface onItemClicked
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onItemClicked(v, users.get(position));
+            }
+        });
     }
 
 
@@ -49,12 +67,23 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
     public class NotificationViewHolder extends RecyclerView.ViewHolder {
 
-        TextView username;
-        TextView projectName;
+        private CircleImageView userImg;
+        private TextView username;
+
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
+            userImg = itemView.findViewById(R.id.notification_single_img);
             username = itemView.findViewById(R.id.notification_single_name);
-            //projectName = itemView.findViewById(R.id.notification_project_name);
+        }
+
+        /**
+         * Load all users images in the AllUserActivity, if no user images available,
+         * load the default user avatar
+         */
+        private void setAllSingleUserImg(String image){
+            Glide.with(itemView).load(image)
+                    .apply(new RequestOptions().placeholder(R.drawable.default_avatar))
+                    .into(userImg);
         }
     }
 }

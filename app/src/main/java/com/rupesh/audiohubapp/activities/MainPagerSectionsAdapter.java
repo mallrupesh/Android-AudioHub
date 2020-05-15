@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.rupesh.audiohubapp.fragments.MyFilesFragment;
+import com.rupesh.audiohubapp.fragments.NotificationFragment;
 import com.rupesh.audiohubapp.fragments.ProjectsFragment;
 
 class MainPagerSectionsAdapter extends FragmentStatePagerAdapter {
@@ -22,7 +23,7 @@ class MainPagerSectionsAdapter extends FragmentStatePagerAdapter {
 
             case 1: return new ProjectsFragment();
 
-            //case 2: return new NotificationFragment();
+            case 2: return new NotificationFragment();
 
             default: return null;
         }
@@ -30,7 +31,7 @@ class MainPagerSectionsAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;   // We have 3 fragments in the MainActivity
+        return 3;   // We have 3 fragments in the MainActivity
     }
 
 
@@ -41,7 +42,7 @@ class MainPagerSectionsAdapter extends FragmentStatePagerAdapter {
 
             case 1: return "PROJECTS";
 
-            //case 2: return "NOTIFICATIONS";
+            case 2: return "NOTIFICATIONS";
 
             default: return null;
         }

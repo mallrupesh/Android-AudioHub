@@ -22,7 +22,6 @@ public class StartActivity extends AppCompatActivity {
         mRegBtn = findViewById(R.id.start_reg_btn);
         mLoginBtn = findViewById(R.id.start_login_btn);
 
-
         // Register login button to onClickListener for the particular event
         // If clicked navigate to loginActivity
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -33,7 +32,6 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         // Register registration button to onClickListener for the particular event
         // If clicked navigate to registerActivity

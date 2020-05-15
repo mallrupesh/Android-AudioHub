@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.rupesh.audiohubapp.R;
-import com.rupesh.audiohubapp.presenter.IPresenterProtocol;
+import com.rupesh.audiohubapp.presenter.IPresenterRegister;
 import com.rupesh.audiohubapp.presenter.RegisterPresenter;
-import com.rupesh.audiohubapp.view.IViewProtocol;
+import com.rupesh.audiohubapp.view.IViewRegister;
 
-public class RegisterActivity extends AppCompatActivity implements IViewProtocol {
+public class RegisterActivity extends AppCompatActivity implements IViewRegister {
 
     // Declare UI components instances
     private EditText mDisplayName;
@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity implements IViewProtocol
     private ProgressDialog mRegProgress;
 
     // Declare interface IPresenterProtocol instance
-    IPresenterProtocol registerPresenter;
+    IPresenterRegister registerPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,6 @@ public class RegisterActivity extends AppCompatActivity implements IViewProtocol
         });
     }
 
-
     // Sets up Registration dialog
     public void showRegisterProgress(){
         mRegProgress.setTitle("Registering user");
@@ -72,7 +71,6 @@ public class RegisterActivity extends AppCompatActivity implements IViewProtocol
         mRegProgress.setCanceledOnTouchOutside(false);
         mRegProgress.show();
     }
-
 
     /**
      * Sets up the ActionBar.
@@ -117,11 +115,4 @@ public class RegisterActivity extends AppCompatActivity implements IViewProtocol
         mRegProgress.hide();
         Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
     }
-
-
-    @Override
-    public void onLoginSuccess(String message) {}
-
-    @Override
-    public void onLoginError(String message) {}
 }

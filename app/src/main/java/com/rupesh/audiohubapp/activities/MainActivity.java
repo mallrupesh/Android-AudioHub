@@ -68,11 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
         // If the user is null, navigate to StartActivity for Login or Registration
         if(currentUser == null){
-
             updateUI();
         }
     }
-
 
     private void updateUI() {
         Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
@@ -106,15 +104,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(settingsIntent);
         }
 
-
-        if(item.getItemId() == R.id.main_all_users){
+        /*if(item.getItemId() == R.id.main_all_users){
             Intent settingsIntent = new Intent(MainActivity.this, AllUsersActivity.class);
             startActivity(settingsIntent);
-        }
+        }*/
 
         return true;
     }
-
 }
 
 

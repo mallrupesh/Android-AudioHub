@@ -1,3 +1,4 @@
+/*
 package com.rupesh.audiohubapp.activities;
 
 import android.content.Context;
@@ -74,7 +75,7 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
 
         //Log.d("USERS_", "Users " + project);
 
-        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUsers);
+//        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUsers);
 
         // As this activity implements the AllUserAdapter nested interface
         listener = AllUsersActivity.this;
@@ -88,7 +89,7 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
     }
 
     private void initUI(){
-        allUsersRecyclerView = findViewById(R.id.recycleListViewAllUsers);
+       // allUsersRecyclerView = findViewById(R.id.recycleListViewAllUsers);
         allUsersRecyclerView.setLayoutManager(new LinearLayoutManager(AllUsersActivity.this));
 
         // TODO list
@@ -140,15 +141,18 @@ public class AllUsersActivity extends AppCompatActivity implements AllUserListAd
     @Override
     public void mapRequest(ArrayList<User> users) {
         requestUsers = users;
-        initUINotification();
+        //initUINotification();
     }
 
-    public void initUINotification() {
+   */
+/* public void initUINotification() {
         notificationRecyclerView = findViewById(R.id.recycleListViewNotification);
         notificationListAdapter = new NotificationListAdapter(requestUsers,context);
         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         notificationRecyclerView.setAdapter(notificationListAdapter);
-    }
+    }*//*
+
 }
 
 
+*/

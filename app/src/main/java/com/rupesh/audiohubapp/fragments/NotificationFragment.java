@@ -1,4 +1,4 @@
-/*
+
 package com.rupesh.audiohubapp.fragments;
 
 import android.os.Bundle;
@@ -12,19 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.adapters.NotificationListAdapter;
+import com.rupesh.audiohubapp.dialogboxes.InviteDialogBox;
 import com.rupesh.audiohubapp.helper.RequestHelper;
 import com.rupesh.audiohubapp.interfaces.InterfaceRequestCallBack;
 import com.rupesh.audiohubapp.model.User;
 
 import java.util.ArrayList;
 
-
-*/
 /**
  * A simple {@link Fragment} subclass.
- *//*
+ */
 
-public class NotificationFragment extends Fragment implements InterfaceRequestCallBack {
+public class NotificationFragment extends Fragment implements InterfaceRequestCallBack, NotificationListAdapter.OnItemClickListener {
 
     private View rootView;
 
@@ -35,6 +34,10 @@ public class NotificationFragment extends Fragment implements InterfaceRequestCa
     private RecyclerView notificationRecyclerView;
 
     private RequestHelper requestHelper;
+
+    private NotificationListAdapter.OnItemClickListener listener;
+
+   // private NotificationFragPresenter notificationFragPresenter;
 
     public NotificationFragment() {
         // Required empty public constructor
@@ -47,17 +50,20 @@ public class NotificationFragment extends Fragment implements InterfaceRequestCa
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_notification, container, false);
 
+        //notificationFragPresenter = new NotificationFragPresenter();
+        listener = this;
         requestHelper = new RequestHelper();
         requestHelper.interfaceRequestCallBack = this;
-
         requestHelper.searchUser();
+
+       // notificationFragPresenter.getNotification();
 
         return rootView;
     }
 
     public void initUI() {
         notificationRecyclerView = rootView.findViewById(R.id.recycleListViewNotification);
-        notificationListAdapter = new NotificationListAdapter(requestUsers,getContext());
+        notificationListAdapter = new NotificationListAdapter(requestUsers,listener, getContext());
         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         notificationRecyclerView.setAdapter(notificationListAdapter);
     }
@@ -67,5 +73,21 @@ public class NotificationFragment extends Fragment implements InterfaceRequestCa
         requestUsers = users;
         initUI();
     }
+
+
+    @Override
+    public void onItemClicked(View v, User user) {
+        InviteDialogBox inviteDialogBox = new InviteDialogBox();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
+        inviteDialogBox.setArguments(bundle);
+
+        // can be null when Main -> AllUser
+        bundle.putSerializable("project", null);
+        inviteDialogBox.setArguments(bundle);
+
+        //inviteDialogBox.inviteInterface = this;
+        inviteDialogBox.show(getFragmentManager(),"inviteDialog");
+    }
 }
-*/
+

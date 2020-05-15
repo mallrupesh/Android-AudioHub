@@ -14,17 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.R;
-import com.rupesh.audiohubapp.model.CurrentDate;
-import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.adapters.ProjectListAdapter;
-
-import java.util.HashMap;
+import com.rupesh.audiohubapp.presenter.ProjectsFragPresenter;
 
 
 /**
@@ -40,18 +32,9 @@ public class ProjectsFragment extends Fragment {
     private Context context;
     private EditText mProjectName;
     private Button mProjectBtn;
-    private String projectName;
     private RecyclerView recyclerView;
 
-    // Declare instance of Firebase authentication
-    private FirebaseUser currentUser;
-
-    private String uid;
-
-    // Declare Firebase database reference
-    private DatabaseReference projectDatabaseRef;
-
-    private DatabaseReference allProjectsRef;
+    private ProjectsFragPresenter projectsFragPresenter;
 
     private ProjectListAdapter adapter;
 
@@ -63,17 +46,10 @@ public class ProjectsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_project, container, false);
 
         // Init View components
-      //recyclerView = rootView.findViewById(R.id.recycleListViewProject);
         mProjectName = rootView.findViewById(R.id.projects_fragment_newProjectTextView);
         mProjectBtn = rootView.findViewById(R.id.projects_fragment_btnAdd);
 
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        uid = currentUser.getUid();
-
-        projectDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Projects");
-        allProjectsRef = FirebaseDatabase.getInstance().getReference().child("All_Projects");
-
-
+        projectsFragPresenter = new ProjectsFragPresenter();
         addProject();
         initUI();
 
@@ -85,33 +61,9 @@ public class ProjectsFragment extends Fragment {
         mProjectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                projectName = mProjectName.getText().toString();
-                CurrentDate currentDate = new CurrentDate();
-
-                // Get the projectUid created in the Firebase database
-                String pUid = projectDatabaseRef.push().getKey();
-
-                // Write Project data into the Firebase database
-                HashMap<String, Object> projectMap = new HashMap<>();
-                projectMap.put("projectName", projectName );
-                projectMap.put("createdOn", currentDate.getDate());
-                projectMap.put("creatorId", uid);
-                projectMap.put("projectId", pUid);
-                // Set the project data in the Firebase Database
-                projectDatabaseRef.child(pUid).setValue(projectMap);
-                projectDatabaseRef.child(pUid).child("members").child(uid).setValue(true);
-
-                HashMap<String, Object> allProjectMap = new HashMap<>();
-                allProjectMap.put("projectName", projectName);
-                allProjectMap.put("createdOn", currentDate.getDate());
-                allProjectMap.put("creatorId", uid);
-                allProjectMap.put("projectId", pUid);
-                allProjectsRef.child(uid).child(pUid).setValue(allProjectMap);
-
-
+                projectsFragPresenter.createProject(mProjectName.getText().toString());
                 // Clear project input text
                 mProjectName.getText().clear();
-
                 Toast.makeText(getContext(), "Project created successfully", Toast.LENGTH_LONG).show();
             }
         });
@@ -122,16 +74,8 @@ public class ProjectsFragment extends Fragment {
     private void initUI() {
         recyclerView = rootView.findViewById(R.id.recycleListViewProject);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-        FirebaseRecyclerOptions<Project> options =
-                new FirebaseRecyclerOptions.Builder<Project>()
-                        .setQuery(allProjectsRef.child(uid), Project.class).build();
-
-                        /*.setQuery(projectDatabaseRef.orderByChild("creatorId")
-                                .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()), Project.class).build(); */
-        adapter = new ProjectListAdapter(options);
+        adapter = new ProjectListAdapter(projectsFragPresenter.queryData());
         recyclerView.setAdapter(adapter);
-
     }
 
     @Override

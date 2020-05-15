@@ -1,10 +1,11 @@
 package com.rupesh.audiohubapp.model;
 
-public interface IUserProtocol {
+public interface IUser {
 
     String getName();
     String getEmail();
     String getPassword();
-    boolean isValidData();
+    boolean isValidRegisteredData();
+    boolean isValidLoginData();
 }
 

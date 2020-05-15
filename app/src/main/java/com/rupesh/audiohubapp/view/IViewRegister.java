@@ -1,10 +1,7 @@
 package com.rupesh.audiohubapp.view;
 
-public interface IViewProtocol {
+public interface IViewRegister {
 
-    void onLoginSuccess(String message);
-    void onLoginError(String message);
     void onAuthorizationSuccess(String message);
     void onAuthorizationError(String message);
-
 }

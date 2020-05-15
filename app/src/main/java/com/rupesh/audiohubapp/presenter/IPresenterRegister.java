@@ -1,8 +1,5 @@
 package com.rupesh.audiohubapp.presenter;
 
-public interface IPresenterProtocol {
-
-    void onLogin(String email, String password);
+public interface IPresenterRegister {
     void onRegister(String name, String email, String password);
 }
-

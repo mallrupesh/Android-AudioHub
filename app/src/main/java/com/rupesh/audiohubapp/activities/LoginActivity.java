@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.rupesh.audiohubapp.R;
-import com.rupesh.audiohubapp.presenter.IPresenterProtocol;
+import com.rupesh.audiohubapp.presenter.IPresenterLogin;
 import com.rupesh.audiohubapp.presenter.LoginPresenter;
-import com.rupesh.audiohubapp.view.IViewProtocol;
+import com.rupesh.audiohubapp.view.IViewLogin;
 
-public class LoginActivity extends AppCompatActivity implements IViewProtocol {
+public class LoginActivity extends AppCompatActivity implements IViewLogin {
 
     // Declare UI components instances
     private EditText mLoginEmail;
@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity implements IViewProtocol {
     private ProgressDialog mLoginProgress;
 
     // Declare Presenter instance
-    IPresenterProtocol loginPresenter;
+    IPresenterLogin loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,68 +113,4 @@ public class LoginActivity extends AppCompatActivity implements IViewProtocol {
         mLoginProgress.hide();
         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
     }
-
-
-
-    @Override
-    public void onAuthorizationSuccess(String message) {}
-
-    @Override
-    public void onAuthorizationError(String message) {}
 }
-
-
-
-
-
-
-
-
-
-    /*  // Register login button to onClickListener for the particular event
-        // If clicked navigate to MainActivity
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // Retrieve the value of the email and password and check if its empty
-                String email = mLoginEmail.getText().toString();
-                String password = mLoginPassword.getText().toString();
-
-                if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password)){
-
-                    mLoginProgress.setTitle("Login in");
-                    mLoginProgress.setMessage("Please wait while we check your credentials");
-                    mLoginProgress.setCanceledOnTouchOutside(false);
-                    mLoginProgress.show();
-                    loginUser(email, password);
-
-                }
-
-
-            }
-        });*/
-
-    /*private void loginUser(String email, String password) {
-
-        // Check if the user is signed in
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                if(task.isSuccessful()){
-
-                    mLoginProgress.dismiss();
-
-                    Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(mainIntent);
-                    finish();
-                }else {
-
-                    mLoginProgress.hide();
-                    Toast.makeText(LoginActivity.this, "Authentication failed, cannot sign in. Please try again", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-    }*/

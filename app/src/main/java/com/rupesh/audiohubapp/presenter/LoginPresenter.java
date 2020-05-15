@@ -6,19 +6,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.rupesh.audiohubapp.model.LoginUser;
-import com.rupesh.audiohubapp.view.IViewProtocol;
+import com.rupesh.audiohubapp.model.User;
+import com.rupesh.audiohubapp.view.IViewLogin;
 
-public class LoginPresenter implements IPresenterProtocol {
+public class LoginPresenter implements IPresenterLogin {
 
 
     // Declare IViewProtocol instance
-    private IViewProtocol loginView;
+    private IViewLogin loginView;
 
     // Declare instance of Firebase authentication
     private FirebaseAuth mAuth;
 
-    public LoginPresenter(IViewProtocol loginView) {
+    public LoginPresenter(IViewLogin loginView) {
         this.loginView = loginView;
 
         // Initialize Firebase Auth
@@ -27,8 +27,8 @@ public class LoginPresenter implements IPresenterProtocol {
 
     @Override
     public void onLogin(String email, String password) {
-        LoginUser user = new LoginUser(email, password);
-        boolean isDataValid = user.isValidData();
+        User user = new User(email, password);
+        boolean isDataValid = user.isValidLoginData();
 
         if(isDataValid) {
             // Check if the user is signed in
@@ -47,9 +47,4 @@ public class LoginPresenter implements IPresenterProtocol {
             loginView.onLoginError("Please fill in valid email and password");
         }
     }
-
-
-    @Override
-    public void onRegister(String name, String email, String password) {}
-
 }

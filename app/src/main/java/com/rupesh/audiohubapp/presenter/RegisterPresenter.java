@@ -11,14 +11,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.model.CurrentDate;
 import com.rupesh.audiohubapp.model.User;
-import com.rupesh.audiohubapp.view.IViewProtocol;
+import com.rupesh.audiohubapp.view.IViewRegister;
 
 import java.util.HashMap;
 
-public class RegisterPresenter implements IPresenterProtocol {
+public class RegisterPresenter implements IPresenterRegister {
 
     // Declare instance of interface IViewProtocol
-    private IViewProtocol registerView;
+    private IViewRegister registerView;
 
     // Declare instance of Firebase authentication
     private FirebaseAuth mAuth;
@@ -26,7 +26,7 @@ public class RegisterPresenter implements IPresenterProtocol {
     // Declare Firebase database reference
     private DatabaseReference mDatabase;
 
-    public RegisterPresenter(IViewProtocol registerView) {
+    public RegisterPresenter(IViewRegister registerView) {
         this.registerView = registerView;
 
         // Initialize Firebase Auth
@@ -45,7 +45,7 @@ public class RegisterPresenter implements IPresenterProtocol {
         final String createdDate = currentDate.getDate();
 
         // Check if the user inputs are valid
-        boolean isDataValid = user.isValidData();
+        boolean isDataValid = user.isValidRegisteredData();
 
         // If inputs valid authorize the user
         if (isDataValid) {
@@ -87,9 +87,6 @@ public class RegisterPresenter implements IPresenterProtocol {
             registerView.onAuthorizationError("Please fill in valid email and password");
         }
     }
-
-    @Override
-    public void onLogin(String email, String password) {}
 }
 
 
