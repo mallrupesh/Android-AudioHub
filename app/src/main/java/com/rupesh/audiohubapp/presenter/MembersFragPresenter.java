@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 public class MembersFragPresenter implements InterfaceMemberCallback {
 
-
-    private ArrayList<User> projectMembers;
     private MemberNetworkHelper memberNetworkHelper;
     private MembersFragment membersFragment;
 
@@ -26,7 +24,6 @@ public class MembersFragPresenter implements InterfaceMemberCallback {
 
     @Override
     public void mapUser(ArrayList<User> members) {
-        projectMembers = members;
         membersFragment.initUI(members);
     }
 }

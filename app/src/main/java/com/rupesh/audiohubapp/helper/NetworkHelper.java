@@ -94,8 +94,6 @@ public class NetworkHelper {
 
             }
         });
-
-
     }
 
     public void declineRequest() {
@@ -135,16 +133,6 @@ public class NetworkHelper {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
     }
-
-    /**
-     * Request sent = User is the one receiving invitation
-     * Tim(current, Project) sends Sam(User)
-     *
-     * Request received = User is the one accepting invitation
-     * Sam(current) receives from Tim(User's Project)
-     */
-
 }
 

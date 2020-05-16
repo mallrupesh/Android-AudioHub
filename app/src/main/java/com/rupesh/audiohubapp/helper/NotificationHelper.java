@@ -14,7 +14,7 @@ import com.rupesh.audiohubapp.model.User;
 
 import java.util.ArrayList;
 
-public class RequestHelper {
+public class NotificationHelper {
 
     private static final String INVITE_REQUESTS = "Invite_Requests";
     private static final String USERS = "Users";
@@ -24,7 +24,7 @@ public class RequestHelper {
     private DatabaseReference userDatabaseRef;
     public InterfaceRequestCallBack interfaceRequestCallBack;
 
-    public RequestHelper() {
+    public NotificationHelper() {
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         inviteDatabaseRef = FirebaseDatabase.getInstance().getReference().child(INVITE_REQUESTS);
         userDatabaseRef = FirebaseDatabase.getInstance().getReference().child(USERS);

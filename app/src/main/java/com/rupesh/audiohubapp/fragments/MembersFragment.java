@@ -34,7 +34,6 @@ public class MembersFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,14 +49,14 @@ public class MembersFragment extends Fragment {
         return rootView;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
     public void initUI(ArrayList<User> projectMembers) {
         projectMemberRecyclerView = rootView.findViewById(R.id.recycleListViewProjectMembers);
         memberListAdapter = new MemberListAdapter(projectMembers, getContext());
         projectMemberRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         projectMemberRecyclerView.setAdapter(memberListAdapter);
+    }
+
+    public Project getProject() {
+        return project;
     }
 }

@@ -38,7 +38,6 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
     private FirebaseUser mCurrentUser;
 
     private Project project;
-    private String projectId;
     private NetworkHelper networkHelper;
     private int currentState;
 
@@ -59,6 +58,7 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
         mDeclineButton = view.findViewById(R.id.decline_dialog_user_btn);
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
 
         // Get the data sent by AllUserActivity as Bundle since InviteDialogBox is a fragment on top of
@@ -148,6 +148,15 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
             mDeclineButton.setVisibility(View.INVISIBLE);
         } else {
             mDeclineButton.setVisibility(View.VISIBLE);
+        }
+
+        // If the current user selects his own view in recycler view
+        if(user.getUid().equals(mCurrentUser.getUid())) {
+            mInviteButton.setEnabled(false);
+            mInviteButton.setVisibility(View.INVISIBLE);
+
+            mInviteButton.setEnabled(false);
+            mInviteButton.setVisibility(View.INVISIBLE);
         }
     }
 }
