@@ -116,7 +116,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         String dateTime = currentDate.getDate();
 
         localFilePath = getActivity().getExternalFilesDir("/").getAbsolutePath();
-        newFileName = newFileText.getText().toString() + ".mp3";
+        newFileName = newFileText.getText().toString() + ".m4a";
 
         recordMessage.setText("Recording " + newFileName + "...");
 
@@ -124,8 +124,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        mediaRecorder.setOutputFile(localFilePath + "/" + newFileName);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mediaRecorder.setAudioEncodingBitRate(16*44100);
+        mediaRecorder.setAudioSamplingRate(44100);
+        mediaRecorder.setOutputFile(localFilePath + "/" + newFileName);
 
         try {
             mediaRecorder.prepare();
