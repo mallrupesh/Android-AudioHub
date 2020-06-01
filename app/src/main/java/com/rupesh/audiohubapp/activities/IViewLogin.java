@@ -1,4 +1,4 @@
-package com.rupesh.audiohubapp.view;
+package com.rupesh.audiohubapp.activities;
 
 public interface IViewLogin {
 

@@ -107,8 +107,8 @@ public class User implements IUser, Serializable {
     @Override
     public boolean isValidLoginData() {
         return !TextUtils.isEmpty(getEmail())
-                && Patterns.EMAIL_ADDRESS.matcher(getEmail()).matches()
-                && validateUserPassword();
+                && Patterns.EMAIL_ADDRESS.matcher(getEmail()).matches();
+                //&& validateUserPassword();
     }
 
 
@@ -117,7 +117,7 @@ public class User implements IUser, Serializable {
      * 1. (?=.*[0-9]) -> password must contain at least 1 digit
      * 2. (?=.*[a-z]) -> password must contain at least 1 lower case letter
      * 3. (?=.*[A-Z]) -> password must contain at least 1 upper case letter
-     * 4. (?=.*[@#$%^&+=]) -> password must contain at least 1 special character
+     * 4. (?=.*[*@#$%^&+=]) -> password must contain at least 1 special character
      * 5. (?=\S+$) -> password must not have whitespaces in the entire string
      * 6. .{8,} -> password must be at least 8 places long
      * @return true if password adheres the above conditions
@@ -126,11 +126,9 @@ public class User implements IUser, Serializable {
     public boolean validateUserPassword() {
         Pattern pattern;
         Matcher matcher;
-        final String PASSWORD_SEQUENCE = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-
+        final String PASSWORD_SEQUENCE = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*@#$%^&+=])(?=\\S+$).{8,}$";
         pattern = Pattern.compile(PASSWORD_SEQUENCE);
         matcher = pattern.matcher(getPassword());
-
         return matcher.matches();
     }
 

@@ -188,6 +188,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         projectFileMap.put("name", newFileName);
                         projectFileMap.put("createdOn", currentDate.getDate());
                         projectFileMap.put("fileUrl", downloadUrl);
+                        projectFileMap.put("fileId", fileUid);
                         projectFilesDataRef.child(project.getProjectId()).child(fileUid).setValue(projectFileMap);
 
                         //projectFilesDataRef.child(project.getProjectId()).push().setValue(newFileName);

@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include
+       <include
             android:id="@+id/main_page_toolbar"
             layout="@layout/app_bar_layout"
             />
@@ -22,7 +22,8 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/main_tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:tabTextColor="@color/design_default_color_surface">
 
         </com.google.android.material.tabs.TabLayout>
 

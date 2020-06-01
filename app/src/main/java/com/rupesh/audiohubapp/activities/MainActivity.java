@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
         finish();                   // Do not want user to comeback when the back button is pressed
     }
 
-
-
     // Setup menu, make it responsive when selected
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
-
 
     // When the menu item is selected, the app should sign out the user
     @Override

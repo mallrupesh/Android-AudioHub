@@ -53,6 +53,7 @@
     <string name="main_settings_changeStatus_btn">CHANGE STATUS</string>
     <string name="main_settings_displayName_text">Display Name</string>
     <string name="main_settings_displayStatus_text">AudioHub Member</string>
+    <string name="main_settings_displayEmail_text">Email</string>
 
     <string name="status_input_hint_txt">Your status</string>
     <string name="status_input_btn">UPDATE STATUS</string>
@@ -64,7 +65,12 @@
     <string name="accept_accept_btn">ACCEPT</string>
     <string name="accept_decline_btn">DECLINE</string>
 
+    <string name="search_frag_search_text">Search users</string>
 
+    <string name="player_activity_play_button">Plays song</string>
+    <string name="player_activity_forward_button">Plays next song</string>
+    <string name="player_activity_backward_button">Plays previous song</string>
+    <string name="player_activity_timer">00:00</string>
 
 
 

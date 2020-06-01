@@ -19,6 +19,11 @@
             android:parentActivityName=".activities.SettingsActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity
+            android:name=".activities.PlayerActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".activities.MainProjectActivity" />
+        <activity
             android:name=".activities.MainProjectActivity"
             android:parentActivityName=".activities.MainActivity" />
         <activity

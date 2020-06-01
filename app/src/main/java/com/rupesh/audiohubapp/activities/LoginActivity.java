@@ -15,7 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.presenter.IPresenterLogin;
 import com.rupesh.audiohubapp.presenter.LoginPresenter;
-import com.rupesh.audiohubapp.view.IViewLogin;
 
 public class LoginActivity extends AppCompatActivity implements IViewLogin {
 

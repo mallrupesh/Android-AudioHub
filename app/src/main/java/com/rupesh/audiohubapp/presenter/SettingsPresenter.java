@@ -53,7 +53,8 @@ public class SettingsPresenter {
                 String name = dataSnapshot.child("name").getValue().toString();
                 String image = dataSnapshot.child("image").getValue().toString();
                 String status = dataSnapshot.child("status").getValue().toString();
-                settingsActivity.initUI(name, status, image);
+                String email = dataSnapshot.child("email").getValue().toString();
+                settingsActivity.initUI(name, status, image, email);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -91,6 +92,7 @@ public class SettingsPresenter {
                 // Then, first store image name with current user id in Firebase Storage
                 // Second, store the image link in Firebase Database
                 final StorageReference imageFilePath = mImageStorage.child("profile_images").child(currentUserId+".jpg");
+                //final StorageReference imageFilePath = mImageStorage.child("profile_images");
 
                 imageFilePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

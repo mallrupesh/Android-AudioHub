@@ -102,25 +102,21 @@ public class NetworkHelper {
     }
 
 
+
     public void searchUser() {
         // Point the invite database to the current user for dataSnapshot
         inviteDatabaseRef.child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                // If the current user has a child with other userId, check the for the REQUEST TYPE (sent/received)
+                // If the current user has a child with other userId, check for the REQUEST TYPE (sent/received)
                 if (dataSnapshot.hasChild(user.getUid())) {
-
                     String request_type = dataSnapshot.child(user.getUid()).child("request_type").getValue().toString();
-
                     if (request_type.equals("received")) {
 
                         // Pass text, state and visibility
                         interfaceInvite.inviteNetworkCallback("ACCEPT INVITATION", RequestState.REQUEST_RECEIVED, View.VISIBLE);
                         interfaceDecline.declineNetworkCallback("DECLINE INVITATION", RequestState.REQUEST_RECEIVED, View.VISIBLE);
-
                     } else {
-
                         if (request_type.equals("sent")) {
                             // Pass text, state and visibility
                             interfaceInvite.inviteNetworkCallback("CANCEL REQUEST", RequestState.REQUEST_SENT, View.VISIBLE);

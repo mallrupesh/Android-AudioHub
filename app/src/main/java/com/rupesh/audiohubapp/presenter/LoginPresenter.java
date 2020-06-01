@@ -7,7 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rupesh.audiohubapp.model.User;
-import com.rupesh.audiohubapp.view.IViewLogin;
+import com.rupesh.audiohubapp.activities.IViewLogin;
 
 public class LoginPresenter implements IPresenterLogin {
 

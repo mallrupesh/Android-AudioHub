@@ -1,6 +1,8 @@
 package com.rupesh.audiohubapp.model;
 
-public class File {
+import java.io.Serializable;
+
+public class File implements Serializable {
     private String name;
     private String createdOn;
     private String fileUrl;
@@ -10,12 +12,12 @@ public class File {
     // Needed for Firebase operations
     public File(){}
 
-    public File(String name, String createdOn, String fileUrl, String creatorId){
+    public File(String name, String createdOn, String fileUrl, String creatorId, String fileId){
         this.name = name;
         this.createdOn = createdOn;
         this.fileUrl = fileUrl;
         this.creatorId = creatorId;
-
+        this.fileId = fileId;
     }
 
     public String getName() {
@@ -40,6 +42,14 @@ public class File {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
     }
 
     public String getCreatorId() {

@@ -11,7 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rupesh.audiohubapp.model.CurrentDate;
 import com.rupesh.audiohubapp.model.User;
-import com.rupesh.audiohubapp.view.IViewRegister;
+import com.rupesh.audiohubapp.activities.IViewRegister;
 
 import java.util.HashMap;
 
@@ -60,7 +60,6 @@ public class RegisterPresenter implements IPresenterRegister {
 
                         // Point to the newly registered user and add initial default values in the Firebase database
                         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
-
                         // Initial default values
                         HashMap<String, String> userMap = new HashMap<>();
                         userMap.put("name", name);

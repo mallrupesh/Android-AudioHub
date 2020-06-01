@@ -47,19 +47,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/invite_dialog_display_name" />
 
+    <TextView
+        android:id="@+id/invite_dialog_displayEmail_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/main_settings_displayEmail_text"
+        android:textColor="@color/design_default_color_surface"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/invite_dialog_display_status" />
+
     <Button
         android:id="@+id/invite_dialog_user_btn"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@color/colorAccent"
         android:text="@string/invite_user_button"
         android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/invite_dialog_display_status" />
+        app:layout_constraintTop_toBottomOf="@+id/invite_dialog_displayEmail_txt" />
 
     <Button
         android:id="@+id/decline_dialog_user_btn"

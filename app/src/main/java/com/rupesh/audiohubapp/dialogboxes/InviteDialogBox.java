@@ -29,6 +29,7 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
     private ImageView mProfileImgView;
     private TextView mDisplayUserName;
     private TextView mDisplayUserStatus;
+    private TextView mDisplayEmail;
     private Button mInviteButton;
     private Button mDeclineButton;
 
@@ -54,6 +55,7 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
         mProfileImgView = view.findViewById(R.id.invite_dialog_user_image);
         mDisplayUserName = view.findViewById(R.id.invite_dialog_display_name);
         mDisplayUserStatus = view.findViewById(R.id.invite_dialog_display_status);
+        mDisplayEmail = view.findViewById(R.id.invite_dialog_displayEmail_txt);
         mInviteButton = view.findViewById(R.id.invite_dialog_user_btn);
         mDeclineButton = view.findViewById(R.id.decline_dialog_user_btn);
 
@@ -76,6 +78,7 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
 
         mDisplayUserName.setText(user.getName());
         mDisplayUserStatus.setText(user.getStatus());
+        mDisplayEmail.setText(user.getEmail());
 
         Glide.with(requireActivity()).load(user.getImage())
                 .apply(new RequestOptions().placeholder(R.drawable.default_avatar))

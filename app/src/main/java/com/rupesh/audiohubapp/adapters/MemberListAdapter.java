@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.MemberViewHolder> {
 
     private ArrayList<User> users;
-    Context context;
+    private Context context;
 
     public MemberListAdapter(ArrayList<User> users, Context context) {
         this.users = users;
@@ -40,7 +40,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Me
     @Override
     public int getItemCount() {
 
-        // For Firebase asynchronous recall
+        // Handle Firebase asynchronous recall
         if (users == null)
             return 0;
         return users.size();
@@ -55,5 +55,6 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Me
             super(itemView);
             memberName = itemView.findViewById(R.id.textViewMembersName);
         }
+
     }
 }

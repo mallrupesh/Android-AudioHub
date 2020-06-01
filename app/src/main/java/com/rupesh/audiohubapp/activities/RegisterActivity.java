@@ -15,7 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.presenter.IPresenterRegister;
 import com.rupesh.audiohubapp.presenter.RegisterPresenter;
-import com.rupesh.audiohubapp.view.IViewRegister;
 
 public class RegisterActivity extends AppCompatActivity implements IViewRegister {
 
@@ -98,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity implements IViewRegister
     public void onAuthorizationSuccess(String message) {
         mRegProgress.dismiss();
         Intent mainIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        //Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
 
         // Avoids going back to StartActivity once the user is Authorized
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

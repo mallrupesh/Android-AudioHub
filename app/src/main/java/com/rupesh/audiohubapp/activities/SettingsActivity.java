@@ -22,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     private CircleImageView mDisplayImage;
     private TextView mCurrentUserName;
     private TextView mCurrentUserStatus;
+    private TextView mCurrentUserEmail;
     private Button mChangeImgBtn;
     private Button mChangeStatusBtn;
 
@@ -40,6 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
         mDisplayImage = findViewById(R.id.main_settings_img);
         mCurrentUserName = findViewById(R.id.main_settings_displayName_txt);
         mCurrentUserStatus = findViewById(R.id.main_settings_displayStatus_txt);
+        mCurrentUserEmail = findViewById(R.id.main_settings_displayEmail_txt);
         mChangeImgBtn = findViewById(R.id.main_settings_change_img_btn);
         mChangeStatusBtn = findViewById(R.id.main_settings_change_status_btn);
 
@@ -70,9 +72,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public void initUI(String name, String status, String img) {
+    public void initUI(String name, String status, String img, String email) {
         mCurrentUserName.setText(name);
         mCurrentUserStatus.setText(status);
+        mCurrentUserEmail.setText(email);
         // This is to retain Default avatar if the user has not uploaded image
         if(!img.equals("default")){
             Glide.with(SettingsActivity.this).load(img).into(mDisplayImage);
