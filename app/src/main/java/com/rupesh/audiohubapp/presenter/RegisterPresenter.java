@@ -83,7 +83,7 @@ public class RegisterPresenter implements IPresenterRegister {
 
         } else {
             // If the user inputs are not valid, show error message
-            registerView.onAuthorizationError("Please fill in valid email and password");
+            registerView.onAuthorizationError("The password needs to have at least 1 digit, lowercase, uppercase and character");
         }
     }
 }

@@ -16,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.rupesh.audiohubapp.R;
-import com.rupesh.audiohubapp.presenter.PlayerPresenter;
 import com.rupesh.audiohubapp.model.File;
 import com.rupesh.audiohubapp.model.Project;
+import com.rupesh.audiohubapp.presenter.PlayerPresenter;
 
 import java.io.IOException;
 
@@ -60,10 +60,6 @@ public class PlayerActivity extends AppCompatActivity{
         next = findViewById(R.id.player_sheet_forward);
         previous = findViewById(R.id.player_sheet_backward);
         seekBar = findViewById(R.id.player_sheet_seek_bar);
-
-       // Log.d("File_", file.getFileId());
-       // Log.d("Project_", project.getProjectName());
-
 
         songName.setText(file.getName());
         playerPresenter.playPauseFile();
@@ -162,14 +158,14 @@ public class PlayerActivity extends AppCompatActivity{
     }
 
     public String createTimeStamp(int duration) {
-        String timeLabel = "";
+        String timeStamp = "";
         int min = duration / 1000 / 60;
         int sec = duration / 1000 % 60;
-        timeLabel += min + ":";
-        if(sec < 10) timeLabel += "0";
-        timeLabel += sec;
+        timeStamp += min + ":";
+        if(sec < 10) timeStamp += "0";
+        timeStamp += sec;
 
-        return timeLabel;
+        return timeStamp;
     }
 
     public void setupToolBar() {
@@ -186,42 +182,4 @@ public class PlayerActivity extends AppCompatActivity{
         return project;
     }
 }
-
-/*    public void playPause(String url) {
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                @SuppressLint("StaticFieldLeak")
-                AsyncTask<String, String, String> player = new AsyncTask<String, String, String>() {
-                    @Override
-                    protected String doInBackground(String... strings) {
-                        try {
-                            mediaPlayer.setDataSource(strings[0]);
-                            mediaPlayer.prepare();
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                        return  "";
-                    }
-
-                    @Override
-                    protected void onPostExecute(String s) {
-                        audioFileLength = mediaPlayer.getDuration();
-                        realTimeLength = audioFileLength;
-                        if(!mediaPlayer.isPlaying()) {
-                            mediaPlayer.start();
-                            play.setImageResource(R.drawable.ic_pause);
-                        } else {
-                            mediaPlayer.pause();
-                            play.setImageResource(R.drawable.ic_play);
-                        }
-
-                        updateSeekBar();
-                    }
-                };
-
-                player.execute(url);
-            }
-        });
-    }*/
 

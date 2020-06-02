@@ -50,6 +50,7 @@ public class NotificationFragment extends Fragment implements NotificationListAd
     }
 
     public void initUI(ArrayList<User> users) {
+        //notificationFragPresenter.prepareNotification();
         notificationRecyclerView = rootView.findViewById(R.id.recycleListViewNotification);
         notificationListAdapter = new NotificationListAdapter(users,listener, getContext());
         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -61,5 +62,7 @@ public class NotificationFragment extends Fragment implements NotificationListAd
     public void onItemClicked(View v, User user) {
         notificationFragPresenter.displayDialogBox(user);
     }
+
+
 }
 

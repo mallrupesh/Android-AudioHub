@@ -88,17 +88,5 @@ public class SearchFragment extends Fragment implements AllUserListAdapter.OnIte
     @Override
     public void onItemClicked(View v, User user) {
         searchFragPresenter.displayDialogBox(user, project);
-
-        /*InviteDialogBox inviteDialogBox = new InviteDialogBox();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("user", user);
-
-        // can be null when Main -> AllUser
-        bundle.putSerializable("project", project);
-        inviteDialogBox.setArguments(bundle);
-
-        //inviteDialogBox.inviteInterface = this;
-        assert getFragmentManager() != null;
-        inviteDialogBox.show(getFragmentManager(),"inviteDialog");*/
     }
 }

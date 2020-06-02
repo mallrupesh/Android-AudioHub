@@ -107,8 +107,8 @@ public class User implements IUser, Serializable {
     @Override
     public boolean isValidLoginData() {
         return !TextUtils.isEmpty(getEmail())
-                && Patterns.EMAIL_ADDRESS.matcher(getEmail()).matches();
-                //&& validateUserPassword();
+                && Patterns.EMAIL_ADDRESS.matcher(getEmail()).matches()
+                && validateUserPassword();
     }
 
 

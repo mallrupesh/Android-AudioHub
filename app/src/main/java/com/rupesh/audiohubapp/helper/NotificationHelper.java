@@ -31,7 +31,7 @@ public class NotificationHelper {
     }
 
     public void searchUser() {
-        inviteDatabaseRef.child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        inviteDatabaseRef.child(mCurrentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -44,21 +44,24 @@ public class NotificationHelper {
                 }
 
                 for(String temp: IDs) {
-                    userDatabaseRef.child(temp).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot userSnapshot) {
-                            User user = userSnapshot.getValue(User.class);
-                            users.add(user);
+                    if(dataSnapshot.hasChild(temp)) {
+                        String request_type = dataSnapshot.child(temp).child("request_type").getValue().toString();
+                        if (request_type.equals("received")) {
+                            userDatabaseRef.child(temp).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                                    User user = userSnapshot.getValue(User.class);
+                                    users.add(user);
+                                    interfaceRequestCallBack.mapRequest(users);
+                                }
 
-                            interfaceRequestCallBack.mapRequest(users);
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
+                    }
                 }
             }
 

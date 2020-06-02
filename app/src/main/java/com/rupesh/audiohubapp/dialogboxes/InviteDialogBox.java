@@ -103,6 +103,7 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
 
                 if (currentState == RequestState.REQUEST_SENT) {
                     networkHelper.cancelRequest();
+
                 }
 
                 if (currentState == RequestState.REQUEST_RECEIVED) {
@@ -162,4 +163,5 @@ public class InviteDialogBox extends DialogFragment implements InterfaceInvite, 
             mInviteButton.setVisibility(View.INVISIBLE);
         }
     }
+
 }

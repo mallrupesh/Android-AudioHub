@@ -1,10 +1,13 @@
 package com.rupesh.audiohubapp.presenter;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +37,8 @@ public class SettingsPresenter {
 
     // For accessing the phone gallery
     private static final int GALLERY_PICK = 1;
+    private String storagePermission = Manifest.permission.READ_EXTERNAL_STORAGE;
+    private int PERMISSION_CODE = 21;
 
     public SettingsPresenter(SettingsActivity settingsActivity) {
 
@@ -64,7 +69,7 @@ public class SettingsPresenter {
     }
 
     public void uploadImage(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == GALLERY_PICK && resultCode == settingsActivity.RESULT_OK) {
+        if(requestCode == GALLERY_PICK && resultCode == settingsActivity.RESULT_OK ) {
 
             Uri imageUri = data.getData();
 
@@ -125,5 +130,16 @@ public class SettingsPresenter {
                 Exception error = result.getError();
             }
         }
+    }
+
+    // Ask for audio recording permission
+    public boolean checkPermissions() {
+        if(ActivityCompat.checkSelfPermission(settingsActivity, storagePermission) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+
+            ActivityCompat.requestPermissions(settingsActivity, new String[] {storagePermission}, PERMISSION_CODE);
+        }
+        return false;
     }
 }

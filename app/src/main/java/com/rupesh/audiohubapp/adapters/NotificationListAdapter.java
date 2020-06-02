@@ -56,10 +56,9 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         });
     }
 
-
     @Override
     public int getItemCount() {
-        // For Firebase asynchronous recall
+        // Handle Firebase asynchronous recall
         if (users == null)
             return 0;
         return users.size();
