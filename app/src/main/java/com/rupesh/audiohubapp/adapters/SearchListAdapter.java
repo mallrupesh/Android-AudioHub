@@ -18,7 +18,7 @@ import com.rupesh.audiohubapp.model.User;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserListAdapter.AllUserListViewHolder> {
+public class SearchListAdapter extends FirebaseRecyclerAdapter<User, SearchListAdapter.AllUserListViewHolder> {
 
 
     /**
@@ -34,7 +34,7 @@ public class AllUserListAdapter extends FirebaseRecyclerAdapter<User, AllUserLis
     private Context context;
     private OnItemClickListener listener;
 
-    public AllUserListAdapter(@NonNull FirebaseRecyclerOptions<User> options, OnItemClickListener listener, Context context ) {
+    public SearchListAdapter(@NonNull FirebaseRecyclerOptions<User> options, OnItemClickListener listener, Context context ) {
         super(options);
         this.context = context;
         this.listener = listener;

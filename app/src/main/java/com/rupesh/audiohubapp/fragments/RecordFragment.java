@@ -19,8 +19,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -173,18 +171,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         String downloadUrl = uri.toString();
                         CurrentDate currentDate = new CurrentDate();
 
-                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                        String uid = currentUser.getUid();
+                       // FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                       // String uid = currentUser.getUid();
 
                         String fileUid = audioFilesDataRef.push().getKey();
-
-                        HashMap <String, String > fileMap = new HashMap<>();
-                        fileMap.put("name", newFileName);
-                        fileMap.put("createdOn", currentDate.getDate());
-                        fileMap.put("fileUrl", downloadUrl);
-                        fileMap.put("creatorId", uid );
-                        fileMap.put("fileId", fileUid);
-                        audioFilesDataRef.child(fileUid).setValue(fileMap);
 
                         HashMap <String, String> projectFileMap = new HashMap<>();
                         projectFileMap.put("name", newFileName);

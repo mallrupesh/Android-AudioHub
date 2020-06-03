@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -14,8 +16,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.rupesh.audiohubapp.R;
+import com.rupesh.audiohubapp.adapters.PlayerListAdapter;
 import com.rupesh.audiohubapp.model.File;
 import com.rupesh.audiohubapp.model.Project;
 import com.rupesh.audiohubapp.presenter.PlayerPresenter;
@@ -32,6 +37,8 @@ public class PlayerActivity extends AppCompatActivity{
     private ImageButton next;
     private ImageButton previous;
     private SeekBar seekBar;
+    private EditText comment;
+    private Button postComment;
 
     private File file;
     private Project project;
@@ -39,6 +46,10 @@ public class PlayerActivity extends AppCompatActivity{
     private PlayerPresenter playerPresenter;
 
     private MediaPlayer mediaPlayer;
+
+    private RecyclerView recyclerView;
+    private PlayerListAdapter playerListAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +71,11 @@ public class PlayerActivity extends AppCompatActivity{
         next = findViewById(R.id.player_sheet_forward);
         previous = findViewById(R.id.player_sheet_backward);
         seekBar = findViewById(R.id.player_sheet_seek_bar);
+        comment = findViewById(R.id.player_activity_comment);
+        postComment = findViewById(R.id.player_activity_post);
 
+
+        initUI();
         songName.setText(file.getName());
         playerPresenter.playPauseFile();
 
@@ -68,6 +83,14 @@ public class PlayerActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 play();
+            }
+        });
+
+        postComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playerPresenter.inputComment(comment.getText().toString());
+                comment.getText().clear();
             }
         });
     }
@@ -168,6 +191,14 @@ public class PlayerActivity extends AppCompatActivity{
         return timeStamp;
     }
 
+
+    public void initUI() {
+        recyclerView = findViewById(R.id.recycleListComments);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        playerListAdapter = new PlayerListAdapter(playerPresenter.queryData());
+        recyclerView.setAdapter(playerListAdapter);
+    }
+
     public void setupToolBar() {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Audio Player");
@@ -180,6 +211,18 @@ public class PlayerActivity extends AppCompatActivity{
 
     public Project getProject() {
         return project;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        playerListAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        playerListAdapter.stopListening();
     }
 }
 

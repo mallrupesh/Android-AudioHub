@@ -71,6 +71,10 @@
     <string name="player_activity_forward_button">Plays next song</string>
     <string name="player_activity_backward_button">Plays previous song</string>
     <string name="player_activity_timer">00:00</string>
+    <string name="player_activity_comment_hint">Comment</string>
+    <string name="player_activity_post_btn">Post</string>
+    <string name="player_activity_dot">:</string>
+
 
 
 
