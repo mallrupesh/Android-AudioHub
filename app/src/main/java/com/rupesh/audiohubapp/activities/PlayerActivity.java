@@ -72,7 +72,7 @@ public class PlayerActivity extends AppCompatActivity{
         previous = findViewById(R.id.player_sheet_backward);
         seekBar = findViewById(R.id.player_sheet_seek_bar);
         comment = findViewById(R.id.player_activity_comment);
-        postComment = findViewById(R.id.player_activity_post);
+        postComment = findViewById(R.id.player_activity_post_btn);
 
 
         initUI();

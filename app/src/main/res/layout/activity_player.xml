@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="16dp"
         android:text="@string/player_sheet_filename"
         android:textAlignment="center"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:text="@string/player_activity_timer"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:text="@string/player_activity_timer"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,14 +60,14 @@
         android:layout_width="55dp"
         android:layout_height="47dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="176dp"
+        android:contentDescription="@string/player_activity_play_button"
         android:src="@drawable/ic_play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.951"
         app:layout_constraintStart_toEndOf="@+id/player_sheet_backward"
-        app:layout_constraintTop_toBottomOf="@+id/player_sheet_fileName"
-        android:contentDescription="@string/player_activity_play_button" />
+        app:layout_constraintTop_toBottomOf="@+id/player_sheet_fileName" />
 
 
     <ImageButton
@@ -75,7 +75,7 @@
         android:layout_width="55dp"
         android:layout_height="28dp"
         android:layout_marginStart="54dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="20dp"
         android:contentDescription="@string/player_activity_backward_button"
         android:src="@drawable/rewind_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,19 +85,19 @@
         android:id="@+id/player_sheet_forward"
         android:layout_width="52dp"
         android:layout_height="29dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="54dp"
+        android:contentDescription="@string/player_activity_forward_button"
         android:src="@drawable/forward_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_sheet_fileName"
-        android:contentDescription="@string/player_activity_forward_button"/>
+        app:layout_constraintTop_toBottomOf="@+id/player_sheet_fileName" />
 
     <SeekBar
         android:id="@+id/player_sheet_seek_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -107,7 +107,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleListComments"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="450dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,29 +115,30 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+    <EditText
+        android:id="@+id/player_activity_comment"
+        android:layout_width="320dp"
+        android:layout_height="42dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/player_activity_comment_hint"
+        android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/recycleListComments" />
 
-    </androidx.cardview.widget.CardView>
-
-    <include
-        layout="@layout/comment_form"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/player_activity_post_btn"
+        android:layout_width="68dp"
+        android:layout_height="42dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/player_activity_post_btn"
+        android:textColor="@color/design_default_color_on_primary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/player_activity_comment"
         app:layout_constraintTop_toBottomOf="@+id/recycleListComments" />
 
 

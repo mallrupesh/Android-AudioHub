@@ -27,6 +27,7 @@ public class PlayerListAdapter extends FirebaseRecyclerAdapter<Comment, PlayerLi
     protected void onBindViewHolder(@NonNull PlayerListAdapter.CommentListViewHolder holder, int position, @NonNull Comment model) {
         holder.commenterName.setText(model.getCommenter());
         holder.commentTxt.setText(model.getComment());
+        holder.commentDate.setText(model.getCreatedOn());
         holder.setCommenterImg(model.getImage());
     }
 
@@ -43,6 +44,7 @@ public class PlayerListAdapter extends FirebaseRecyclerAdapter<Comment, PlayerLi
         private CircleImageView commenterImg;
         private TextView commenterName;
         private TextView commentTxt;
+        private TextView commentDate;
         private TextView dot;
 
         public CommentListViewHolder(@NonNull View itemView) {
@@ -51,6 +53,7 @@ public class PlayerListAdapter extends FirebaseRecyclerAdapter<Comment, PlayerLi
             commenterImg = itemView.findViewById(R.id.player_commenter_img);
             commenterName = itemView.findViewById(R.id.player_commenter_name);
             commentTxt = itemView.findViewById(R.id.player_comment);
+            commentDate = itemView.findViewById(R.id.player_date);
             dot = itemView.findViewById(R.id.player_dot);
         }
 

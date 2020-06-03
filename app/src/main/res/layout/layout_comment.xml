@@ -62,4 +62,18 @@
         app:layout_constraintStart_toEndOf="@+id/player_dot"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/player_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/player_activity_date"
+        android:textColor="@android:color/black"
+        android:textSize="8sp"
+        app:layout_constraintStart_toEndOf="@+id/player_commenter_img"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
