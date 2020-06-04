@@ -20,6 +20,7 @@
     <string name="menu_all_users">All Users</string>
 
 
+
     <string name="my_files_fragment_title">MyFiles</string>
 
     <string name="projects_fragment_title">Projects</string>
@@ -45,6 +46,7 @@
 
     <string name="all_user_single_display_name">Name</string>
     <string name="all_user_single_display_status">Status</string>
+    <string name="search_activity_button">Search</string>
 
     <string name="invite_user_button">INVITE TO PROJECT</string>
     <string name="invite_decline_user_button">DECLINE INVITATION</string>

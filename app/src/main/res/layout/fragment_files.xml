@@ -15,6 +15,4 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <!--<include layout="@layout/layout_player_sheet"/>-->
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,22 +1,27 @@
 package com.rupesh.audiohubapp.adapters;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.rupesh.audiohubapp.activities.MainProjectActivity;
 import com.rupesh.audiohubapp.R;
+import com.rupesh.audiohubapp.activities.MainProjectActivity;
+import com.rupesh.audiohubapp.fragments.ProjectsFragment;
 import com.rupesh.audiohubapp.model.Project;
 
 public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, ProjectListAdapter.ProjectListViewHolder> {
 
+    ProjectsFragment projectsFragment;
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
@@ -24,8 +29,9 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
      *
      * @param options
      */
-    public ProjectListAdapter(@NonNull FirebaseRecyclerOptions<Project> options) {
+    public ProjectListAdapter(@NonNull FirebaseRecyclerOptions<Project> options, ProjectsFragment projectsFragment) {
         super(options);
+        this.projectsFragment = projectsFragment;
     }
 
     @Override
@@ -44,6 +50,33 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
                 Intent mainProjectIntent = new Intent(v.getContext(), MainProjectActivity.class);
                 mainProjectIntent.putExtra("project", model);
                 v.getContext().startActivity(mainProjectIntent);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            String proName = getItem(position).getProjectName();
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(projectsFragment.getContext());
+                builder.setTitle("Delete");
+                builder.setMessage("Confirm deletion of: " + proName);
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        projectsFragment.removeProject(proName);
+                        Toast.makeText(projectsFragment.getContext(), "Project Deleted", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder.create().show();
+                return true;
             }
         });
     }

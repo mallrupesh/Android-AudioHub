@@ -1,10 +1,16 @@
 package com.rupesh.audiohubapp.presenter;
 
+import androidx.annotation.NonNull;
+
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.rupesh.audiohubapp.model.CurrentDate;
 import com.rupesh.audiohubapp.model.Project;
 
@@ -58,5 +64,38 @@ public class ProjectsFragPresenter {
                 new FirebaseRecyclerOptions.Builder<Project>()
                         .setQuery(allProjectsRef.child(uid), Project.class).build();
         return options;
+    }
+
+    public void deleteProject(String title) {
+        Query query = projectDatabaseRef.orderByChild("projectName").equalTo(title);
+        Query query1 = allProjectsRef.child(uid).orderByChild ("projectName").equalTo(title);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postData: dataSnapshot.getChildren()) {
+                    postData.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postData: dataSnapshot.getChildren()) {
+                    postData.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

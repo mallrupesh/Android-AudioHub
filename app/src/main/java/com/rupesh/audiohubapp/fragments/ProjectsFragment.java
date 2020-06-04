@@ -62,14 +62,20 @@ public class ProjectsFragment extends Fragment {
         });
     }
 
+
+    public void removeProject(String projectTitle) {
+        projectsFragPresenter.deleteProject(projectTitle);
+    }
+
     // Init the recyclerView and set the FirebaseRecyclerViewAdapter to it
     // THIS IS WHERE THE PROJECT MODEL IS MAPPED AND NEW PROJECT MODEL OBJECT CREATED
     private void initUI() {
         recyclerView = rootView.findViewById(R.id.recycleListViewProject);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ProjectListAdapter(projectsFragPresenter.queryData());
+        adapter = new ProjectListAdapter(projectsFragPresenter.queryData(), this);
         recyclerView.setAdapter(adapter);
     }
+
 
     @Override
     public void onStart() {
