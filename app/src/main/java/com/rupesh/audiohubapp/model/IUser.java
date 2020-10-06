@@ -1,5 +1,8 @@
 package com.rupesh.audiohubapp.model;
 
+/**
+ * Protocols/ Contracts for User model
+ */
 public interface IUser {
 
     String getName();

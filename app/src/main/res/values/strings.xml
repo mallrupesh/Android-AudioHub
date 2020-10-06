@@ -10,6 +10,8 @@
     <string name="reg_activity_email_hint">Your Email</string>
     <string name="reg_activity_create_button">Create Account</string>
     <string name="reg_activity_txt_view">Create New Account</string>
+    <string name="reg_activity_password_guide">Please include at least one UPPERCASE,
+        LOWERCASE, NUMBER and SPECIAL CHARACTER in your password</string>
 
     <string name="login_activity_txt_view">Login to your Account</string>
     <string name="login_activity_login_btn">LOGIN</string>

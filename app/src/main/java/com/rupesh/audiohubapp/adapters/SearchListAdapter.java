@@ -18,6 +18,11 @@ import com.rupesh.audiohubapp.model.User;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * SearchListAdapter transforms the retrieved data into User objects
+ * if appropriate and binds view components with the model(User) and displays
+ * a list of the view items
+ */
 public class SearchListAdapter extends FirebaseRecyclerAdapter<User, SearchListAdapter.AllUserListViewHolder> {
 
 
@@ -27,6 +32,7 @@ public class SearchListAdapter extends FirebaseRecyclerAdapter<User, SearchListA
      *
      */
 
+    // Inner interface
     public interface OnItemClickListener{
         void onItemClicked(View v, User user);
     }
@@ -34,6 +40,12 @@ public class SearchListAdapter extends FirebaseRecyclerAdapter<User, SearchListA
     private Context context;
     private OnItemClickListener listener;
 
+    /**
+     * Constructor
+     * @param options FirebaseRecyclerOption<User>
+     * @param listener interface instance OnItemClickListener
+     * @param context App activity/ fragment context
+     */
     public SearchListAdapter(@NonNull FirebaseRecyclerOptions<User> options, OnItemClickListener listener, Context context ) {
         super(options);
         this.context = context;
@@ -42,10 +54,10 @@ public class SearchListAdapter extends FirebaseRecyclerAdapter<User, SearchListA
 
 
     /**
-     * Binds the components of the view holder with the model(user) data.
+     * Binds the components of the view holder with the model(User) data.
      * @param holder refers to the view holder that wraps the view components
      * @param position refers to the position of the view holder in the recycler view list
-     * @param model refers to the user model
+     * @param model refers to the Project model
      */
     @Override
     protected void onBindViewHolder(@NonNull final AllUserListViewHolder holder, final int position, @NonNull final User model) {
@@ -64,8 +76,8 @@ public class SearchListAdapter extends FirebaseRecyclerAdapter<User, SearchListA
 
 
     /**
-     * Inflates each all_user_row layout upon the start of AllUserActivity
-     * @param parent refers to the RecyclerView in AllUserActivity that wraps
+     * Inflates each all_user_row layout upon the start of SearchFragment
+     * @param parent refers to the RecyclerView in SearchActivity that wraps
      *               each all_user_row layout
      * @param viewType refers to the view type of the item at position for the
      *                 purpose of view recycling

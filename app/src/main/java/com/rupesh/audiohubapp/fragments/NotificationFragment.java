@@ -21,6 +21,9 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 
+/**
+ * Initialises UI components and displays list of notifications
+ */
 public class NotificationFragment extends Fragment implements NotificationListAdapter.OnItemClickListener {
 
     private View rootView;
@@ -49,6 +52,10 @@ public class NotificationFragment extends Fragment implements NotificationListAd
         return rootView;
     }
 
+    /**
+     * Init notification list
+     * @param users
+     */
     public void initUI(ArrayList<User> users) {
         //notificationFragPresenter.prepareNotification();
         notificationRecyclerView = rootView.findViewById(R.id.recycleListViewNotification);

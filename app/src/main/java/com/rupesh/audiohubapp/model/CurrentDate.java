@@ -3,6 +3,9 @@ package com.rupesh.audiohubapp.model;
 import java.text.DateFormat;
 import java.util.Date;
 
+/**
+ * Data model
+ */
 public class CurrentDate {
 
     /**
@@ -11,7 +14,6 @@ public class CurrentDate {
     public CurrentDate(){}
 
     /**
-     *
      * @return String of date instance in date format.
      */
     public String getDate() {

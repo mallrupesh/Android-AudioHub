@@ -1,12 +1,14 @@
 package com.rupesh.audiohubapp.model;
 
-import android.text.TextUtils;
-import android.util.Patterns;
+import com.rupesh.audiohubapp.helper.UserHelperAbstract;
 
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * User data structure, performs user data operations email and password validations
+ */
 public class User implements IUser, Serializable {
 
     private String name;
@@ -16,6 +18,8 @@ public class User implements IUser, Serializable {
     private String password;
     private String createdOn;
     private String uid;
+
+    private UserHelperAbstract helper;
 
     /**
      * Empty constructor for Firebase operation
@@ -93,9 +97,9 @@ public class User implements IUser, Serializable {
      */
     @Override
     public boolean isValidRegisteredData() {
-        return !TextUtils.isEmpty(getEmail())
-                && !TextUtils.isEmpty(getName())
-                && Patterns.EMAIL_ADDRESS.matcher(getEmail()).matches()
+        return !helper.isEmpty(getEmail())
+                && !helper.isEmpty(getName())
+                && helper.patternEmailMatcher(getEmail())
                 && validateUserPassword();
     }
 
@@ -106,8 +110,8 @@ public class User implements IUser, Serializable {
      */
     @Override
     public boolean isValidLoginData() {
-        return !TextUtils.isEmpty(getEmail())
-                && Patterns.EMAIL_ADDRESS.matcher(getEmail()).matches()
+        return !helper.isEmpty(getEmail())
+                && helper.patternEmailMatcher(getEmail())
                 && validateUserPassword();
     }
 
@@ -131,6 +135,8 @@ public class User implements IUser, Serializable {
         matcher = pattern.matcher(getPassword());
         return matcher.matches();
     }
+
+    /*----------------------Getters and Setters-------------------------- */
 
     public String getCreatedOn() {
         return createdOn;
@@ -162,6 +168,10 @@ public class User implements IUser, Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public void setHelper(UserHelperAbstract helper) {
+        this.helper = helper;
     }
 }
 

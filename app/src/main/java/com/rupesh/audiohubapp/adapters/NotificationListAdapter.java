@@ -15,9 +15,14 @@ import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.model.User;
 
 import java.util.ArrayList;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
+/**
+ * NotificationListAdapter transforms the retrieved data into User objects
+ * if appropriate and binds view components with the model(User) and displays
+ * a list of the view items
+ */
 public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.NotificationViewHolder> {
 
     public interface OnItemClickListener{
@@ -34,6 +39,14 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         onItemClickListener = listener;
     }
 
+    /**
+     * Inflates each layout_notification_row layout upon the start of NotificationFragment
+     * @param parent refers to the RecyclerView in ProjectFragment that wraps
+     *               each layout_notification_row
+     * @param viewType refers to the view type of the item at position for the
+     *                 purpose of view recycling
+     * @return specific view holder that wraps the components layout_notification_row
+     */
     @NonNull
     @Override
     public NotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,6 +55,11 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         return new NotificationViewHolder(view);
     }
 
+    /**
+     * Binds the components of the view holder with the model(Project) data.
+     * @param holder refers to the view holder that wraps the view components
+     * @param position refers to the position of the view holder in the recycler view list
+     */
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
         holder.username.setText(users.get(position).getName());
@@ -56,14 +74,20 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         });
     }
 
+    /**
+     * Handle Firebase asynchronous recall
+     * @return size of users array
+     */
     @Override
     public int getItemCount() {
-        // Handle Firebase asynchronous recall
         if (users == null)
             return 0;
         return users.size();
     }
 
+    /**
+     * Declare the view components to be displayed
+     */
     public class NotificationViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView userImg;

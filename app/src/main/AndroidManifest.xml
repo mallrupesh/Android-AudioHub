@@ -16,6 +16,8 @@
 
         <activity
             android:name=".activities.StatusActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleInstance"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity

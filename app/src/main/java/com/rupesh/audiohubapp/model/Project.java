@@ -1,16 +1,16 @@
 package com.rupesh.audiohubapp.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
 
+/**
+ * Project data structure
+ */
 public class Project implements Serializable {
 
     private String projectName;
     private String createdOn;
     private String creatorId;
     private String projectId;
-    //private HashMap<String, Object> members;
-
 
     public Project(){}
 
@@ -19,13 +19,14 @@ public class Project implements Serializable {
         this.createdOn = createdOn;
     }
 
-    public Project(String projectName, String createdOn, String creatorId, String projectId, HashMap<String, Object> members) {
+    public Project(String projectName, String createdOn, String creatorId, String projectId) {
         this.projectName = projectName;
         this.createdOn = createdOn;
         this.creatorId = creatorId;
         this.projectId = projectId;
-        //this.members = members;
     }
+
+    /*-------------------Getters and Setters--------------------*/
 
     public String getProjectName() {
         return projectName;
@@ -58,13 +59,4 @@ public class Project implements Serializable {
     public void setProjectId(String projectId) {
         this.projectId = projectId;
     }
-
-   /* public HashMap<String, Object> getMembers() {
-        return members;
-    }
-
-    public void setMembers(HashMap<String, Object> members) {
-        this.members = members;
-    }*/
-
 }

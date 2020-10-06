@@ -2,6 +2,9 @@ package com.rupesh.audiohubapp.model;
 
 import java.io.Serializable;
 
+/**
+ * File data structure
+ */
 public class File implements Serializable {
     private String name;
     private String createdOn;
@@ -19,6 +22,8 @@ public class File implements Serializable {
         this.creatorId = creatorId;
         this.fileId = fileId;
     }
+
+    /*--------------------Getters and Setters----------*/
 
     public String getName() {
         return name;

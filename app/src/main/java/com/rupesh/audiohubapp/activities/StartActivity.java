@@ -9,6 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.rupesh.audiohubapp.R;
 
+/**
+ * The first Activity when the app fires up,
+ * only when the user is not logged in
+ *
+ * Either navigates to LoginActivity or LoginActivity
+ */
 public class StartActivity extends AppCompatActivity {
 
     private Button mRegBtn;
@@ -23,22 +29,20 @@ public class StartActivity extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.start_login_btn);
 
         // Register login button to onClickListener for the particular event
-        // If clicked navigate to loginActivity
+        // If clicked navigate to LoginActivity
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(StartActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
 
         // Register registration button to onClickListener for the particular event
-        // If clicked navigate to registerActivity
+        // If clicked navigate to RegisterActivity
         mRegBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(StartActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }

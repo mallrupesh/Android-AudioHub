@@ -42,6 +42,7 @@ public class SearchFragPresenter {
     }
 
 
+
     public void searchUser(String searchTxt) {
         Query searchQuery = mUserDataRef.orderByChild("name").startAt(searchTxt)
                             .endAt(searchTxt + "\uf8ff");
@@ -69,16 +70,19 @@ public class SearchFragPresenter {
         });
     }
 
+    /**
+     * Display InviteDialogBox
+     * @param user
+     * @param project
+     */
     public void displayDialogBox(User user, Project project) {
         InviteDialogBox inviteDialogBox = new InviteDialogBox();
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", user);
 
-        // can be null when Main -> AllUser
         bundle.putSerializable("project", project);
         inviteDialogBox.setArguments(bundle);
 
-        //inviteDialogBox.inviteInterface = this;
         inviteDialogBox.show(searchFragment.getFragmentManager(), "inviteDialog");
     }
 }

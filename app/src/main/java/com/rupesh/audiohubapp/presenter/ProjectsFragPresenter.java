@@ -16,6 +16,9 @@ import com.rupesh.audiohubapp.model.Project;
 
 import java.util.HashMap;
 
+/**
+ * Performs Firebase operations for creating and deleting Project
+ */
 public class ProjectsFragPresenter {
 
     // Declare Firebase database reference
@@ -35,6 +38,10 @@ public class ProjectsFragPresenter {
         uid = currentUser.getUid();
     }
 
+    /**
+     * Trigger write operation to create new Project
+     * @param projectName
+     */
     public void createProject(String projectName) {
         CurrentDate currentDate = new CurrentDate();
 
@@ -59,6 +66,10 @@ public class ProjectsFragPresenter {
         allProjectsRef.child(uid).child(pUid).setValue(allProjectMap);
     }
 
+    /**
+     * Firebase Query to display project list
+     * @return
+     */
     public FirebaseRecyclerOptions<Project> queryData() {
         FirebaseRecyclerOptions<Project> options =
                 new FirebaseRecyclerOptions.Builder<Project>()
@@ -66,6 +77,10 @@ public class ProjectsFragPresenter {
         return options;
     }
 
+    /**
+     * Trigger update operation to delete project
+     * @param title
+     */
     public void deleteProject(String title) {
         Query query = projectDatabaseRef.orderByChild("projectName").equalTo(title);
         Query query1 = allProjectsRef.child(uid).orderByChild ("projectName").equalTo(title);

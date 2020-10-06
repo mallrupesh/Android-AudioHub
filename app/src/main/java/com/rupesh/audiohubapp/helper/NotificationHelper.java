@@ -14,6 +14,10 @@ import com.rupesh.audiohubapp.model.User;
 
 import java.util.ArrayList;
 
+/**
+ * Helper class that retrieves the Users object from User node using Invite_Requests node
+ * Performs double DataSnapShot tasks
+ */
 public class NotificationHelper {
 
     private static final String INVITE_REQUESTS = "Invite_Requests";
@@ -30,7 +34,11 @@ public class NotificationHelper {
         userDatabaseRef = FirebaseDatabase.getInstance().getReference().child(USERS);
     }
 
-    public void searchUser() {
+    /**
+     * Triggers read data from Invite_Requests node to read userIds and
+     * uses the userIds to get respective Users objects
+     */
+    public void getUsers() {
         inviteDatabaseRef.child(mCurrentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -9,12 +9,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.rupesh.audiohubapp.helper.UserHelper;
 import com.rupesh.audiohubapp.model.CurrentDate;
 import com.rupesh.audiohubapp.model.User;
 import com.rupesh.audiohubapp.activities.IViewRegister;
 
 import java.util.HashMap;
 
+/**
+ * Register Presenter handles app side validation and Firebase register operation
+ */
 public class RegisterPresenter implements IPresenterRegister {
 
     // Declare instance of interface IViewProtocol
@@ -34,22 +38,26 @@ public class RegisterPresenter implements IPresenterRegister {
     }
 
 
+    /**
+     * Validates user email and password. Then, calls Firebase SDK method to authorise
+     * and register User
+     * @param name
+     * @param email
+     * @param password
+     */
     @Override
     public void onRegister(final String name, final String email, String password) {
-
-        // Create new user with the provided name, email and password entered by the user
         User user = new User(name, email, password);
-
-        // Get current date
+        user.setHelper(new UserHelper());
         CurrentDate currentDate = new CurrentDate();
         final String createdDate = currentDate.getDate();
 
-        // Check if the user inputs are valid
+        // Check input validity
         boolean isDataValid = user.isValidRegisteredData();
 
         // If inputs valid authorize the user
         if (isDataValid) {
-            // Validate and authorize user to Firebase Authorization database
+            // Validate and authorize user using Firebase SDK Authorization
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -58,7 +66,7 @@ public class RegisterPresenter implements IPresenterRegister {
                         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                         String uid = currentUser.getUid();
 
-                        // Point to the newly registered user and add initial default values in the Firebase database
+                        // Create new user under Users node in the database
                         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
                         // Initial default values
                         HashMap<String, String> userMap = new HashMap<>();
@@ -76,14 +84,14 @@ public class RegisterPresenter implements IPresenterRegister {
                         });
                     } else {
                         // If Authorization fails
-                        registerView.onAuthorizationError("Unable to register");
+                        registerView.onAuthorizationError("Email already in use, try another email");
                     }
                 }
             });
 
         } else {
             // If the user inputs are not valid, show error message
-            registerView.onAuthorizationError("The password needs to have at least 1 digit, lowercase, uppercase and character");
+            registerView.onAuthorizationError("Please fill in valid email and password");
         }
     }
 }

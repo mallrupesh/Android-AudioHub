@@ -16,6 +16,11 @@ import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.presenter.IPresenterLogin;
 import com.rupesh.audiohubapp.presenter.LoginPresenter;
 
+
+/**
+ * Login Activity initiates the login screen UI components
+ * Enables user inputs and handles button events
+ */
 public class LoginActivity extends AppCompatActivity implements IViewLogin {
 
     // Declare UI components instances
@@ -35,27 +40,22 @@ public class LoginActivity extends AppCompatActivity implements IViewLogin {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         // Init and setup Toolbar
         mToolbar = findViewById(R.id.login_toolbar);
         setActionBar(mToolbar);
 
-
         // Init Progress dialog
         mLoginProgress = new ProgressDialog(LoginActivity.this);
-
 
         // Init components
         mLoginEmail = findViewById(R.id.login_email);
         mLoginPassword = findViewById(R.id.login_password);
         mLoginBtn = findViewById(R.id.login_btn);
 
-
         // Init Login presenter
         loginPresenter = new LoginPresenter(this);
 
-
-        // Handle Button event
+        // Handles Login button click event. Calls LoginPresenter onLogin method to login User
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +77,10 @@ public class LoginActivity extends AppCompatActivity implements IViewLogin {
     }
 
 
-    // Sets up ActionBar
+    /**
+     * Sets up Activity Action bar
+     * @param toolbar
+     */
     public void setActionBar(Toolbar toolbar){
         setSupportActionBar(toolbar);
 
@@ -92,7 +95,10 @@ public class LoginActivity extends AppCompatActivity implements IViewLogin {
     }
 
 
-    // Executes on login success
+    /**
+     * Executes on Login success
+     * @param message
+     */
     @Override
     public void onLoginSuccess(String message) {
         mLoginProgress.dismiss();
@@ -106,7 +112,10 @@ public class LoginActivity extends AppCompatActivity implements IViewLogin {
         finish();
     }
 
-    // Executes on login error
+    /**
+     * Executes on Login error
+     * @param message
+     */
     @Override
     public void onLoginError(String message) {
         mLoginProgress.hide();

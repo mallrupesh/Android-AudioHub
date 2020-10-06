@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
@@ -18,22 +17,19 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.model.CurrentDate;
 import com.rupesh.audiohubapp.model.Project;
+import com.rupesh.audiohubapp.presenter.RecordFragPresenter;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
+ */
+
+/**
+ * Initialises Audio record UI components and handles recording operations
  */
 public class RecordFragment extends Fragment implements View.OnClickListener {
 
@@ -51,11 +47,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private Chronometer timer;
     private String localFilePath;
 
-    private StorageReference audioStorageRef;
-    private DatabaseReference audioFilesDataRef;
-    private DatabaseReference projectFilesDataRef;
     private ProgressDialog progressDialog;
     private Project project;
+
+    private RecordFragPresenter recordFragPresenter;
 
     public RecordFragment() {
         // Required empty public constructor
@@ -80,9 +75,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         // Get Project model object from MainProjectActivity through projectPagerSectionsAdapter
         project = (Project) getArguments().getSerializable("project");
 
-        audioStorageRef = FirebaseStorage.getInstance().getReference();
-        audioFilesDataRef = FirebaseDatabase.getInstance().getReference().child("Files");
-        projectFilesDataRef = FirebaseDatabase.getInstance().getReference().child("Project_Files");
+        recordFragPresenter = new RecordFragPresenter(this);
+
+        //audioStorageRef = FirebaseStorage.getInstance().getReference();
+        //projectFilesDataRef = FirebaseDatabase.getInstance().getReference().child("Project_Files");
 
         return rootView;
     }
@@ -153,43 +149,26 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     }
 
     private void uploadAudio() {
-
         progressDialog.setMessage("Uploading file to Cloud");
         progressDialog.show();
-
-        final StorageReference uploadFilePath = audioStorageRef.child("audio_files").child(newFileName);
-        Uri uri = Uri.fromFile(new File(localFilePath + "/" + newFileName));
-
-        uploadFilePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                progressDialog.dismiss();
-                uploadFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        String downloadUrl = uri.toString();
-                        CurrentDate currentDate = new CurrentDate();
-
-                       // FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                       // String uid = currentUser.getUid();
-
-                        String fileUid = audioFilesDataRef.push().getKey();
-
-                        HashMap <String, String> projectFileMap = new HashMap<>();
-                        projectFileMap.put("name", newFileName);
-                        projectFileMap.put("createdOn", currentDate.getDate());
-                        projectFileMap.put("fileUrl", downloadUrl);
-                        projectFileMap.put("fileId", fileUid);
-                        projectFilesDataRef.child(project.getProjectId()).child(fileUid).setValue(projectFileMap);
-
-                        //projectFilesDataRef.child(project.getProjectId()).push().setValue(newFileName);
-                    }
-                });
-            }
-        });
+        recordFragPresenter.uploadFile();
     }
 
+    public String getNewFileName() {
+        return newFileName;
+    }
+
+    public String getLocalFilePath() {
+        return localFilePath;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public ProgressDialog getProgressDialog() {
+        return progressDialog;
+    }
 
     // Ask for audio recording permission
     private boolean checkPermissions() {

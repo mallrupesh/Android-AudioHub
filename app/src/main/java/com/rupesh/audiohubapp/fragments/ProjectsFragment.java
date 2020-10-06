@@ -21,6 +21,10 @@ import com.rupesh.audiohubapp.presenter.ProjectsFragPresenter;
 /**
  * A simple {@link Fragment} subclass.
  */
+
+/**
+ * Initialises UI components and displays project list
+ */
 public class ProjectsFragment extends Fragment {
 
     private View rootView;
@@ -49,7 +53,9 @@ public class ProjectsFragment extends Fragment {
         return rootView;
     }
 
-    // Add Project on buttonClicked
+    /**
+     *  Add Project on buttonClicked
+     */
     private void addProject(){
         mProjectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +73,10 @@ public class ProjectsFragment extends Fragment {
         projectsFragPresenter.deleteProject(projectTitle);
     }
 
-    // Init the recyclerView and set the FirebaseRecyclerViewAdapter to it
-    // THIS IS WHERE THE PROJECT MODEL IS MAPPED AND NEW PROJECT MODEL OBJECT CREATED
+    /**
+     * Init and display project list
+     *
+     */
     private void initUI() {
         recyclerView = rootView.findViewById(R.id.recycleListViewProject);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

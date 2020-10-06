@@ -13,10 +13,14 @@ import com.rupesh.audiohubapp.model.User;
 
 import java.util.ArrayList;
 
+
+/**
+ * Helper class that retrieves the Users object from User node using Project members node
+ * Performs double DataSnapShot task
+ */
 public class MemberNetworkHelper {
 
     private static final String PROJECTS = "Projects";
-
     private static final String USERS = "Users";
 
     private DatabaseReference projectDatabaseRef;
@@ -33,6 +37,10 @@ public class MemberNetworkHelper {
         this.project = project;
     }
 
+    /**
+     * Triggers read data from Projects node's inner node members list to read userIds and
+     * uses the userIds to get respective Users objects
+     */
     public void getMember() {
         projectDatabaseRef.child(project.getProjectId()).child("members").addValueEventListener(new ValueEventListener() {
             @Override
@@ -51,14 +59,11 @@ public class MemberNetworkHelper {
                         public void onDataChange(@NonNull DataSnapshot userSnapshot) {
                             User member = userSnapshot.getValue(User.class);
                             members.add(member);
-
                             interfaceMemberCallback.mapUser(members);
-                           // Log.d("USERS_", "Users " + members);
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
                         }
                     });
                 }

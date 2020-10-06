@@ -22,7 +22,7 @@ public class FilesListAdapter extends FirebaseRecyclerAdapter<File, FilesListAda
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
      * {@link FirebaseRecyclerOptions} for configuration options.
      *
-     * @param options
+     * @param
      */
 
 

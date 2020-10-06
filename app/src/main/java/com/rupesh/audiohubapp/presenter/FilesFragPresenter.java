@@ -12,16 +12,24 @@ import com.google.firebase.database.ValueEventListener;
 import com.rupesh.audiohubapp.fragments.FilesFragment;
 import com.rupesh.audiohubapp.model.File;
 
-public class FilesFragPresenter {
 
+/**
+ * Files fragment presenter, handles Firebase operations
+ */
+public class FilesFragPresenter {
+    private final static String PROJECT_FILES = "Project_Files";
     private DatabaseReference projectFilesDataRef;
     private FilesFragment filesFragment;
 
     public FilesFragPresenter(FilesFragment filesFragment) {
         this.filesFragment = filesFragment;
-        projectFilesDataRef = FirebaseDatabase.getInstance().getReference().child("Project_Files");
+        projectFilesDataRef = FirebaseDatabase.getInstance().getReference().child(PROJECT_FILES);
     }
 
+    /**
+     * Firebase query to Project_Files database to read list of files
+     * @return FirebaseRecycler options
+     */
     public FirebaseRecyclerOptions<File> queryData() {
         FirebaseRecyclerOptions<File> options =
                 new FirebaseRecyclerOptions.Builder<File>()
@@ -29,6 +37,10 @@ public class FilesFragPresenter {
         return options;
     }
 
+    /**
+     * Delete selected file in the File list
+     * @param title
+     */
     public void deleteFile(String title) {
         Query query = projectFilesDataRef.child(filesFragment.getProject().getProjectId()).orderByChild ("name").equalTo(title);
         query.addListenerForSingleValueEvent(new ValueEventListener() {

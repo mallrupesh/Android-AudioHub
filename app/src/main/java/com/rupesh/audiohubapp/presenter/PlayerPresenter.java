@@ -18,6 +18,11 @@ import com.rupesh.audiohubapp.model.Project;
 
 import java.util.HashMap;
 
+
+/**
+ * PlayerPresenter handles Firebase operations required for Audio streaming
+ * and commenting on the Files
+ */
 public class PlayerPresenter {
 
     private static final String PROJECT_FILES = "Project_Files";
@@ -42,7 +47,10 @@ public class PlayerPresenter {
         this.file = playerActivity.getFile();
     }
 
-    public void playPauseFile() {
+    /**
+     * Setup for audio file streaming by getting the file url from the Project_Files data node
+     */
+    public void setUpPlayer() {
         projectFilesDataRef.child(project.getProjectId()).child(file.getFileId()).addListenerForSingleValueEvent(new ValueEventListener() {
             String fileUrl;
             @Override
@@ -58,13 +66,19 @@ public class PlayerPresenter {
         });
     }
 
+    /**
+     * Trigger write data to create new File object
+     * @param comment
+     * @param name
+     * @param img
+     */
     public void writeToComment(String comment, String name, String img) {
         CurrentDate currentDate = new CurrentDate();
 
         // Get the commentId created in the Firebase database
         String commentId = filesCommentDataRef.push().getKey();
 
-        // Write Project data into the Firebase database
+        // Write Comment data into the Firebase database
         HashMap<String, Object> commentMap = new HashMap<>();
         commentMap.put("createdOn", currentDate.getDate());
         commentMap.put("commentId", commentId);
@@ -75,7 +89,12 @@ public class PlayerPresenter {
         filesCommentDataRef.child(file.getFileId()).child(commentId).setValue(commentMap);
     }
 
-    public void inputComment(String comment) {
+
+    /**
+     * Get the user info and create new Comment object
+     * @param comment
+     */
+    public void createComment(String comment) {
         userDataRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -92,6 +111,10 @@ public class PlayerPresenter {
         });
     }
 
+    /**
+     * Firebase query to display Comment list
+     * @return
+     */
     public FirebaseRecyclerOptions<Comment> queryData() {
         FirebaseRecyclerOptions<Comment> options =
                 new FirebaseRecyclerOptions.Builder<Comment>()

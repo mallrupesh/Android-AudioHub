@@ -27,8 +27,14 @@ import com.rupesh.audiohubapp.presenter.PlayerPresenter;
 
 import java.io.IOException;
 
+/**
+ * PlayerActivity handles audio playback functionality
+ * Initiates UI responsible for playing/ stopping audio file
+ * Handles play/stop button and audio seek bar
+ */
 public class PlayerActivity extends AppCompatActivity{
 
+    //Declare UI components
     private Toolbar mToolbar;
     private TextView songName;
     private TextView startTimer;
@@ -39,16 +45,15 @@ public class PlayerActivity extends AppCompatActivity{
     private SeekBar seekBar;
     private EditText comment;
     private Button postComment;
+    private RecyclerView recyclerView;
+    private PlayerListAdapter playerListAdapter;
 
+    // Declare app objects to be tracked
     private File file;
     private Project project;
 
     private PlayerPresenter playerPresenter;
-
     private MediaPlayer mediaPlayer;
-
-    private RecyclerView recyclerView;
-    private PlayerListAdapter playerListAdapter;
 
 
     @Override
@@ -56,14 +61,17 @@ public class PlayerActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
+        // Get file and project object from FilesListAdapter
         file = (File) getIntent().getSerializableExtra("file");
         project = (Project) getIntent().getSerializableExtra("project");
+
         playerPresenter = new PlayerPresenter(this);
 
         // Setup the tool bar
         mToolbar = findViewById(R.id.player_appBar);
         setupToolBar();
 
+        // Init UI components
         songName = findViewById(R.id.player_sheet_fileName);
         startTimer = findViewById(R.id.player_sheet_timer);
         totalTimer = findViewById(R.id.player_sheet_timerTotal);
@@ -74,11 +82,14 @@ public class PlayerActivity extends AppCompatActivity{
         comment = findViewById(R.id.player_activity_comment);
         postComment = findViewById(R.id.player_activity_post_btn);
 
-
+        // Display user comments list
         initUI();
-        songName.setText(file.getName());
-        playerPresenter.playPauseFile();
 
+        songName.setText(file.getName());
+
+        playerPresenter.setUpPlayer();
+
+        // Handle play button
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,15 +97,20 @@ public class PlayerActivity extends AppCompatActivity{
             }
         });
 
+        // Handle post comment button
         postComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerPresenter.inputComment(comment.getText().toString());
+                playerPresenter.createComment(comment.getText().toString());
                 comment.getText().clear();
             }
         });
     }
 
+    /**
+     * Initialize Audio Player
+     * @param url
+     */
     public void initPlayer(String url){
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -113,6 +129,9 @@ public class PlayerActivity extends AppCompatActivity{
         updateSeekBar();
     }
 
+    /**
+     * Handles seek bar progress
+     */
     public void updateSeekBar() {
        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
            @Override
@@ -125,15 +144,16 @@ public class PlayerActivity extends AppCompatActivity{
 
            @Override
            public void onStartTrackingTouch(SeekBar seekBar) {
-
            }
 
            @Override
            public void onStopTrackingTouch(SeekBar seekBar) {
-
            }
        });
 
+        /**
+         * Create thread to handle seek bar progress and track current position
+         */
        new Thread(new Runnable() {
            @Override
            public void run() {
@@ -153,6 +173,9 @@ public class PlayerActivity extends AppCompatActivity{
        }).start();
     }
 
+    /**
+     * New handler to sync the seek bar progress with the current audio time
+     */
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -164,6 +187,9 @@ public class PlayerActivity extends AppCompatActivity{
         }
     };
 
+    /**
+     * Play audio
+     */
     private void play() {
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
@@ -173,6 +199,9 @@ public class PlayerActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Pause audio
+     */
     private void pause() {
         if(mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
@@ -180,6 +209,11 @@ public class PlayerActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Create time stamp to be used to show seek bar progress
+     * @param duration
+     * @return
+     */
     public String createTimeStamp(int duration) {
         String timeStamp = "";
         int min = duration / 1000 / 60;
@@ -192,6 +226,9 @@ public class PlayerActivity extends AppCompatActivity{
     }
 
 
+    /**
+     * Init UI
+     */
     public void initUI() {
         recyclerView = findViewById(R.id.recycleListComments);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

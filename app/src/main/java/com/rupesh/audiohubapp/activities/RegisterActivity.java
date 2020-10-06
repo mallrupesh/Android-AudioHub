@@ -16,6 +16,11 @@ import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.presenter.IPresenterRegister;
 import com.rupesh.audiohubapp.presenter.RegisterPresenter;
 
+
+/**
+ * Register Activity initiates the login screen UI components
+ * Enables user inputs and handles button events
+ */
 public class RegisterActivity extends AppCompatActivity implements IViewRegister {
 
     // Declare UI components instances
@@ -53,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity implements IViewRegister
         registerPresenter = new RegisterPresenter(this);
 
 
-        // Handle Button event
+        // Handles Register button click event. Calls RegisterPresenter onRegister method to register User
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +68,9 @@ public class RegisterActivity extends AppCompatActivity implements IViewRegister
         });
     }
 
-    // Sets up Registration dialog
+    /**
+     * Sets up Progress Dialog box
+     */
     public void showRegisterProgress(){
         mRegProgress.setTitle("Registering user");
         mRegProgress.setMessage("Please wait while we create your account");

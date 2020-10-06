@@ -1,12 +1,9 @@
 package com.rupesh.audiohubapp.activities;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -14,18 +11,23 @@ import com.rupesh.audiohubapp.R;
 import com.rupesh.audiohubapp.adapters.ProjectPagerSectionsAdapter;
 import com.rupesh.audiohubapp.model.Project;
 
+/**
+ * MainProjectActivity hosts four fragments
+ * RecordFragment
+ * FilesFragment
+ * MembersFragment
+ * SearchFragment
+ *
+ * Connects those fragments using the ViewPagerAdapter
+ */
 public class MainProjectActivity extends AppCompatActivity {
-
 
     // Include toolbar in the mainActivity
     private Toolbar mToolbar;
-    private Button mViewMembers;
-    private RecyclerView projectRecyclerView;
     private Project project;
 
-    // Declare ViewPager
+    // Declare ViewPager and ViewPagerAdapter
     private ViewPager mViewPager;
-
     private ProjectPagerSectionsAdapter mProjectPagerSectionsAdapter;
 
     // Declare tab layout to set the view pager with tab layout
@@ -37,39 +39,32 @@ public class MainProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_project);
 
-
         // Get the Project model object from the ProjectLisAdapter which is connected to the Project Fragment
         project = (Project) getIntent().getSerializableExtra("project");
 
-
         // Setup the tool bar
         mToolbar = findViewById(R.id.project_page_toolbar);
+        setUpToolbar();
 
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle(project.getProjectName());
-        //getSupportActionBar().setTitle("Project");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        // Find Viewpager resource
         mViewPager = findViewById(R.id.project_tab_pager);
 
-        // Instantiate ProjectPagerSectionAdopter that connects the MainProjectActivity with FilesFragment and MembersFragment
-        // Pass the Project model object received from ProjectListAdapter to the projectPagerSectionsAdapter to be sent to Members Fragment
+        // Pass the Project model object received from ProjectListAdapter to the projectPagerSectionsAdapter
         mProjectPagerSectionsAdapter = new ProjectPagerSectionsAdapter(getSupportFragmentManager(), project);
         mViewPager.setAdapter(mProjectPagerSectionsAdapter);
 
         // Init tab layout and set it up with view pager
         mTabLayout = findViewById(R.id.project_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
-
     }
 
-    // Setup menu, make it responsive when selected
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-
-        return true;
+    /**
+     * Set up Activity tool bar with the current Project name
+     */
+    public void setUpToolbar() {
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(project.getProjectName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
 }
