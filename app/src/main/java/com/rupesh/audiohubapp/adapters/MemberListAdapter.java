@@ -39,7 +39,6 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Me
 
     @Override
     public int getItemCount() {
-
         // Handle Firebase asynchronous recall
         if (users == null)
             return 0;
@@ -50,7 +49,6 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Me
     public class MemberViewHolder extends RecyclerView.ViewHolder{
 
         TextView memberName;
-
         public MemberViewHolder(@NonNull View itemView) {
             super(itemView);
             memberName = itemView.findViewById(R.id.textViewMembersName);

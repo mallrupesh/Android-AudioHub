@@ -31,8 +31,7 @@ public class SearchFragment extends Fragment implements SearchListAdapter.OnItem
 
     // Declare adapter to be used with RecyclerView
     SearchListAdapter searchListAdapter;
-
-
+    
     private EditText searchText;
 
     private SearchFragPresenter searchFragPresenter;
@@ -41,7 +40,6 @@ public class SearchFragment extends Fragment implements SearchListAdapter.OnItem
 
     // Member -> AllUser (NotNull) Main -> AllUser (null)
     private Project project;
-
 
     public SearchFragment() {
         // Required empty public constructor
@@ -97,7 +95,6 @@ public class SearchFragment extends Fragment implements SearchListAdapter.OnItem
         allUsersRecyclerView.setAdapter(searchListAdapter);
     }
 
-
     public void setSearchAdapter(SearchAdapter searchAdapter) {
         allUsersRecyclerView.setAdapter(searchAdapter);
     }
@@ -120,7 +117,6 @@ public class SearchFragment extends Fragment implements SearchListAdapter.OnItem
     public void onItemClicked(View v, User user) {
         searchFragPresenter.displayDialogBox(user, project);
     }
-
 
     @Override
     public void onItemSearched(View v, User user) {

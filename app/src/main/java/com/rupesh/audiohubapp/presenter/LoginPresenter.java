@@ -22,6 +22,7 @@ public class LoginPresenter implements IPresenterLogin {
     // Declare instance of Firebase authentication
     private FirebaseAuth mAuth;
 
+    // Injector: Injecting LoginView
     public LoginPresenter(IViewLogin loginView) {
         this.loginView = loginView;
 

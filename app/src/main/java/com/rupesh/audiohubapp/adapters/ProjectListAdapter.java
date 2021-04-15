@@ -52,11 +52,9 @@ public class ProjectListAdapter extends FirebaseRecyclerAdapter<Project, Project
 
         // Get the project Id by getting the position of the ViewHolder
         //final String holderProjectIdPosition = getRef(position).getKey();
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Navigate to MainProjectActivity and pass Project model
                 Intent mainProjectIntent = new Intent(v.getContext(), MainProjectActivity.class);
                 mainProjectIntent.putExtra("project", model);

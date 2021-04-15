@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,8 +110,11 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         CurrentDate currentDate = new CurrentDate();
         String dateTime = currentDate.getDate();
 
-        localFilePath = getActivity().getExternalFilesDir("/").getAbsolutePath();
+        localFilePath = getActivity().getExternalFilesDir("/Recordings/").getAbsolutePath();
+        Log.d("LPath", localFilePath);
+
         newFileName = newFileText.getText().toString() + ".m4a";
+        //Log.d("FName", newFileName );
 
         recordMessage.setText("Recording " + newFileName + "...");
 
